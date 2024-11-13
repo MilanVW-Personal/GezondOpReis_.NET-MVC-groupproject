@@ -7,5 +7,7 @@
         public int BestemmingId { get; set; }
         public string? Tekst {  get; set; }
         public int Score { get; set; }
+
+        public Bestemming Bestemming { get; set; }
     }
 }

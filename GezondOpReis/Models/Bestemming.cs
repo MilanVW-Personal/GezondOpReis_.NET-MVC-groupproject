@@ -8,6 +8,11 @@
 		public string Beschrijving { get; set; }
 		public int MinLeeftijd { get; set; }
 		public int MaxLeeftijd { get; set; }
+
+		// Nav properties
+		public List<Review> Reviews { get; set; }
+		public List<Foto> Fotos { get; set; }
+		public List<Groepsreis> Groepsreizen { get; set; }
 	}
 
 }
