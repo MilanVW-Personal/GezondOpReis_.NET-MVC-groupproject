@@ -8,6 +8,6 @@
 		public string Omschrijving { get; set; }
 		public float Bedrag {  get; set; }
 		public DateTime Datum { get; set; }
-		public string Foto { get; set; }
+		public string? Foto { get; set; }
 	}
 }
