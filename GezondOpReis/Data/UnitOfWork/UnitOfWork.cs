@@ -1,41 +1,42 @@
-﻿namespace StartspelerAPI.Data.UnitOfWork
+﻿namespace GezondOpReis.Data.UnitOfWork
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private readonly StartspelerAPIContext _context;
+        private readonly GezondOpReisContext _context;
 
-        private IEventRepo eventRepo;
-        private IInschrijvingRepo inschrijvingRepo;
-        private ICommunityRepo communityRepo;
+        //private IEventRepo eventRepo;
+        //private IInschrijvingRepo inschrijvingRepo;
+        //private ICommunityRepo communityRepo;
          
-        public UnitOfWork(StartspelerAPIContext context)
+        public UnitOfWork(GezondOpReisContext context)
         {
             _context = context;
         }
 
-        public ICommunityRepo CommunityRepo
-        {
-            get 
-            {
-                return communityRepo ??= new CommunityRepo(_context);
-		    }
-        }
 
-        public IEventRepo EventRepo
-        {
-            get
-            {
-                return eventRepo ??= new EventRepo(_context);
-            }
-        }
+      //  public ICommunityRepo CommunityRepo
+      //  {
+      //      get 
+      //      {
+      //          return communityRepo ??= new CommunityRepo(_context);
+		    //}
+      //  }
 
-        public IInschrijvingRepo InschrijvingRepo
-        {
-            get
-            {
-                return inschrijvingRepo ??= new InschrijvingRepo(_context);
-            }
-        }
+      //  public IEventRepo EventRepo
+      //  {
+      //      get
+      //      {
+      //          return eventRepo ??= new EventRepo(_context);
+      //      }
+      //  }
+
+      //  public IInschrijvingRepo InschrijvingRepo
+      //  {
+      //      get
+      //      {
+      //          return inschrijvingRepo ??= new InschrijvingRepo(_context);
+      //      }
+      //  }
 
         public async Task SaveChangesAsync()
         {

@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 
-namespace StartspelerAPI.Data.Repository
+namespace GezondOpReis.Data.Repo
 {
     public interface IGenericRepository <TEntity> where TEntity : class
     {

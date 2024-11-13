@@ -1,19 +1,17 @@
-﻿
-
-namespace StartspelerAPI.Data.Repository
+﻿namespace GezondOpReis.Data.Repo
 {
     public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class
     {
-        protected readonly StartspelerAPIContext _context;
+        protected readonly GezondOpReisContext _context;
 
-        public GenericRepository(StartspelerAPIContext context)
+        public GenericRepository(GezondOpReisContext context)
         {
             _context = context;
         }
 
         public async Task<IEnumerable<TEntity>> GetAllAsync()
         {
-            return await _context.Set<TEntity>().ToListAsync();
+            return _context.Set<TEntity>().ToList();
         }
 
         public async Task<TEntity?> GetByIdAsync(int id)

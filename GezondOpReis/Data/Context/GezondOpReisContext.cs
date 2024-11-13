@@ -1,8 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
-
-namespace GezondOpReis.Data.Context
+﻿namespace GezondOpReis.Data.Context
 {
-    public class GezondOpReisContext : DbContext
+    public class GezondOpReisContext : DbContext // Moet IdentityDbContext worden als identity gaat gebruikt worden
     {
         public GezondOpReisContext(DbContextOptions<GezondOpReisContext> options) : base(options) { }
     }

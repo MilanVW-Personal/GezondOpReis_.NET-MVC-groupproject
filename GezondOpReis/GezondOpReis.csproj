@@ -27,7 +27,6 @@
     <Folder Include="Helper\" />
     <Folder Include="Models\" />
     <Folder Include="Controllers\" />
-    <Folder Include="Configuration\" />
     <Folder Include="DTO\" />
     <Folder Include="Services\" />
   </ItemGroup>
