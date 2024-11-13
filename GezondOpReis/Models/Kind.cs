@@ -12,5 +12,7 @@ namespace GezondOpReis.Models
         public DateTime GeboorteDatum { get; set; }
         public string Allergieen {  get; set; }
         public string Medicatie {  get; set; }
+        public CustomUser CustomUser {  get; set; }
+        public Deelnemer Deelnemer { get; set; }
     }
 }
