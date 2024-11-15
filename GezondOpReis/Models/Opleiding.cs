@@ -9,6 +9,7 @@
         public DateTime Einddatum { get; set; }
         public int AantalPlaatsen { get; set; }
         public int? OpleidingVereist {  get; set; }
-        public OpleidingPersoon OpleidingPersoon { get; set; }
+        public ICollection<OpleidingPersoon> OpleidingPersoon { get; set; }
+        
     }
 }

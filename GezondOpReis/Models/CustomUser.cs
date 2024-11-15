@@ -17,9 +17,9 @@
         public string TelefoonNummer { get; set; }
         public string? RekeningNummer { get; set; }
         public bool IsActief {  get; set; }
-        public OpleidingPersoon OpleidingPersoon { get; set; }
-        public Review Review { get; set; }
-        public Monitor Monitor { get; set; }
-        public Kind Kind { get; set; }
+        public ICollection<OpleidingPersoon> Opleidingen { get; set; }
+        public ICollection<Review> Reviews { get; set; }
+        public ICollection<Monitor> Monitors { get; set; }
+        public ICollection<Kind> Kinderen { get; set; }
     }
 }
