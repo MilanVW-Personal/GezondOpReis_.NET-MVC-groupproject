@@ -6,6 +6,6 @@
 		public string Naam { get; set; }
 		public int BestemmingId { get; set; }
 
-		public Bestemming Bestemming { get; set; }
+		public Bestemming? Bestemming { get; set; }
 	}
 }

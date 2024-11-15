@@ -8,6 +8,7 @@
         public string? Tekst {  get; set; }
         public int Score { get; set; }
 
-        public Bestemming Bestemming { get; set; }
-    }
+        public Bestemming? Bestemming { get; set; }
+		public CustomUser? Persoon { get; set; }
+	}
 }

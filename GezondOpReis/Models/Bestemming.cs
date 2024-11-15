@@ -10,9 +10,9 @@
 		public int MaxLeeftijd { get; set; }
 
 		// Nav properties
-		public List<Review> Reviews { get; set; }
-		public List<Foto> Fotos { get; set; }
-		public List<Groepsreis> Groepsreizen { get; set; }
+		public List<Review>? Reviews { get; set; }
+		public List<Foto>? Fotos { get; set; }
+		public List<Groepsreis>? Groepsreizen { get; set; }
 	}
 
 }

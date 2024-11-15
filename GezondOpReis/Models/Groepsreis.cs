@@ -8,10 +8,10 @@
 		public DateTime EindDatum { get; set; }
 		public float prijs { get; set; }
 
-		public List<Onkosten> Onkosten { get; set; }
-		public Bestemming Bestemming { get; set; }
-		public Programma Programma { get; set; }
-		public List<Monitor> Monitoren { get; set; }
-		public List<Deelnemer> Deelnemers { get; set; }
+		public List<Onkosten>? Onkosten { get; set; }
+		public Bestemming? Bestemming { get; set; }
+		public List<Programma>? Programmas { get; set; }
+		public List<Monitor>? Monitoren { get; set; }
+		public List<Deelnemer>? Deelnemers { get; set; }
 	}
 }

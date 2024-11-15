@@ -1,7 +1,7 @@
 ﻿namespace GezondOpReis.Models
 {
-    public class CustomUser
-    {
+    public class CustomUser : IdentityUser
+	{
         public int Id { get; set; }
         public string Naam { get; set; }
         public string Voornaam { get; set; }
@@ -17,9 +17,9 @@
         public string TelefoonNummer { get; set; }
         public string? RekeningNummer { get; set; }
         public bool IsActief {  get; set; }
-        public ICollection<OpleidingPersoon> Opleidingen { get; set; }
-        public ICollection<Review> Reviews { get; set; }
-        public ICollection<Monitor> Monitors { get; set; }
-        public ICollection<Kind> Kinderen { get; set; }
+        public List<OpleidingPersoon>? OpleidingPersonen { get; set; }
+        public List<Review>? Reviews { get; set; }
+        public List<Monitor>? Monitors { get; set; }
+        public List<Kind>? Kinderen { get; set; }
     }
 }

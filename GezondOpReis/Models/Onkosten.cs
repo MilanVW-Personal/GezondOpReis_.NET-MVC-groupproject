@@ -9,6 +9,6 @@
 		public float Bedrag {  get; set; }
 		public DateTime Datum { get; set; }
 		public string? Foto { get; set; }
-		public Groepsreis Groepsreis { get; set; }
+		public Groepsreis? Groepsreis { get; set; }
 	}
 }

@@ -6,7 +6,7 @@
         public int OpleidingId { get; set; }
         public int PersoonId { get; set; }
 
-        public Opleiding Opleiding { get; set; }
-        public CustomUser Persoon {  get; set; }
+        public Opleiding? Opleiding { get; set; }
+        public CustomUser? Persoon {  get; set; }
     }
 }
