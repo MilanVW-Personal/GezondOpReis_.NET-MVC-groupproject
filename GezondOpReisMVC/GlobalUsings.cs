@@ -16,6 +16,7 @@ global using Microsoft.AspNetCore.Authentication.Cookies;
 //global using GezondOpReis.Services;
 global using GezondOpReis.Data.UnitOfWork;
 global using GezondOpReis.Data.Repo;
+global using GezondOpReis.ViewModels;
 global using Microsoft.IdentityModel.Tokens;
 global using System.IdentityModel.Tokens.Jwt;
 global using System.Security.Claims;

@@ -1,0 +1,55 @@
+﻿@model GroepsReizenTonenViewModel
+@{
+    ViewData["Title"] = "GroepsReizen";
+}
+<h2>GroepsReizen</h2>
+
+<div class="row">
+    <div class="col-md-12">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.GroepsReizen.First().Naam)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.GroepsReizen.First().Beschrijving)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.GroepsReizen.First().BeginDatum)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.GroepsReizen.First().EindDatum)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.GroepsReizen.First().Prijs)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.GroepsReizen)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Naam)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Beschrijving)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.BeginDatum)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.EindDatum)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Prijs)
+                        </td>
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
