@@ -15,7 +15,7 @@ namespace GezondOpReis.Controllers
 
 		public async Task<IActionResult> Index()
 		{
-			var reizen = await _context.GroepsReisRepository.GetAllAsync();
+			var reizen = await _context.GroepsReisRepository.GetAllGroepsReizenAsync();
 			GroepsReizenTonenViewModel model = new GroepsReizenTonenViewModel();
 
 			model.GroepsReizen = _mapper.Map<List<GroepsReisDetailsViewModel>>(reizen);
