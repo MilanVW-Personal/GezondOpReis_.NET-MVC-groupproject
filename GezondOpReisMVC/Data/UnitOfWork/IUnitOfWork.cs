@@ -2,10 +2,9 @@
 {
     public interface IUnitOfWork
     {
-        // ICommunityRepo CommunityRepo { get; }
-	    // IEventRepo EventRepo { get; }
-        // IInschrijvingRepo InschrijvingRepo { get; }
+        IBestemmingRepo BestemmingRepo { get; }
+        IActiviteitenRepo ActiviteitenRepo { get; }
 
-	    public Task SaveChangesAsync();
+        public Task SaveChangesAsync();
     }
 }

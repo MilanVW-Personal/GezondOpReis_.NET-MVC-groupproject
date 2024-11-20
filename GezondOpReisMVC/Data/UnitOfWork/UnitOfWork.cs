@@ -4,9 +4,8 @@
     {
         private readonly GezondOpReisContext _context;
 
-        //private IEventRepo eventRepo;
-        //private IInschrijvingRepo inschrijvingRepo;
-        //private ICommunityRepo communityRepo;
+        private IBestemmingRepo bestemmingRepo;
+        private IActiviteitenRepo activiteitenRepo;
          
         public UnitOfWork(GezondOpReisContext context)
         {
@@ -14,29 +13,21 @@
         }
 
 
-      //  public ICommunityRepo CommunityRepo
-      //  {
-      //      get 
-      //      {
-      //          return communityRepo ??= new CommunityRepo(_context);
-		    //}
-      //  }
+        public IBestemmingRepo BestemmingRepo
+        {
+            get
+            {
+                return bestemmingRepo ??= new BestemmingRepo(_context);
+            }
+        }
 
-      //  public IEventRepo EventRepo
-      //  {
-      //      get
-      //      {
-      //          return eventRepo ??= new EventRepo(_context);
-      //      }
-      //  }
-
-      //  public IInschrijvingRepo InschrijvingRepo
-      //  {
-      //      get
-      //      {
-      //          return inschrijvingRepo ??= new InschrijvingRepo(_context);
-      //      }
-      //  }
+        public IActiviteitenRepo ActiviteitenRepo
+        {
+            get
+            {
+                return activiteitenRepo ??= new ActiviteitenRepo(_context);
+            }
+        }
 
         public async Task SaveChangesAsync()
         {
