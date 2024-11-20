@@ -10,7 +10,8 @@ namespace GezondOpReis.Data.Repo
 		{
 			return await _context.Groepsreizen
 				.Include(gr => gr.Bestemming)
-				.Include(gr => gr.Monitoren)
+				.ThenInclude(b => b.Fotos)
+                .Include(gr => gr.Monitoren)
 					.ThenInclude(m => m.Persoon)
 				.Include(gr => gr.Deelnemers)
 					.ThenInclude(d => d.Kind)
