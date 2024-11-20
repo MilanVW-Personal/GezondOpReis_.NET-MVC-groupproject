@@ -2,6 +2,7 @@
 using GezondOpReis.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -86,27 +87,40 @@ namespace GezondOpReis.Controllers
 
         }
         [AllowAnonymous]
-        public IActionResult Index()
+        public async Task<IActionResult> Index(GebruikerIndexViewModel model)
         {
             // Controleer of de gebruiker geauthenticeerd is
             if (!User.Identity.IsAuthenticated)
             {
                 return RedirectToAction("Login", "Gebruiker");
             }
+            Console.WriteLine(User);
+       
 
-            // Haal de gebruiker synchronously op
-            var user = _userManager.GetUserAsync(User).Result;
+            
+            var user = await _userManager.FindByNameAsync(User.Identity.Name);
 
-            if (user == null)
-            {
-                // Fallback als de gebruiker niet gevonden wordt
-                return RedirectToAction("Login", "Gebruiker");
-            }
 
-            // Maak een ViewModel aan met de gebruikersnaam
+
+
+            bool isAdmin = await _userManager.IsInRoleAsync(user, "Beheerder");
+
+            // Maak een ViewModel aan met de gebruikersnaam en de admin status
             GebruikerIndexViewModel viewModel = new GebruikerIndexViewModel
             {
-                Username = user.UserName
+                Naam = user.Naam,
+                Voornaam = user.Voornaam,
+                Straat = user.Straat,
+                Huisnummer = user.Huisnummer,
+                Gemeente = user.Gemeente,
+                Postcode = user.Postcode,
+                GeboorteDatum = user.GeboorteDatum,
+                Huisdokter = user.Huisdokter,
+                ContactNummer = user.ContactNummer,
+                Email = user.Email,
+                TelefoonNummer = user.TelefoonNummer,
+                RekeningNummer = user.RekeningNummer,
+                IsAdmin = isAdmin // Set the IsAdmin property
             };
 
             return View(viewModel);
@@ -119,6 +133,158 @@ namespace GezondOpReis.Controllers
         {
             await _signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(GebruikerCreateViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                // Your account creation logic here
+                // For example, using Identity:
+                var user = new CustomUser
+                {
+                    Id = model.Voornaam + model.Naam + model.GeboorteDatum.Day + model.GeboorteDatum.Month + model.GeboorteDatum.Year,
+                    UserName = model.Voornaam + model.Naam + model.GeboorteDatum.Day + model.GeboorteDatum.Month + model.GeboorteDatum.Year,
+                    Email = model.Email,
+                    EmailConfirmed = true,
+                    Naam = model.Naam,
+                    Voornaam = model.Voornaam,
+                    Straat = model.Straat,
+                    Huisnummer = model.Huisnummer,
+                    Gemeente = model.Gemeente,
+                    Postcode = model.Postcode,
+                    GeboorteDatum = model.GeboorteDatum,
+                    Huisdokter = model.Huisdokter,
+                    ContactNummer = model.ContactNummer,
+                    TelefoonNummer = model.TelefoonNummer,
+                    RekeningNummer = model.RekeningNummer,
+                    IsActief = true // Set to true or based on your logic
+
+                };
+
+                var result = await _userManager.CreateAsync(user, model.Passwoord);
+                if (result.Succeeded)
+                {
+                    await _signInManager.SignInAsync(user, isPersistent: false);
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
+                }
+            }
+
+            // If we got this far, something failed, redisplay form
+            return View(model);
+        }
+        [HttpGet]
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [Authorize]
+        public async Task<IActionResult> Edit()
+        {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Login", "Gebruiker");
+            }
+
+            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+
+            if (user == null)
+            {
+                return RedirectToAction("Login", "Gebruiker");
+            }
+
+            var viewModel = new GebruikerCreateViewModel
+            {
+                Naam = user.Naam,
+                Voornaam = user.Voornaam,
+                Straat = user.Straat,
+                Huisnummer = user.Huisnummer,
+                Gemeente = user.Gemeente,
+                Postcode = user.Postcode,
+                GeboorteDatum = user.GeboorteDatum,
+                Huisdokter = user.Huisdokter,
+                ContactNummer = user.ContactNummer,
+                Email = user.Email,
+                TelefoonNummer = user.TelefoonNummer,
+                RekeningNummer = user.RekeningNummer,
+                Passwoord = string.Empty, // Clear password for security
+                
+            };
+
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> Edit(GebruikerCreateViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+
+            if (user == null)
+            {
+                return RedirectToAction("Login", "Gebruiker");
+            }
+
+            user.Naam = model.Naam;
+            user.Voornaam = model.Voornaam;
+            user.Straat = model.Straat;
+            user.Huisnummer = model.Huisnummer;
+            user.Gemeente = model.Gemeente;
+            user.Postcode = model.Postcode;
+            user.GeboorteDatum = model.GeboorteDatum;
+            user.Huisdokter = model.Huisdokter;
+            user.ContactNummer = model.ContactNummer;
+            user.Email = model.Email;
+            user.TelefoonNummer = model.TelefoonNummer;
+            user.RekeningNummer = model.RekeningNummer;
+
+            if (!string.IsNullOrEmpty(model.Passwoord))
+            {
+                var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+                var result = await _userManager.ResetPasswordAsync(user, token, model.Passwoord);
+                if (!result.Succeeded)
+                {
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
+                    return View(model);
+                }
+            }
+
+            var updateResult = await _userManager.UpdateAsync(user);
+            if (!updateResult.Succeeded)
+            {
+                foreach (var error in updateResult.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
+                return View(model);
+            }
+
+            await _signInManager.RefreshSignInAsync(user);
+            return RedirectToAction("Index", "Gebruiker");
+        }
+        [Authorize(Roles = "Beheerder")]
+        [HttpGet]
+        public async Task<IActionResult> UserList()
+        {
+            var users = await _userManager.Users.ToListAsync();
+            return View(users);
         }
     }
 }

@@ -54,14 +54,18 @@ namespace GezondOpReis.Services
                             await roleManager.CreateAsync(new IdentityRole(role));
                         }
                     }
-
+                    
                     // Add the user to the "Beheerder" role
                     var addToRoleResult = await userManager.AddToRoleAsync(defaultUser, "Beheerder");
                     if (!addToRoleResult.Succeeded)
                     {
                         throw new Exception($"Failed to add user to role: {string.Join(", ", addToRoleResult.Errors.Select(e => e.Description))}");
                     }
+
                 }
+                
+                
+
             }
             catch (DbException ex)
             {

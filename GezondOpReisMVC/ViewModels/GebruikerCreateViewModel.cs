@@ -1,6 +1,6 @@
 ﻿namespace GezondOpReis.ViewModels
 {
-    public class GebruikerIndexViewModel
+    public class GebruikerCreateViewModel
     {
         public string Naam { get; set; }
         public string Voornaam { get; set; }
@@ -14,6 +14,7 @@
         public string Email { get; set; }
         public string TelefoonNummer { get; set; }
         public string? RekeningNummer { get; set; }
-        public bool IsAdmin { get; set; }
+
+        public string Passwoord { get; set; }
     }
 }

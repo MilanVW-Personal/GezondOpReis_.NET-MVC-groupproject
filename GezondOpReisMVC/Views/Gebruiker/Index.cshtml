@@ -4,4 +4,61 @@
     ViewData["Title"] = "Gebruiker Index";
 }
 
-<h1>Hello @Model.Username, welcome to this page</h1>
+<div class="container mt-5">
+
+    <div class="card">
+        <div class="card-header">
+            <h5 class="card-title">Gebruikersinformatie</h5>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <strong>Naam:</strong> @Model.Naam
+                    </div>
+                    <div class="mb-3">
+                        <strong>Voornaam:</strong> @Model.Voornaam
+                    </div>
+                    <div class="mb-3">
+                        <strong>Straat:</strong> @Model.Straat
+                    </div>
+                    <div class="mb-3">
+                        <strong>Huisnummer:</strong> @Model.Huisnummer
+                    </div>
+                    <div class="mb-3">
+                        <strong>Gemeente:</strong> @Model.Gemeente
+                    </div>
+                    <div class="mb-3">
+                        <strong>Postcode:</strong> @Model.Postcode
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <strong>Geboortedatum:</strong> @Model.GeboorteDatum.ToString("dd-MM-yyyy")
+                    </div>
+                    <div class="mb-3">
+                        <strong>Huisdokter:</strong> @Model.Huisdokter
+                    </div>
+                    <div class="mb-3">
+                        <strong>Contactnummer:</strong> @Model.ContactNummer
+                    </div>
+                    <div class="mb-3">
+                        <strong>Email:</strong> @Model.Email
+                    </div>
+                    <div class="mb-3">
+                        <strong>Telefoonnummer:</strong> @Model.TelefoonNummer
+                    </div>
+                    <div class="mb-3">
+                        <strong>Rekeningnummer:</strong> @Model.RekeningNummer
+                    </div>
+                </div>
+            </div>
+            <a asp-controller="Gebruiker" asp-area="" asp-action="Edit">Wijzig informatie</a>
+        </div>
+       
+    </div>
+    @if (Model.IsAdmin)
+    {
+        <a asp-controller="Gebruiker" asp-area="" asp-action="UserList">Lijst van alle gebruikers</a>
+    }
+</div>
