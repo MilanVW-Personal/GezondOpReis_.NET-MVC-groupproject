@@ -144,7 +144,6 @@ namespace GezondOpReis.Controllers
                 // For example, using Identity:
                 var user = new CustomUser
                 {
-                    Id = model.Voornaam + model.Naam + model.GeboorteDatum.Day + model.GeboorteDatum.Month + model.GeboorteDatum.Year,
                     UserName = model.Voornaam + model.Naam + model.GeboorteDatum.Day + model.GeboorteDatum.Month + model.GeboorteDatum.Year,
                     Email = model.Email,
                     EmailConfirmed = true,
@@ -285,6 +284,199 @@ namespace GezondOpReis.Controllers
         {
             var users = await _userManager.Users.ToListAsync();
             return View(users);
+        }
+
+        [Authorize(Roles = "Beheerder")]
+        [HttpGet]
+        public async Task<IActionResult> UserEdit(string id)
+        {
+            if (string.IsNullOrEmpty(id))
+            {
+                return NotFound();
+            }
+
+            var user = await _userManager.FindByIdAsync(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            var viewModel = new GebruikerEditViewModel
+            {
+                Id = user.Id,
+                Naam = user.Naam,
+                Voornaam = user.Voornaam,
+                Straat = user.Straat,
+                Huisnummer = user.Huisnummer,
+                Gemeente = user.Gemeente,
+                Postcode = user.Postcode,
+                GeboorteDatum = user.GeboorteDatum,
+                Huisdokter = user.Huisdokter,
+                ContactNummer = user.ContactNummer,
+                Email = user.Email,
+                TelefoonNummer = user.TelefoonNummer,
+                RekeningNummer = user.RekeningNummer,
+                IsActief = user.IsActief
+            };
+
+            return View(viewModel);
+        }
+
+        [Authorize(Roles = "Beheerder")]
+        [HttpPost]
+        public async Task<IActionResult> UserEdit(GebruikerEditViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var user = await _userManager.FindByIdAsync(model.Id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            user.Naam = model.Naam;
+            user.Voornaam = model.Voornaam;
+            user.Straat = model.Straat;
+            user.Huisnummer = model.Huisnummer;
+            user.Gemeente = model.Gemeente;
+            user.Postcode = model.Postcode;
+            user.GeboorteDatum = model.GeboorteDatum;
+            user.Huisdokter = model.Huisdokter;
+            user.ContactNummer = model.ContactNummer;
+            user.Email = model.Email;
+            user.TelefoonNummer = model.TelefoonNummer;
+            user.RekeningNummer = model.RekeningNummer;
+            user.IsActief = model.IsActief;
+
+            var updateResult = await _userManager.UpdateAsync(user);
+            if (!updateResult.Succeeded)
+            {
+                foreach (var error in updateResult.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
+                return View(model);
+            }
+
+            //await _signInManager.RefreshSignInAsync(user);
+            return RedirectToAction("UserList", "Gebruiker");
+        }
+        [Authorize(Roles = "Beheerder")]
+        [HttpGet]
+        public async Task<IActionResult> UserDetails(string id)
+        {
+            if (string.IsNullOrEmpty(id))
+            {
+                return NotFound();
+            }
+
+            var user = await _userManager.FindByIdAsync(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            var viewModel = new GebruikerDetailsViewModel
+            {
+                Id = user.Id,
+                Naam = user.Naam,
+                Voornaam = user.Voornaam,
+                Straat = user.Straat,
+                Huisnummer = user.Huisnummer,
+                Gemeente = user.Gemeente,
+                Postcode = user.Postcode,
+                GeboorteDatum = user.GeboorteDatum,
+                Huisdokter = user.Huisdokter,
+                ContactNummer = user.ContactNummer,
+                Email = user.Email,
+                TelefoonNummer = user.TelefoonNummer,
+                RekeningNummer = user.RekeningNummer,
+                IsActief = user.IsActief
+            };
+
+            return View(viewModel);
+        }
+        [Authorize(Roles = "Beheerder")]
+        [HttpGet]
+        public async Task<IActionResult> UserDelete(string id)
+        {
+            if (string.IsNullOrEmpty(id))
+            {
+                return NotFound();
+            }
+
+            var user = await _userManager.FindByIdAsync(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            var viewModel = new GebruikerDetailsViewModel
+            {
+                Id = user.Id,
+                Naam = user.Naam,
+                Voornaam = user.Voornaam,
+                Straat = user.Straat,
+                Huisnummer = user.Huisnummer,
+                Gemeente = user.Gemeente,
+                Postcode = user.Postcode,
+                GeboorteDatum = user.GeboorteDatum,
+                Huisdokter = user.Huisdokter,
+                ContactNummer = user.ContactNummer,
+                Email = user.Email,
+                TelefoonNummer = user.TelefoonNummer,
+                RekeningNummer = user.RekeningNummer,
+                IsActief = user.IsActief
+            };
+
+            return View(viewModel);
+        }
+
+        [Authorize(Roles = "Beheerder")]
+        [HttpPost]
+        public async Task<IActionResult> UserDeleteConfirmed(string id)
+        {
+            if (string.IsNullOrEmpty(id))
+            {
+                return NotFound();
+            }
+
+            var user = await _userManager.FindByIdAsync(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            var result = await _userManager.DeleteAsync(user);
+            if (!result.Succeeded)
+            {
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
+                return View("Delete", new GebruikerDetailsViewModel
+                {
+                    Id = user.Id,
+                    Naam = user.Naam,
+                    Voornaam = user.Voornaam,
+                    Straat = user.Straat,
+                    Huisnummer = user.Huisnummer,
+                    Gemeente = user.Gemeente,
+                    Postcode = user.Postcode,
+                    GeboorteDatum = user.GeboorteDatum,
+                    Huisdokter = user.Huisdokter,
+                    ContactNummer = user.ContactNummer,
+                    Email = user.Email,
+                    TelefoonNummer = user.TelefoonNummer,
+                    RekeningNummer = user.RekeningNummer,
+                    IsActief = user.IsActief
+                });
+            }
+
+            return RedirectToAction("UserList", "Gebruiker");
         }
     }
 }

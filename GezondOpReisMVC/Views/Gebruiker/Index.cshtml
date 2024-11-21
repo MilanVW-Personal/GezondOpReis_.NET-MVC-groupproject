@@ -53,12 +53,19 @@
                     </div>
                 </div>
             </div>
-            <a asp-controller="Gebruiker" asp-area="" asp-action="Edit">Wijzig informatie</a>
+            <button class="btn btn-primary">
+                <a asp-controller="Gebruiker" asp-area="" asp-action="Edit" style="text-decoration: none; color: inherit;">Wijzig informatie</a>
+            </button>
+            
         </div>
        
     </div>
     @if (Model.IsAdmin)
     {
-        <a asp-controller="Gebruiker" asp-area="" asp-action="UserList">Lijst van alle gebruikers</a>
+        <br />
+        <h3>Admin functies: </h3>
+        <button class="btn btn-primary">
+            <a asp-controller="Gebruiker" asp-area="" asp-action="UserList" style="text-decoration: none; color: inherit;">Lijst van alle gebruikers</a>
+        </button>
     }
 </div>

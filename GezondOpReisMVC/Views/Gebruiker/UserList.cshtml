@@ -49,9 +49,9 @@
                     @Html.DisplayFor(modelItem => user.TelefoonNummer)
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@user.Id">Bewerken</a> |
-                    <a asp-action="Details" asp-route-id="@user.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@user.Id">Verwijderen</a>
+                    <a asp-action="UserEdit" asp-route-id="@user.Id" class="btn btn-primary">Bewerken</a> |
+                    <a asp-action="UserDetails" asp-route-id="@user.Id" class="btn btn-secondary">Details</a> |
+                    <a asp-action="UserDelete" asp-route-id="@user.Id" class="btn btn-danger">Verwijderen</a>
                 </td>
             </tr>
         }
