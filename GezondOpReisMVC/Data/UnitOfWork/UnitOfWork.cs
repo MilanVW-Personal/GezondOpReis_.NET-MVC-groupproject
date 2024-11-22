@@ -1,19 +1,29 @@
-﻿namespace GezondOpReis.Data.UnitOfWork
+namespace GezondOpReis.Data.UnitOfWork
 {
     public class UnitOfWork : IUnitOfWork
     {
         private readonly GezondOpReisContext _context;
 
-        private IBestemmingRepo bestemmingRepo;
-        private IActiviteitenRepo activiteitenRepo;
-         
-        public UnitOfWork(GezondOpReisContext context)
+
+    private IBestemmingRepo bestemmingRepo;
+    private IActiviteitenRepo activiteitenRepo;
+		private IGroepsReisRepository groepsReisRepository;
+
+		public UnitOfWork(GezondOpReisContext context)
+
         {
             _context = context;
         }
+        public IGroepsReisRepository GroepsReisRepository
+		{
+			get
+			{
+				return groepsReisRepository ??= new GroepsReisRepository(_context);
+			}
+		}
 
 
-        public IBestemmingRepo BestemmingRepo
+    public IBestemmingRepo BestemmingRepo
         {
             get
             {
@@ -29,7 +39,8 @@
             }
         }
 
-        public async Task SaveChangesAsync()
+
+		public async Task SaveChangesAsync()
         {
             await _context.SaveChangesAsync();
         }

@@ -1,0 +1,59 @@
+﻿@model IEnumerable<GezondOpReis.Models.CustomUser>
+
+@{
+    ViewData["Title"] = "Gebruikerslijst";
+}
+
+<h1>Gebruikerslijst</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Voornaam)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Naam)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GeboorteDatum)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TelefoonNummer)
+            </th>
+            <th>
+                Acties
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => user.Voornaam)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => user.Naam)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => user.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => user.GeboorteDatum)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => user.TelefoonNummer)
+                </td>
+                <td>
+                    <a asp-action="UserEdit" asp-route-id="@user.Id" class="btn btn-primary">Bewerken</a> |
+                    <a asp-action="UserDetails" asp-route-id="@user.Id" class="btn btn-secondary">Details</a> |
+                    <a asp-action="UserDelete" asp-route-id="@user.Id" class="btn btn-danger">Verwijderen</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

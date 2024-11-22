@@ -1,0 +1,109 @@
+﻿@model GroepsReizenTonenViewModel
+@{
+    ViewData["Title"] = "Groepsreizen";
+}
+<h2 class="text-center mb-4" style="color: #1E90FF;">Groepsreizen</h2>
+
+<div class="row mb-4">
+    <!-- Zoekbalk -->
+    <div class="col">
+        <input id="searchInput" type="text" class="form-control" placeholder="Zoek reizen op naam..." style="border-color: #1E90FF; box-shadow: 0 0 5px rgba(30, 144, 255, 0.5);" />
+    </div>
+
+    <!-- Leeftijdscategorie: Min en Max Leeftijd -->
+    <div class="col">
+        <div class="input-group">
+            <input id="minAge" type="number" class="form-control" placeholder="Min leeftijd" min="0" style="border-color: #1E90FF;" />
+            <input id="maxAge" type="number" class="form-control" placeholder="Max leeftijd" min="0" style="border-color: #1E90FF;" />
+        </div>
+    </div>
+
+    <!-- Periode filter -->
+    <div class="col">
+        <div class="input-group">
+        <input id="startDate" type="date" class="form-control" style="border-color: #1E90FF;" />
+        <input id="endDate" type="date" class="form-control" style="border-color: #1E90FF;" />
+        </div>
+    </div>
+</div>
+
+<div id="groepsReizen" class="row g-4">
+    @foreach (var item in Model.GroepsReizen)
+    {
+        <div class="col-md-6 col-lg-4 groepsReis"
+             data-name="@item.Naam.ToLower()"
+             data-minage="@item.MinLeeftijd"
+             data-maxage="@item.MaxLeeftijd"
+             data-start="@item.BeginDatum.ToString("yyyy-MM-dd")"
+             data-end="@item.EindDatum.ToString("yyyy-MM-dd")">
+            <div class="card h-100 shadow-sm border-0" style="border: 1px solid #1E90FF;">
+                <img src="images/@item.Foto" class="card-img-top img-fluid rounded-top" alt="@item.Naam" />
+                <div class="card-body" style="background-color: #F8F9FA;">
+                    <h5 class="card-title" style="color: #1E90FF;">@item.Naam</h5>
+                    <p class="card-text text-muted">
+                        @item.Beschrijving
+                    </p>
+                    <ul class="list-unstyled mb-4" style="color: #6C757D;">
+                        <li><strong>Periode:</strong> @item.BeginDatum.ToShortDateString() - @item.EindDatum.ToShortDateString()</li>
+                        <li><strong>Leeftijdscategorie:</strong> @item.MinLeeftijd - @item.MaxLeeftijd</li>
+                        <li><strong>Prijs:</strong> €@item.Prijs.ToString("F2")</li>
+                    </ul>
+                    <a href="#" class="btn btn-warning btn-sm" style="background-color: #FFD700; border-color: #FFD700;">Meer Informatie</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script>
+        document.getElementById('searchInput').addEventListener('input', filterReizen);
+        document.getElementById('minAge').addEventListener('input', filterReizen);
+        document.getElementById('maxAge').addEventListener('input', filterReizen);
+        document.getElementById('startDate').addEventListener('change', filterReizen);
+        document.getElementById('endDate').addEventListener('change', filterReizen);
+
+        function filterReizen() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const minAgeInput = document.getElementById('minAge').value;
+            const maxAgeInput = document.getElementById('maxAge').value;
+            const startDate = document.getElementById('startDate').value;
+            const endDate = document.getElementById('endDate').value;
+            const reizen = document.querySelectorAll('.groepsReis');
+
+            // Parse min and max age inputs
+            const minAge = minAgeInput ? parseInt(minAgeInput, 10) : null;
+            const maxAge = maxAgeInput ? parseInt(maxAgeInput, 10) : null;
+
+            reizen.forEach(reis => {
+                const name = reis.getAttribute('data-name');
+                const reisMinAge = parseInt(reis.getAttribute('data-minage'), 10);
+                const reisMaxAge = parseInt(reis.getAttribute('data-maxage'), 10);
+                const reisStart = reis.getAttribute('data-start');
+                const reisEnd = reis.getAttribute('data-end');
+
+                // Check name query
+                const matchesQuery = name.includes(query);
+
+                // Check age range
+                let matchesAge = true;
+                if (minAge !== null && reisMinAge < minAge) {
+                    matchesAge = false;
+                }
+                if (maxAge !== null && reisMaxAge > maxAge) {
+                    matchesAge = false;
+                }
+
+                // Check date range
+                const matchesPeriod = (!startDate || reisStart >= startDate) && (!endDate || reisEnd >= endDate);
+
+
+                if (matchesQuery && matchesAge && matchesPeriod) {
+                    reis.style.display = 'block';
+                } else {
+                    reis.style.display = 'none';
+                }
+            });
+        }
+    </script>
+}
