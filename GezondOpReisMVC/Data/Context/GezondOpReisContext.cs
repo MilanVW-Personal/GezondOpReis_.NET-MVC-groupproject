@@ -41,13 +41,13 @@ namespace GezondOpReis.Data.Context
 				.HasOne(p => p.Activiteit)
 				.WithMany(a => a.Programmas)
 				.HasForeignKey(p => p.ActiviteidId)
-				.OnDelete(DeleteBehavior.Restrict);
+				.OnDelete(DeleteBehavior.Cascade);
 
 			modelBuilder.Entity<Programma>()
 				.HasOne(p => p.Groepsreis)
 				.WithMany(gr => gr.Programmas)
 				.HasForeignKey(p => p.GroepsreisId)
-				.OnDelete(DeleteBehavior.Restrict);
+				.OnDelete(DeleteBehavior.Cascade);
 
 			modelBuilder.Entity<Groepsreis>()
 				.HasOne(gr => gr.Bestemming)
