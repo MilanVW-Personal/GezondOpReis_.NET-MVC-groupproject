@@ -1,4 +1,5 @@
 ﻿using GezondOpReis.Models;
+using GezondOpReis.ViewModels;
 
 namespace GezondOpReis.Controllers
 {
@@ -13,7 +14,7 @@ namespace GezondOpReis.Controllers
             _mapper = mapper;
         }
 
-        public async Task<ActionResult<IEnumerable<Activiteit>>> Index()
+        public async Task<ActionResult<IEnumerable<Bestemming>>> Index()
         {
             var bestemmingen = await _context.BestemmingRepo.GetAllAsync(); // ophalen bestemmingen uit repo
 
