@@ -4,56 +4,44 @@
     ViewData["Title"] = "Gebruikerslijst";
 }
 
-<h1>Gebruikerslijst</h1>
+<div class="text-center">
+    <h1>Gebruikerslijst</h1>
+</div>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Voornaam)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Naam)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Email)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.GeboorteDatum)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TelefoonNummer)
-            </th>
-            <th>
-                Acties
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var user in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => user.Voornaam)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => user.Naam)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => user.Email)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => user.GeboorteDatum)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => user.TelefoonNummer)
-                </td>
-                <td>
-                    <a asp-action="UserEdit" asp-route-id="@user.Id" class="btn btn-primary">Bewerken</a> |
-                    <a asp-action="UserDetails" asp-route-id="@user.Id" class="btn btn-secondary">Details</a> |
-                    <a asp-action="UserDelete" asp-route-id="@user.Id" class="btn btn-danger">Verwijderen</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+<div>
+    @if (TempData["AlertMessage"] != null)
+    {
+        <div class="alert alert-success" role="alert">
+            <b>@TempData["AlertMessage"]</b>
+        </div>
+    }
+
+    @foreach (var user in Model)
+    {
+        <div class="card mb-3">
+            <div class="card-body">
+                <h5 class="card-title">@Html.DisplayFor(modelItem => user.Voornaam) @Html.DisplayFor(modelItem => user.Naam)</h5>
+                <p class="card-text"><b>Email:</b> @Html.DisplayFor(modelItem => user.Email)</p>
+                <p class="card-text"><b>GeboorteDatum:</b> @Html.DisplayFor(modelItem => user.GeboorteDatum)</p>
+                <p class="card-text"><b>Telefoonnummer:</b> @Html.DisplayFor(modelItem => user.TelefoonNummer)</p>
+                <div class="d-flex justify-content-end">
+                    <a asp-action="UserEdit" asp-route-id="@user.Id" class="btn btn-primary me-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                            <path fill="currentColor" d="M5 19h1.425L16.2 9.225L14.775 7.8L5 17.575zm-2 2v-4.25L16.2 3.575q.3-.275.663-.425t.762-.15t.775.15t.65.45L20.425 5q.3.275.438.65T21 6.4q0 .4-.137.763t-.438.662L7.25 21zM19 6.4L17.6 5zm-3.525 2.125l-.7-.725L16.2 9.225z" />
+                        </svg>
+                    </a>
+                    <a asp-action="UserDetails" asp-route-id="@user.Id" class="btn btn-secondary me-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                            <path fill="currentColor" d="M12 12c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2zm0-2c-1.7 0-3 1.3-3 3s1.3 3 3 3 3-1.3 3-3-1.3-3-3-3zm0-2c2.2 0 4 1.8 4 4s-1.8 4-4 4-4-1.8-4-4 1.8-4 4-4z" />
+                        </svg>
+                    </a>
+                    <a asp-action="UserDelete" asp-route-id="@user.Id" class="btn btn-danger">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                            <path fill="currentColor" d="M7 21q-.825 0-1.412-.587T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413T17 21zm2-4h2V8H9zm4 0h2V8h-2z" />
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    }
+</div>

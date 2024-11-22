@@ -6,29 +6,29 @@
 }
 
 <div class="d-flex justify-content-center align-items-center min-vh-100">
-    <div class="frame">
-        <div class="card">
-            <div class="card-header text-center">
-                <h2>Aanmelden</h2>
-            </div>
-            <div class="card-body">
+    <div class="col-md-8">
+        <div class="card shadow-lg">
+
+            <h2 class="text-center mt-3">Aanmelden</h2>
+            
+            <div class="card-body p-4">
                 <form id="account" method="post">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
                     <div class="form-floating mb-3">
                         <input asp-for="Email" class="form-control" autocomplete="username" aria-required="true" placeholder="E-mail" />
-                        <label asp-for="Email" class="form-label">E-mail</label>
+                        <label asp-for="Email" class="form-label">E-mail <span class="text-danger">*</span></label>
                         <span asp-validation-for="Email" class="text-danger"></span>
                     </div>
 
                     <div class="form-floating mb-3">
                         <input asp-for="Password" type="password" class="form-control" autocomplete="current-password" aria-required="true" placeholder="Wachtwoord" />
-                        <label asp-for="Password" class="form-label">Wachtwoord</label>
+                        <label asp-for="Password" class="form-label">Wachtwoord <span class="text-danger">*</span></label>
                         <span asp-validation-for="Password" class="text-danger"></span>
                     </div>
 
                     <div class="d-grid gap-2 mb-3">
-                        <a asp-area="" asp-controller="Gebruiker" asp-action="Create">Maak account</a>
+                        <a asp-area="" asp-controller="Gebruiker" asp-action="Create" class="btn btn-secondary">Maak account</a>
                     </div>
 
                     <div class="d-grid gap-2">
