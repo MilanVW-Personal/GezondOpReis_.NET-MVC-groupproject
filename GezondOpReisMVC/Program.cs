@@ -63,7 +63,7 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=GroepsReis}/{action=Index}/{id?}");
 
 // Seed Identity data
 using (var scope = app.Services.CreateScope())
