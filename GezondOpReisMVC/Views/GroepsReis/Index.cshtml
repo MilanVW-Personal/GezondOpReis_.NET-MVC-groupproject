@@ -2,27 +2,27 @@
 @{
     ViewData["Title"] = "Groepsreizen";
 }
-<h2 class="text-center mb-4" style="color: #1E90FF;">Groepsreizen</h2>
+<h2 class="text-center mb-4" >Groepsreizen</h2>
 
 <div class="row mb-4">
     <!-- Zoekbalk -->
     <div class="col">
-        <input id="searchInput" type="text" class="form-control" placeholder="Zoek reizen op naam..." style="border-color: #1E90FF; box-shadow: 0 0 5px rgba(30, 144, 255, 0.5);" />
+        <input id="searchInput" type="text" class="form-control" placeholder="Zoek reizen op naam..." ; box-shadow: 0 0 5px rgba(30, 144, 255, 0.5);" />
     </div>
 
     <!-- Leeftijdscategorie: Min en Max Leeftijd -->
     <div class="col">
         <div class="input-group">
-            <input id="minAge" type="number" class="form-control" placeholder="Min leeftijd" min="0" style="border-color: #1E90FF;" />
-            <input id="maxAge" type="number" class="form-control" placeholder="Max leeftijd" min="0" style="border-color: #1E90FF;" />
+            <input id="minAge" type="number" class="form-control" placeholder="Min leeftijd" min="0"/>
+            <input id="maxAge" type="number" class="form-control" placeholder="Max leeftijd" min="0"/>
         </div>
     </div>
 
     <!-- Periode filter -->
     <div class="col">
         <div class="input-group">
-        <input id="startDate" type="date" class="form-control" style="border-color: #1E90FF;" />
-        <input id="endDate" type="date" class="form-control" style="border-color: #1E90FF;" />
+        <input id="startDate" type="date" class="form-control"/>
+        <input id="endDate" type="date" class="form-control">
         </div>
     </div>
 </div>
@@ -36,19 +36,19 @@
              data-maxage="@item.MaxLeeftijd"
              data-start="@item.BeginDatum.ToString("yyyy-MM-dd")"
              data-end="@item.EindDatum.ToString("yyyy-MM-dd")">
-            <div class="card h-100 shadow-sm border-0" style="border: 1px solid #1E90FF;">
+            <div class="card h-100 shadow-sm border-0" >
                 <img src="images/@item.Foto" class="card-img-top img-fluid rounded-top" alt="@item.Naam" />
-                <div class="card-body" style="background-color: #F8F9FA;">
-                    <h5 class="card-title" style="color: #1E90FF;">@item.Naam</h5>
+                <div class="card-body">
+                    <h5 class="card-title" >@item.Naam</h5>
                     <p class="card-text text-muted">
                         @item.Beschrijving
                     </p>
-                    <ul class="list-unstyled mb-4" style="color: #6C757D;">
+                    <ul class="list-unstyled mb-4">
                         <li><strong>Periode:</strong> @item.BeginDatum.ToShortDateString() - @item.EindDatum.ToShortDateString()</li>
                         <li><strong>Leeftijdscategorie:</strong> @item.MinLeeftijd - @item.MaxLeeftijd</li>
                         <li><strong>Prijs:</strong> €@item.Prijs.ToString("F2")</li>
                     </ul>
-                    <a href="#" class="btn btn-warning btn-sm" style="background-color: #FFD700; border-color: #FFD700;">Meer Informatie</a>
+                    <a href="#" class="btn btn-primary btn-sm" >Meer Informatie</a>
                 </div>
             </div>
         </div>

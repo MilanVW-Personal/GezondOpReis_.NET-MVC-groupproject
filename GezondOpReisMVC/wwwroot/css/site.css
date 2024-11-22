@@ -20,3 +20,50 @@ html {
 body {
   margin-bottom: 60px;
 }
+/* Specifieke stijlen */
+h2 {
+    color: #1E90FF;
+}
+h1 {
+    color: #1E90FF;
+}
+
+.form-control:focus {
+    box-shadow: 0 0 5px rgba(30, 144, 255, 0.5);
+}
+
+.card {
+
+    border: 1px;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    border-radius: 10px;
+}
+
+.card-img-top {
+    border-top-left-radius: 0.25rem;
+    border-top-right-radius: 0.25rem;
+}
+
+
+.card-title {
+    color: #1E90FF;
+}
+
+.card-text {
+    color: #6C757D;
+}
+
+
+.btn-primary {
+    background-color: #FFD700;
+    border-color: #FFD700;
+    color: black;
+}
+
+.btn-primary:hover {
+    background-color: #FFC107;
+    border-color: #FFC107;
+}
+btn {
+    color: black;
+}
