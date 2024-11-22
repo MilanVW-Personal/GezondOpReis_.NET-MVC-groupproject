@@ -1,15 +1,16 @@
-﻿namespace GezondOpReis.Data.UnitOfWork
+namespace GezondOpReis.Data.UnitOfWork
 {
     public class UnitOfWork : IUnitOfWork
     {
         private readonly GezondOpReisContext _context;
 
-        //private IEventRepo eventRepo;
-        //private IInschrijvingRepo inschrijvingRepo;
-        //private ICommunityRepo communityRepo;
+
+    private IBestemmingRepo bestemmingRepo;
+    private IActiviteitenRepo activiteitenRepo;
 		private IGroepsReisRepository groepsReisRepository;
 
 		public UnitOfWork(GezondOpReisContext context)
+
         {
             _context = context;
         }
@@ -22,29 +23,22 @@
 		}
 
 
-	  //  public ICommunityRepo CommunityRepo
-	  //  {
-	  //      get 
-	  //      {
-	  //          return communityRepo ??= new CommunityRepo(_context);
-	  //}
-	  //  }
+    public IBestemmingRepo BestemmingRepo
+        {
+            get
+            {
+                return bestemmingRepo ??= new BestemmingRepo(_context);
+            }
+        }
 
-			//  public IEventRepo EventRepo
-			//  {
-			//      get
-			//      {
-			//          return eventRepo ??= new EventRepo(_context);
-			//      }
-			//  }
+        public IActiviteitenRepo ActiviteitenRepo
+        {
+            get
+            {
+                return activiteitenRepo ??= new ActiviteitenRepo(_context);
+            }
+        }
 
-			//  public IInschrijvingRepo InschrijvingRepo
-			//  {
-			//      get
-			//      {
-			//          return inschrijvingRepo ??= new InschrijvingRepo(_context);
-			//      }
-			//  }
 
 		public async Task SaveChangesAsync()
         {

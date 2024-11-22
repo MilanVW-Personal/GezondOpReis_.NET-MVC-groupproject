@@ -1,10 +1,10 @@
-﻿namespace GezondOpReis.Data.UnitOfWork
+namespace GezondOpReis.Data.UnitOfWork
 {
     public interface IUnitOfWork
     {
-		// ICommunityRepo CommunityRepo { get; }
-		// IEventRepo EventRepo { get; }
-		// IInschrijvingRepo InschrijvingRepo { get; }
+
+    IBestemmingRepo BestemmingRepo { get; }
+    IActiviteitenRepo ActiviteitenRepo { get; }
 		IGroepsReisRepository GroepsReisRepository { get; }
 
 		public Task SaveChangesAsync();
