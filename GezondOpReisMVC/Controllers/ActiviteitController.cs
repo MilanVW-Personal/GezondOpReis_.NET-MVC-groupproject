@@ -76,14 +76,14 @@ namespace GezondOpReis.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var activiteit = await _context.ActiviteitenRepo.GetByIdAsync(id);
+            var activiteit = await _context.ActiviteitenRepo.ZoekActiviteitMetProgramma(id);
             
             if (activiteit != null)
             {
                 _context.ActiviteitenRepo.Delete(activiteit);
+                await _context.SaveChangesAsync();
             }
 
-            await _context.SaveChangesAsync();
             TempData["AlertMessage"] = "Activiteit verwijderd!"; // TempData wordt hier gebruikt om de alert te kunnen tonen na het doen van een CRUD functie
             return RedirectToAction(nameof(Index));
         }

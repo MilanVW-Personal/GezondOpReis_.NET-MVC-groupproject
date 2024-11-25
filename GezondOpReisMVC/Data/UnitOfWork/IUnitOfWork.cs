@@ -6,6 +6,7 @@ namespace GezondOpReis.Data.UnitOfWork
     IBestemmingRepo BestemmingRepo { get; }
     IActiviteitenRepo ActiviteitenRepo { get; }
 		IGroepsReisRepository GroepsReisRepository { get; }
+        IFotoRepo FotoRepo { get; }
 
 		public Task SaveChangesAsync();
     }

@@ -9,6 +9,10 @@ namespace GezondOpReis.Data.Repo
             
         }
 
+        public async Task<Activiteit> ZoekActiviteitMetProgramma(int id)
+        {
+            return await _context.Activiteiten.Include(p => p.Programmas).FirstOrDefaultAsync(a => a.Programmas.Any(p => p.ActiviteidId == id));
+        }
 
     }
 }

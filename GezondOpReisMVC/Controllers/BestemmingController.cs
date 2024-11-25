@@ -1,5 +1,7 @@
 ﻿using GezondOpReis.Models;
 using GezondOpReis.ViewModels;
+using Microsoft.AspNetCore.Hosting;
+using System.IO;
 
 namespace GezondOpReis.Controllers
 {
@@ -7,8 +9,9 @@ namespace GezondOpReis.Controllers
     {
         private readonly IUnitOfWork _context;
         private readonly IMapper _mapper;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public BestemmingController(IUnitOfWork context, IMapper mapper)
+        public BestemmingController(IUnitOfWork context, IMapper mapper, IWebHostEnvironment env)
         {
             _context = context;
             _mapper = mapper;
@@ -74,15 +77,35 @@ namespace GezondOpReis.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var bestemming = await _context.BestemmingRepo.GetByIdAsync(id);
+            var bestemming = await _context.BestemmingRepo.ZoekBestemmingMetFotoEnGroepsReis(id);
 
             if (bestemming != null)
             {
+                foreach(var reis in bestemming.Groepsreizen.ToList())
+                {
+                    // Reis verwijderen
+                    _context.GroepsReisRepository.Delete(reis);
+                }
+
+                foreach (var foto in bestemming.Fotos.ToList())
+                {
+                    // Foto verwijderen
+                    var padNaarFotoNaam = foto.Naam; // filepath van foto eg. 'foto.jpeg'
+                    _context.FotoRepo.Delete(foto);
+
+                    /* 
+                        Zou zou de logica van het deleten van de file, na het deleten van de foto uit de db, er moeten uitzien.
+                        if (File.Exists(padNaarFotoNaam))
+                            File.Delete(padNaarFotoNaam);
+                     */
+                }
+
+                // Nadat foto en reis verwijderd zijn, bestemming verwijderen.
                 _context.BestemmingRepo.Delete(bestemming);
                 TempData["AlertMessage"] = "Bestemming verwijderd!"; // TempData wordt hier gebruikt om de alert te kunnen tonen na het doen van een CRUD functie
+                await _context.SaveChangesAsync();
             }
 
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 

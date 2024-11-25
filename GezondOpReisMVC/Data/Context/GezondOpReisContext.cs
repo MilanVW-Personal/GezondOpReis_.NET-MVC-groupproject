@@ -59,7 +59,7 @@ namespace GezondOpReis.Data.Context
 				.HasOne(f => f.Bestemming)
 				.WithMany(b => b.Fotos)
 				.HasForeignKey(f => f.BestemmingId)
-				.OnDelete(DeleteBehavior.Restrict);
+				.OnDelete(DeleteBehavior.Cascade);
 
 			modelBuilder.Entity<Deelnemer>()
 				.HasOne(d => d.Kind)
