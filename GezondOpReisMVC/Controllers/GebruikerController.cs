@@ -55,6 +55,11 @@ namespace GezondOpReis.Controllers
                 ModelState.AddModelError("", "Emailadres is nog niet bevestigd.");
                 return View(model);
             }
+            if (user.IsActief == false)
+            {
+                ModelState.AddModelError("", "Je account staat op non-actief");
+                return View(model);
+            }
 
             var passwordValid = await _userManager.CheckPasswordAsync(user, model.Password);
             Console.WriteLine($"Password valid: {passwordValid}");
@@ -72,7 +77,7 @@ namespace GezondOpReis.Controllers
             if (result.Succeeded)
             {
                 Console.WriteLine($"Login successful for user: {user.UserName}");
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Groepsreis");
             }
 
             if (result.IsLockedOut)
@@ -133,7 +138,7 @@ namespace GezondOpReis.Controllers
         public async Task<ActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Groepsreis");
         }
 
         [HttpPost]
@@ -171,7 +176,7 @@ namespace GezondOpReis.Controllers
                     if (addToRoleResult.Succeeded)
                     {
                         await _signInManager.SignInAsync(user, isPersistent: false);
-                        return RedirectToAction("Index", "Home");
+                        return RedirectToAction("Index", "Groepsreis");
                     }
                     else
                     {
@@ -293,12 +298,46 @@ namespace GezondOpReis.Controllers
         }
         [Authorize(Roles = "Beheerder")]
         [HttpGet]
-        public async Task<IActionResult> UserList()
+        public async Task<IActionResult> UserList(string selectedRole)
         {
             var users = await _userManager.Users.ToListAsync();
-            return View(users);
+            var roles = await _roleManager.Roles.ToListAsync();
+
+            if (!string.IsNullOrEmpty(selectedRole) && selectedRole != "Filter op rol")
+            {
+                users = users.Where(u => _userManager.IsInRoleAsync(u, selectedRole).Result).ToList();
+
+                if (selectedRole == "Hoofdmonitor")
+                {
+                    users = users.Where(u => u.IsHoofdMonitor == true).ToList();
+                }
+            }
+
+            var roleItems = roles.Select(r => new SelectListItem
+            {
+                Value = r.Name,
+                Text = r.Name,
+                Selected = r.Name == selectedRole
+            }).ToList();
+
+            roleItems.Insert(0, new SelectListItem
+            {
+                Value = "Filter op rol",
+                Text = "Filter op rol",
+                Selected = string.IsNullOrEmpty(selectedRole) || selectedRole == "Filter op rol"
+            });
+
+            var viewModel = new UserListViewModel
+            {
+                Users = users,
+                Roles = roleItems,
+                SelectedRole = selectedRole
+            };
+
+            return View(viewModel);
         }
 
+        [Authorize(Roles = "Beheerder")]
         [HttpGet]
         public async Task<IActionResult> UserEdit(string id)
         {
@@ -348,6 +387,7 @@ namespace GezondOpReis.Controllers
             return View(viewModel);
         }
 
+        [Authorize(Roles = "Beheerder")]
         [HttpPost]
         public async Task<IActionResult> UserEdit(GebruikerEditViewModel model)
         {
