@@ -1,8 +1,16 @@
-﻿@model GroepsReizenTonenViewModel
+@model GroepsReizenTonenViewModel
 @{
     ViewData["Title"] = "Groepsreizen";
 }
-<h2 class="text-center mb-4" >Groepsreizen</h2>
+<div class="container position-relative">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="mb-0">Groepsreizen</h2>
+  @if (User.Identity.IsAuthenticated && User.IsInRole("Beheerder")){
+        <a href="@Url.Action("Create", "GroepsReis")" class="btn btn-primary shadow-sm" style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: bold; padding: 0;">+</a>
+ }
+    </div>
+</div>
+
 
 <div class="row mb-4">
     <!-- Zoekbalk -->
@@ -48,7 +56,21 @@
                         <li><strong>Leeftijdscategorie:</strong> @item.MinLeeftijd - @item.MaxLeeftijd</li>
                         <li><strong>Prijs:</strong> €@item.Prijs.ToString("F2")</li>
                     </ul>
-                    <a asp-action="ReisInfo" asp-route-id="@item.id" class="btn btn-primary btn-sm" >Meer Informatie</a>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <a asp-action="ReisInfo" asp-route-id="@item.id" class="btn btn-primary">Meer Informatie</a>
+                        </div>
+                        @if (User.Identity.IsAuthenticated && User.IsInRole("Beheerder"))
+                        {
+                            <div>
+                                <a asp-action="Delete" asp-route-id="@item.id" class="btn btn-danger">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" viewBox="0 0 24 24" class="me-0">
+                                        <path fill="currentColor" d="M7 21q-.825 0-1.412-.587T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413T17 21zm2-4h2V8H9zm4 0h2V8h-2z" />
+                                    </svg>
+                                </a>
+                            </div>
+                        }
+                    </div>
                 </div>
             </div>
         </div>

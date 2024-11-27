@@ -35,5 +35,50 @@ namespace GezondOpReis.Controllers
             GroepsReisInfoViewModel model = _mapper.Map<GroepsReisInfoViewModel>(reis);
             return View(model);
         }
+
+        [Authorize(Roles = "Beheerder")]
+        public async Task<IActionResult> Create()
+        {
+            var bestemmingen = await _context.BestemmingRepo.GetAllAsync();
+            var model = new GroepsReisCreateViewModel
+            {
+                Bestemmingen = _mapper.Map<List<BestemmingViewModel>>(bestemmingen),
+                BeginDatum = DateTime.Today,
+                EindDatum = DateTime.Today.AddDays(1)
+            };
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Beheerder")]
+        public async Task<IActionResult> Create(GroepsReisCreateViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                if (model.EindDatum <= model.BeginDatum)
+                {
+                    ModelState.AddModelError("EindDatum", "Einddatum moet na de begindatum liggen");
+                    model.Bestemmingen = _mapper.Map<List<BestemmingViewModel>>(await _context.BestemmingRepo.GetAllAsync());
+                    return View(model);
+                }
+
+                var groepsreis = new Models.Groepsreis
+                {
+                    BestemmingId = model.BestemmingId,
+                    BeginDatum = model.BeginDatum,
+                    EindDatum = model.EindDatum,
+                    prijs = model.Prijs
+                };
+
+                await _context.GroepsReisRepository.AddAsync(groepsreis);
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction(nameof(Index));
+            }
+
+            model.Bestemmingen = _mapper.Map<List<BestemmingViewModel>>(await _context.BestemmingRepo.GetAllAsync());
+            return View(model);
+        }
     }
 }
