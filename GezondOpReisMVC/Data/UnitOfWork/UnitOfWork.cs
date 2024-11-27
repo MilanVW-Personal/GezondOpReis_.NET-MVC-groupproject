@@ -9,6 +9,7 @@ namespace GezondOpReis.Data.UnitOfWork
     private IActiviteitenRepo activiteitenRepo;
 		private IGroepsReisRepository groepsReisRepository;
         private IFotoRepo fotoRepo;
+        private IReviewRepo reviewRepo;
 
 		public UnitOfWork(GezondOpReisContext context)
 
@@ -45,6 +46,14 @@ namespace GezondOpReis.Data.UnitOfWork
             get
             {
                 return fotoRepo ??= new FotoRepository(_context);
+            }
+        }
+
+        public IReviewRepo ReviewRepo
+        {
+            get
+            {
+                return reviewRepo ??= new ReviewRepo(_context);
             }
         }
 

@@ -1,7 +1,6 @@
 ﻿using GezondOpReis.Models;
 using GezondOpReis.ViewModels;
 using Microsoft.AspNetCore.Hosting;
-using System.IO;
 
 namespace GezondOpReis.Controllers
 {
@@ -15,6 +14,7 @@ namespace GezondOpReis.Controllers
         {
             _context = context;
             _mapper = mapper;
+            _webHostEnvironment = env; // nodig om de 'wwwroot' map te kunnen vinden
         }
 
         public async Task<ActionResult<IEnumerable<Bestemming>>> Index()
@@ -77,34 +77,42 @@ namespace GezondOpReis.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var bestemming = await _context.BestemmingRepo.ZoekBestemmingMetFotoEnGroepsReis(id);
+            var bestemmingMetReisEnFoto = await _context.BestemmingRepo.ZoekBestemmingMetFotoEnGroepsReisEnReviews(id);
 
-            if (bestemming != null)
+            if (bestemmingMetReisEnFoto != null)
             {
-                foreach(var reis in bestemming.Groepsreizen.ToList())
+                if (bestemmingMetReisEnFoto.Groepsreizen.Any()) // Als er records in de groepsreizen zitten, dan zal je deze niet kunnen verwijderen
                 {
-                    // Reis verwijderen
-                    _context.GroepsReisRepository.Delete(reis);
+                   TempData["AlertMessage"] = "Bestemming kan niet worden verwijderd!";
                 }
-
-                foreach (var foto in bestemming.Fotos.ToList())
+                else // Als er geen reizen aan de bestemmingen gekoppeld zijn, dan verwijder je de Reviews en de Foto's die aan de bestemming gelinkt zijn.
                 {
-                    // Foto verwijderen
-                    var padNaarFotoNaam = foto.Naam; // filepath van foto eg. 'foto.jpeg'
-                    _context.FotoRepo.Delete(foto);
+                    foreach (var review in bestemmingMetReisEnFoto.Reviews.ToList())
+                    {
+                        // review(s), die aan de bestemming zijn gekoppeld, verwijderen
+                        _context.ReviewRepo.Delete(review);
+                    }
 
-                    /* 
-                        Zou zou de logica van het deleten van de file, na het deleten van de foto uit de db, er moeten uitzien.
-                        if (File.Exists(padNaarFotoNaam))
-                            File.Delete(padNaarFotoNaam);
-                     */
+                    foreach (var foto in bestemmingMetReisEnFoto.Fotos.ToList())
+                    {
+                        /* Foto verwijderen */
+                        var padNaarFotoNaam = Path.Combine(_webHostEnvironment.WebRootPath, "images", foto.Naam); // path naar de 'images' map in de 'wwwroot' folder
+                        _context.FotoRepo.Delete(foto); // de foto verwijderen uit de db
+
+                        if (System.IO.File.Exists(padNaarFotoNaam))
+                            System.IO.File.Delete(padNaarFotoNaam); // Als de file bestaat in de map 'images', deze verwijderen
+
+                    }
+
                 }
-
-                // Nadat foto en reis verwijderd zijn, bestemming verwijderen.
-                _context.BestemmingRepo.Delete(bestemming);
+                
+                // Nadat foto en review(s) verwijderd zijn, bestemming verwijderen.
+                _context.BestemmingRepo.Delete(bestemmingMetReisEnFoto);
                 TempData["AlertMessage"] = "Bestemming verwijderd!"; // TempData wordt hier gebruikt om de alert te kunnen tonen na het doen van een CRUD functie
                 await _context.SaveChangesAsync();
             }
+            else
+                TempData["AlertMessage"] = "Bestemming heeft geen gekoppelde groepsreis";
 
             return RedirectToAction(nameof(Index));
         }
@@ -152,12 +160,29 @@ namespace GezondOpReis.Controllers
         //// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Code,Naam,Beschrijving,MinLeeftijd,MaxLeeftijd")] Bestemming bestemming)
+        public async Task<IActionResult> Create([Bind("Id,Code,Naam,Beschrijving,MinLeeftijd,MaxLeeftijd")] Bestemming bestemming, IFormFile fotoFile)
         {
             if (ModelState.IsValid)
             {
-                await _context.BestemmingRepo.AddAsync(bestemming);
+                /* Bestemming aanmaken voordat de foto wordt toegevoegd */
+                // Deze lijn zal éérst de bestemming toevoegen aan de database, als dit niet het geval is (bv. onderaan staat), dan zal dit niet lukken omdat men probeert een foto toe te voegen, omdat de bestemming nog niet bestaat.
+                await _context.BestemmingRepo.AddAsync(bestemming); 
+                // De veranderingen opslaan.
                 await _context.SaveChangesAsync();
+
+                /* Foto toevoegen aan bestemming en /images folder */
+                var padNaarWwwRoot = Path.Combine(_webHostEnvironment.WebRootPath, "images"); // path naar de 'images' map in de 'wwwroot' folder
+                var fileName = fotoFile.FileName;
+                var volledigPad = Path.Combine(padNaarWwwRoot, fileName);
+
+                using (var stream = new FileStream(volledigPad, FileMode.Create))
+                {
+                    await fotoFile.CopyToAsync(stream); // content van de foto kopiëren naar de foto.
+                }
+
+                Foto newFoto = new() { Naam = fileName, BestemmingId = bestemming.Id }; // nieuwe foto aanmaken
+                await _context.FotoRepo.AddAsync(newFoto); // deze nieuwe foto toevoegen
+
                 TempData["AlertMessage"] = "Bestemming aangemaakt!"; // TempData wordt hier gebruikt om de alert te kunnen tonen na het doen van een CRUD functie
                 return RedirectToAction(nameof(Index));
             }

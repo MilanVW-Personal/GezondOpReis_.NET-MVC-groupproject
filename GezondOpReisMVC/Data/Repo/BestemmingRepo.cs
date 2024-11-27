@@ -9,12 +9,13 @@ namespace GezondOpReis.Data.Repo
             
         }
 
-        public async Task<Bestemming> ZoekBestemmingMetFotoEnGroepsReis(int id)
+        public async Task<Bestemming> ZoekBestemmingMetFotoEnGroepsReisEnReviews(int id)
         {
             var lijst = await _context.Bestemmingen
                         .Include(b => b.Fotos)
                         .Include(b => b.Groepsreizen)
-                        .FirstOrDefaultAsync(b => b.Id == id && b.Fotos.Any() && b.Groepsreizen.Any());
+                        .Include(b => b.Reviews)
+                        .FirstOrDefaultAsync(b => b.Id == id);
 
             return lijst;
         }

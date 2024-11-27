@@ -4,6 +4,6 @@ namespace GezondOpReis.Data.Repo
 {
     public interface IBestemmingRepo : IGenericRepository<Bestemming>
     {
-        Task<Bestemming> ZoekBestemmingMetFotoEnGroepsReis(int id);
+        Task<Bestemming> ZoekBestemmingMetFotoEnGroepsReisEnReviews(int id);
     }
 }
