@@ -10,6 +10,9 @@ namespace GezondOpReis.Configuration
         {
 
             CreateMap<Activiteit, ActiviteitViewModel>();
+            CreateMap<Programma, ActiviteitViewModel>()
+                .ForMember(dest => dest.Naam, opt => opt.MapFrom(src => src.Activiteit.Naam))
+                .ForMember(dest => dest.Beschrijving, opt => opt.MapFrom(src => src.Activiteit.Beschrijving));
             CreateMap<Activiteit, ActiviteitDeleteViewModel>();
             CreateMap<Activiteit, ActiviteitEditViewModel>();
             CreateMap<Bestemming, BestemmingViewModel>();
@@ -21,7 +24,12 @@ namespace GezondOpReis.Configuration
                 .ForMember(dest => dest.Beschrijving, opt => opt.MapFrom(src => src.Bestemming.Beschrijving))
                 .ForMember(dest => dest.MinLeeftijd, opt =>opt.MapFrom(src => src.Bestemming.MinLeeftijd))
                 .ForMember(dest => dest.MaxLeeftijd, opt => opt.MapFrom(src => src.Bestemming.MaxLeeftijd));
-
+            CreateMap<Groepsreis, GroepsReisInfoViewModel>()
+            .ForMember(dest => dest.Naam, opt => opt.MapFrom(src => src.Bestemming.Naam))
+            .ForMember(dest => dest.Fotos, opt => opt.MapFrom(src => src.Bestemming.Fotos))
+            .ForMember(dest => dest.Beschrijving, opt => opt.MapFrom(src => src.Bestemming.Beschrijving))
+            .ForMember(dest => dest.MinLeeftijd, opt => opt.MapFrom(src => src.Bestemming.MinLeeftijd))
+            .ForMember(dest => dest.MaxLeeftijd, opt => opt.MapFrom(src => src.Bestemming.MaxLeeftijd));
         }
     }
 }

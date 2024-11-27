@@ -1,0 +1,42 @@
+﻿@model GroepsReisInfoViewModel
+@{
+    ViewData["Title"] = "Groepsreizen";
+    Console.WriteLine(Model.Foto);
+    Console.WriteLine("Tets");
+}
+<h2 class="text-center mb-4">@Model.Naam</h2>
+
+
+<div id="groepsReizen" class="row g-4">
+    
+    
+        <div class="col-md-6 col-lg-4 groepsReis"
+
+            <div class="card h-100 shadow-sm border-0">
+                
+                <img src="/images/@Model.Foto" class="card-img-top img-fluid rounded-top" alt="@Model.Naam" />
+                <div class="card-body">
+                    <h5 class="card-title">@Model.Naam</h5>
+                    <p class="card-text text-muted">
+                        @Model.Beschrijving
+                    </p>
+                    <ul class="list-unstyled mb-4">
+                        <li><strong>Periode:</strong> @Model.BeginDatum.ToShortDateString() - @Model.EindDatum.ToShortDateString()</li>
+                        <li><strong>Leeftijdscategorie:</strong> @Model.MinLeeftijd - @Model.MaxLeeftijd</li>
+                        <li><strong>Prijs:</strong> €@Model.Prijs.ToString("F2")</li>
+                    </ul>
+@*                     @foreach (var a in Model.Activiteiten)
+                    {
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">@a.Naam</h5>
+                                <p class="card-text">@a.Beschrijving</p>
+                            </div>
+                        </div>
+                    } *@
+                </div>
+            </div>
+        </div>
+    
+</div>
+

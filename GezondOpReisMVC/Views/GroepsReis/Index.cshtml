@@ -48,7 +48,7 @@
                         <li><strong>Leeftijdscategorie:</strong> @item.MinLeeftijd - @item.MaxLeeftijd</li>
                         <li><strong>Prijs:</strong> €@item.Prijs.ToString("F2")</li>
                     </ul>
-                    <a href="#" class="btn btn-primary btn-sm" >Meer Informatie</a>
+                    <a asp-action="ReisInfo" asp-route-id="@item.id" class="btn btn-primary btn-sm" >Meer Informatie</a>
                 </div>
             </div>
         </div>

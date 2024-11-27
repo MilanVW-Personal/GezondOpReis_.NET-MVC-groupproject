@@ -1,3 +1,20 @@
+SET IDENTITY_INSERT Activiteit ON;
+INSERT INTO Activiteit (Id, Naam, Beschrijving) VALUES
+(1, 'Zwemmen', 'Lekker zwemmen in het zwembad.'),
+(2, 'Kampvuur', 'Gezellig kampvuur in de avond.'),
+(3, 'Wandelen', 'Avontuurlijke wandeling door het bos.'),
+(4, 'Fietsen', 'Fietstocht door de stad.'),
+(5, 'Knutselen', 'Creatieve knutselactiviteiten.'),
+(6, 'Voetbal', 'Een spannend potje voetbal.'),
+(7, 'Speurtocht', 'Een uitdagende speurtocht.'),
+(8, 'Theater', 'Improvisatietheater voor kinderen.'),
+(9, 'Koken', 'Samen lekkere gerechten maken.'),
+(10, 'Dansen', 'Dansworkshop voor alle leeftijden.');
+SET IDENTITY_INSERT Activiteit OFF;
+INSERT INTO AspNetRoles (Id, Name, NormalizedName) VALUES
+('role1', 'Administrator', 'ADMINISTRATOR'),
+('role2', 'Monitor', 'MONITOR'),
+('role3', 'Ouder', 'OUDER');
 set IDENTITY_INSERT AspNetUserRoles ON;
 INSERT INTO AspNetUsers (Id, Naam, Voornaam, Straat, Huisnummer, Gemeente, Postcode, GeboorteDatum, Huisdokter, ContactNummer, Email, IsHoofdMonitor, TelefoonNummer, RekeningNummer, IsActief, UserName, NormalizedUserName, NormalizedEmail, EmailConfirmed) VALUES
 ('user1', 'Jansen', 'Jan', 'Hoofdstraat', '1', 'Amsterdam', '1000 AA', '1980-01-01', 'Dr. Smit', '0612345678', 'jan.jansen@example.com', NULL, '0612345678', 'NL00BANK0123456789', 1, 'jan.jansen', 'JAN.JANSEN', 'JAN.JANSEN@EXAMPLE.COM', 1),
@@ -11,7 +28,6 @@ INSERT INTO AspNetUsers (Id, Naam, Voornaam, Straat, Huisnummer, Gemeente, Postc
 ('user9', 'Mulder', 'Mark', 'Waterweg', '21', 'Leiden', '2300 II', '1981-04-18', 'Dr. Orange', '0690123456', 'mark.mulder@example.com', NULL, '0690123456', 'NL00BANK3344556677', 1, 'mark.mulder', 'MARK.MULDER', 'MARK.MULDER@EXAMPLE.COM', 1),
 ('user10', 'Visser', 'Eva', 'Molenstraat', '3', 'Nijmegen', '6500 JJ', '1986-08-29', 'Dr. Red', '0601234567', 'eva.visser@example.com', NULL, '0601234567', 'NL00BANK4455667788', 1, 'eva.visser', 'EVA.VISSER', 'EVA.VISSER@EXAMPLE.COM', 1);
 set IDENTITY_INSERT AspNetUserRoles OFF;
-
 set IDENTITY_INSERT Bestemming ON;
 INSERT INTO Bestemming (Id, Code, Naam, Beschrijving, MinLeeftijd, MaxLeeftijd) VALUES
 (1, 'D001', 'Strandvakantie', 'Een heerlijke vakantie aan het strand.', 6, 12),
@@ -25,7 +41,6 @@ INSERT INTO Bestemming (Id, Code, Naam, Beschrijving, MinLeeftijd, MaxLeeftijd) 
 (9, 'D009', 'Techniekkamp', 'Leer alles over technologie.', 11, 18),
 (10, 'D010', 'Fotografiekamp', 'Fotografie workshops en excursies.', 12, 18);
 SET IDENTITY_INSERT Bestemming OFF;
-
 SET IDENTITY_INSERT Opleiding ON;
 INSERT INTO Opleiding (Id, Naam, Beschrijving, Begindatum, Einddatum, AantalPlaatsen, OpleidingVereist) VALUES
 (1, 'EHBO Cursus', 'Eerste Hulp Bij Ongevallen.', '2023-01-10', '2023-01-15', 20, NULL),
@@ -39,8 +54,6 @@ INSERT INTO Opleiding (Id, Naam, Beschrijving, Begindatum, Einddatum, AantalPlaa
 (9, 'Techniektrainer Opleiding', 'Technische workshops geven.', '2023-09-05', '2023-09-10', 18, NULL),
 (10, 'Fotografie Cursus', 'Fotografie vaardigheden ontwikkelen.', '2023-10-20', '2023-10-25', 16, NULL);
 SET IDENTITY_INSERT Opleiding OFF;
-
-
 SET IDENTITY_INSERT Kind ON;
 INSERT INTO Kind (Id, PersoonId, Naam, Voornaam, GeboorteDatum, Allergieen, Medicatie, CustomUserId) VALUES
 (1, 'user1', 'Jansen', 'Sophie', '2010-07-01', 'Pollen', 'Antihistaminica', 'user1'),
@@ -54,7 +67,6 @@ INSERT INTO Kind (Id, PersoonId, Naam, Voornaam, GeboorteDatum, Allergieen, Medi
 (9, 'user8', 'Bosch', 'Finn', '2011-06-30', 'Huisdieren', 'Geen', 'user8'),
 (10, 'user9', 'Mulder', 'Sanne', '2009-10-10', 'Geen', 'Geen', 'user9');
 SET IDENTITY_INSERT Kind OFF;
-
 SET IDENTITY_INSERT Foto ON;
 INSERT INTO Foto (Id, Naam, BestemmingId) VALUES
 (1, 'strand.jpg', 1),
@@ -68,7 +80,6 @@ INSERT INTO Foto (Id, Naam, BestemmingId) VALUES
 (9, 'techniek.jpg', 9),
 (10, 'fotografie.jpg', 10);
 SET IDENTITY_INSERT Foto OFF;
-
 SET IDENTITY_INSERT Groepsreis ON;
 INSERT INTO Groepsreis (Id, BestemmingId, BeginDatum, EindDatum, prijs) VALUES
 (1, 1, '2023-07-01', '2023-07-07', 500.0),
@@ -82,7 +93,6 @@ INSERT INTO Groepsreis (Id, BestemmingId, BeginDatum, EindDatum, prijs) VALUES
 (9, 9, '2023-07-10', '2023-07-17', 720.0),
 (10, 10, '2023-08-05', '2023-08-12', 770.0);
 SET IDENTITY_INSERT Groepsreis OFF;
-
 SET IDENTITY_INSERT Deelnemer ON;
 INSERT INTO Deelnemer (Id, KindId, GroepsreisId, Opmerkingen) VALUES
 (1, 1, 1, 'Vegetarisch'),
@@ -96,7 +106,6 @@ INSERT INTO Deelnemer (Id, KindId, GroepsreisId, Opmerkingen) VALUES
 (9, 9, 8, NULL),
 (10, 10, 9, NULL);
 SET IDENTITY_INSERT Deelnemer OFF;
-
 SET IDENTITY_INSERT Monitor ON;
 INSERT INTO Monitor (Id, PersoonId, GroepsreisId, isHoofdMonitor) VALUES
 (1, 'user2', 1, 1),
@@ -110,7 +119,6 @@ INSERT INTO Monitor (Id, PersoonId, GroepsreisId, isHoofdMonitor) VALUES
 (9, 'user10', 5, 1),
 (10, 'user1', 5, 0);
 SET IDENTITY_INSERT Monitor OFF;
-
 SET IDENTITY_INSERT Onkosten ON;
 INSERT INTO Onkosten (Id, GroepsreisId, Titel, Omschrijving, Bedrag, Datum, Foto) VALUES
 (1, 1, 'Boodschappen', 'Boodschappen voor het kamp', 200.0, '2023-07-01', NULL),
@@ -124,7 +132,6 @@ INSERT INTO Onkosten (Id, GroepsreisId, Titel, Omschrijving, Bedrag, Datum, Foto
 (9, 9, 'Technische Apparatuur', 'Huur apparatuur', 500.0, '2023-07-10', NULL),
 (10, 10, 'Fotocamera''s', 'Huur van camera''s', 450.0, '2023-08-05', NULL);
 SET IDENTITY_INSERT Onkosten OFF;
-
 SET IDENTITY_INSERT Programma ON;
 INSERT INTO Programma (Id, ActiviteidId, GroepsreisId) VALUES
 (1, 1, 1),
@@ -138,7 +145,6 @@ INSERT INTO Programma (Id, ActiviteidId, GroepsreisId) VALUES
 (9, 9, 5),
 (10, 10, 5);
 SET IDENTITY_INSERT Programma OFF;
-
 SET IDENTITY_INSERT Review ON;
 INSERT INTO Review (Id, PersoonId, BestemmingId, Tekst, Score) VALUES
 (1, 'user1', 1, 'Geweldige locatie voor kinderen.', 5),
@@ -152,8 +158,6 @@ INSERT INTO Review (Id, PersoonId, BestemmingId, Tekst, Score) VALUES
 (9, 'user9', 9, 'Technische workshops waren interessant.', 4),
 (10, 'user10', 10, 'Veel geleerd over fotografie.', 5);
 SET IDENTITY_INSERT Review OFF;
-
-
 INSERT INTO OpleidingPersoon (OpleidingId, PersoonId, Id) VALUES
 (1, 'user2', 1),
 (2, 'user3', 2),
@@ -165,9 +169,6 @@ INSERT INTO OpleidingPersoon (OpleidingId, PersoonId, Id) VALUES
 (8, 'user9', 8),
 (9, 'user10', 9),
 (10, 'user1', 10);
-
-
-
 INSERT INTO AspNetUserRoles (UserId, RoleId) VALUES
 ('user1', 'role1'),
 ('user2', 'role2'),
