@@ -5,6 +5,7 @@ namespace GezondOpReis.Data.Repo
     public interface IActiviteitenRepo : IGenericRepository<Activiteit>
     {
         // andere eventuele repo's kunne hier
+        Task<Activiteit> ZoekActiviteitMetProgramma(int id);
     }
 
 }

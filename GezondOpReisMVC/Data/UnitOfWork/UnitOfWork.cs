@@ -8,6 +8,8 @@ namespace GezondOpReis.Data.UnitOfWork
     private IBestemmingRepo bestemmingRepo;
     private IActiviteitenRepo activiteitenRepo;
 		private IGroepsReisRepository groepsReisRepository;
+        private IFotoRepo fotoRepo;
+        private IReviewRepo reviewRepo;
 
 		public UnitOfWork(GezondOpReisContext context)
 
@@ -39,8 +41,23 @@ namespace GezondOpReis.Data.UnitOfWork
             }
         }
 
+        public IFotoRepo FotoRepo
+        {
+            get
+            {
+                return fotoRepo ??= new FotoRepository(_context);
+            }
+        }
 
-		public async Task SaveChangesAsync()
+        public IReviewRepo ReviewRepo
+        {
+            get
+            {
+                return reviewRepo ??= new ReviewRepo(_context);
+            }
+        }
+
+        public async Task SaveChangesAsync()
         {
             await _context.SaveChangesAsync();
         }

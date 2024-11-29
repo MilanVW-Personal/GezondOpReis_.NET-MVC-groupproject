@@ -2,18 +2,18 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
-    ViewData["Title"] = "Verwijder bestemming";
+    ViewData["Title"] = "Delete bestemming";
 }
 
 @model BestemmingDeleteViewModel
 
 <h1>Delete</h1>
 <div>
-    <h4>Bent u zeker dat u de bestemming @Model.Naam wilt verwijderen?</h4>
+    <h4>Bent u zeker dat u de bestemming @Model.Naam wilt disablen?</h4>
 
     <form asp-action="Delete">
         <input type="hidden" asp-for="Id"/>
-        <input type="submit" value="Verwijderen" class="btn btn-primary" />
+        <input type="submit" value="Delete" class="btn btn-primary" />
         <a asp-action="Index" class="btn btn-primary">Terug naar overzicht</a>
     </form>
 </div>

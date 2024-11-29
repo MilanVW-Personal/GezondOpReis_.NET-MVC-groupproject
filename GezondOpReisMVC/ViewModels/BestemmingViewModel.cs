@@ -14,7 +14,5 @@ namespace GezondOpReis.ViewModels
 
         [DisplayName("Maximum leeftijd")]
         public int MaxLeeftijd { get; set; }
-
-
     }
 }
