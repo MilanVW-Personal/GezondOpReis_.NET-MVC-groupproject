@@ -16,5 +16,7 @@
         public string TelefoonNummer { get; set; }
         public string RekeningNummer { get; set; }
         public bool IsActief { get; set; }
+        public string Role { get; set; }
+        public bool IsHoofdMonitor { get; set; }
     }
 }

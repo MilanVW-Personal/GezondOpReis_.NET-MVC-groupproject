@@ -9,18 +9,19 @@
     <div class="col-md-6">
         <div class="card shadow-lg">
             <div class="card-header bg-primary text-white text-center">
-                <h2>Maak account</h2>
+                <h2>Bewerk account</h2>
             </div>
             <div class="card-body p-4">
                 <form id="account" method="post">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    <input type="hidden" asp-for="Id" />
 
                     <div class="form-floating mb-3">
                         <input asp-for="Email" class="form-control" autocomplete="username" aria-required="true" placeholder="E-mail" />
                         <label asp-for="Email" class="form-label">E-mail</label>
                         <span asp-validation-for="Email" class="text-danger"></span>
                     </div>
-
 
                     <div class="form-floating mb-3">
                         <input asp-for="Naam" class="form-control" autocomplete="name" aria-required="true" placeholder="Naam" />
@@ -88,6 +89,27 @@
                         <span asp-validation-for="RekeningNummer" class="text-danger"></span>
                     </div>
 
+                    <div class="form-floating mb-3">
+                        <select asp-for="SelectedRole" asp-items="Model.Roles" class="form-select" aria-required="true" onchange="toggleHoofdMonitorCheckbox()">
+                            <!-- No default option -->
+                        </select>
+                        <label asp-for="SelectedRole" class="form-label">Rol</label>
+                        <span asp-validation-for="SelectedRole" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-check mb-3" id="hoofdMonitorCheckbox" style="@(Model.SelectedRole == "Monitor" ? "" : "display: none;")">
+                        <input asp-for="IsHoofdMonitor" class="form-check-input" type="checkbox" />
+                        <label asp-for="IsHoofdMonitor" class="form-check-label">Hoofd Monitor</label>
+                    </div>
+                    @if (!Model.Email.Equals("admin@gmail.com"))
+                    {
+
+                    <div class="form-check mb-3">
+                        <input asp-for="IsActief" class="form-check-input" type="checkbox" />
+                        <label asp-for="IsActief" class="form-check-label">Actief</label>
+                    </div>
+                    }
+
                     <div class="d-grid gap-2">
                         <button id="register-submit" type="submit" class="btn btn-primary">Wijzig info</button>
                     </div>
@@ -98,3 +120,24 @@
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        function toggleHoofdMonitorCheckbox() {
+            var selectedRole = document.getElementById('@Html.IdFor(m => m.SelectedRole)').value;
+            var hoofdMonitorCheckbox = document.getElementById('hoofdMonitorCheckbox');
+
+            if (selectedRole === 'Monitor') {
+                hoofdMonitorCheckbox.style.display = '';
+            } else {
+                hoofdMonitorCheckbox.style.display = 'none';
+            }
+        }
+
+        // Initialize the checkbox visibility on page load
+        document.addEventListener('DOMContentLoaded', function () {
+            toggleHoofdMonitorCheckbox();
+        });
+    </script>
+}
