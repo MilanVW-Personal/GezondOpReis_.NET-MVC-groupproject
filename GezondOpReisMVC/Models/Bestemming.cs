@@ -1,4 +1,6 @@
-﻿namespace GezondOpReis.Models
+﻿using System.ComponentModel;
+
+namespace GezondOpReis.Models
 {
 	public class Bestemming
 	{
@@ -6,8 +8,12 @@
 		public string Code { get; set; }
 		public string Naam { get; set; }
 		public string Beschrijving { get; set; }
-		public int MinLeeftijd { get; set; }
-		public int MaxLeeftijd { get; set; }
+
+        [DisplayName("Minimum leeftijd")]
+        public int MinLeeftijd { get; set; }
+
+        [DisplayName("Maximum leeftijd")]
+        public int MaxLeeftijd { get; set; }
 
 		// Nav properties
 		public List<Review>? Reviews { get; set; }

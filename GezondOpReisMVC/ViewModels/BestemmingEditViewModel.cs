@@ -1,4 +1,6 @@
-﻿namespace GezondOpReis.ViewModels
+﻿using System.ComponentModel;
+
+namespace GezondOpReis.ViewModels
 {
     public class BestemmingEditViewModel
     {
@@ -6,7 +8,11 @@
         public string Code { get; set; }
         public string Naam { get; set; }
         public string Beschrijving { get; set; }
+
+        [DisplayName("Minimum leeftijd")]
         public int MinLeeftijd { get; set; }
+
+        [DisplayName("Maximum leeftijd")]
         public int MaxLeeftijd { get; set; }
     }
 }

@@ -180,18 +180,3 @@ INSERT INTO AspNetUserRoles (UserId, RoleId) VALUES
 ('user8', 'role2'),
 ('user9', 'role2'),
 ('user10', 'role2');
-
-INSERT INTO Monitor (PersoonId, GroepsreisId) VALUES
-('NielsBellens7102002', 1)
-
-INSERT INTO Kind (PersoonId, Naam, Voornaam, GeboorteDatum, Allergieen, Medicatie, CustomUserId) VALUES
-('NielsBellens7102002', 'Jansen', 'Sophie', '2010-07-01', 'Pollen', 'Antihistaminica', 'NielsBellens7102002')
-
-INSERT INTO Kind (PersoonId, Naam, Voornaam, GeboorteDatum, Allergieen, Medicatie, CustomUserId) VALUES
-('NielsBellens7102002', 'Jansen', 'Bram', '2010-07-01', 'Pollen', 'Antihistaminica', 'NielsBellens7102002')
-
-INSERT INTO Deelnemer (KindId, GroepsreisId) VALUES
-(11, 1)
-
-INSERT INTO Deelnemer (KindId, GroepsreisId) VALUES
-(12, 1)
