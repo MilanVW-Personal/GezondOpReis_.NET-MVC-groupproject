@@ -1,0 +1,87 @@
+@model GroepsReisInfoViewModel
+@{
+    ViewData["Title"] = "Groepsreizen";
+}
+<h2 class="text-center mb-4">@Model.Naam</h2>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12 mb-4">
+            <div id="reisCarousel" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    @for (int i = 0; i < Model.Fotos.Count; i++)
+                    {
+                        <div class="carousel-item @(i == 0 ? "active" : "")">
+                            <img src="/images/@Model.Fotos[i]" class="d-block w-100 rounded" alt="@Model.Naam foto @(i + 1)" style="object-fit: cover; height: 400px;" />
+                        </div>
+                    }
+                </div>
+                @if (Model.Fotos.Count > 1)
+                {
+                    <button class="carousel-control-prev" type="button" data-bs-target="#reisCarousel" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#reisCarousel" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                }
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card shadow-sm border-0 mb-4">
+                <div class="card-body">
+                    <h4 class="card-title">Over deze reis</h4>
+                    <p class="card-text text-muted">
+                        @Model.Beschrijving
+                    </p>
+                    <hr />
+                    <div class="row">
+                        <div class="col-md-6">
+                            <ul class="list-unstyled">
+                                <li class="mb-2"><i class="bi bi-calendar-event me-2"></i> @Model.BeginDatum.ToShortDateString() - @Model.EindDatum.ToShortDateString()</li>
+                                <li class="mb-2"><i class="bi bi-people me-2"></i> @Model.MinLeeftijd - @Model.MaxLeeftijd jaar</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul class="list-unstyled">
+                                <li class="mb-2"><i class="bi bi-currency-euro me-2"></i><strong>Prijs:</strong> €@Model.Prijs.ToString("F2")</li>
+                                <li class="mb-2"><i class="bi bi-person-check me-2"></i><strong>Aantal Deelnemers:</strong> @(Model.Deelnemers?.Count ?? 0)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card shadow-sm border-0 mb-4">
+                <div class="card-body">
+                    <h4 class="card-title">Monitoren</h4>
+                    <div class="list-group list-group-flush">
+                        @if (Model.Monitoren != null && Model.Monitoren.Any())
+                        {
+                            foreach (var monitor in Model.Monitoren)
+                            {
+                                <div class="list-group-item border-0">
+                                    <div class="d-flex align-items-center">
+                                        <div class="flex-grow-1">
+                                            <h6 class="mb-0">@monitor.Persoon.Voornaam @monitor.Persoon.Naam</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <p class="text-muted mb-0">Geen monitoren toegewezen</p>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

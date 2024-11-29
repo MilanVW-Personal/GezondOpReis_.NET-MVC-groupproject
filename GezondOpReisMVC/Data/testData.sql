@@ -15,6 +15,7 @@ set IDENTITY_INSERT AspNetUserRoles OFF;
 set IDENTITY_INSERT Bestemming ON;
 INSERT INTO Bestemming (Id, Code, Naam, Beschrijving, MinLeeftijd, MaxLeeftijd) VALUES
 (1, 'D001', 'Strandvakantie', 'Een heerlijke vakantie aan het strand.', 6, 12),
+
 (2, 'D002', 'Bergwandelen', 'Avontuurlijk wandelen in de bergen.', 8, 15),
 (3, 'D003', 'Stedentrip', 'Ontdek de mooiste steden.', 10, 18),
 (4, 'D004', 'Kamp in het bos', 'Survivalactiviteiten in het bos.', 7, 14),

@@ -1,9 +1,12 @@
-﻿using GezondOpReis.Models;
+using GezondOpReis.Models;
 
 namespace GezondOpReis.Data.Repo
 {
-	public interface IGroepsReisRepository: IGenericRepository<Groepsreis>
-	{
-		Task<IEnumerable<Groepsreis>> GetAllGroepsReizenAsync();
-	}
+    public interface IGroepsReisRepository: IGenericRepository<Groepsreis>
+    {
+        Task<IEnumerable<Groepsreis>> GetAllGroepsReizenAsync();
+
+        Task<Groepsreis> GetGroepsReizenWithIdAsync(int id);
+
+    }
 }
