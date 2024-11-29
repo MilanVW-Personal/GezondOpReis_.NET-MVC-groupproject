@@ -101,11 +101,14 @@
                         <input asp-for="IsHoofdMonitor" class="form-check-input" type="checkbox" />
                         <label asp-for="IsHoofdMonitor" class="form-check-label">Hoofd Monitor</label>
                     </div>
+                    @if (!Model.Email.Equals("admin@gmail.com"))
+                    {
 
                     <div class="form-check mb-3">
                         <input asp-for="IsActief" class="form-check-input" type="checkbox" />
                         <label asp-for="IsActief" class="form-check-label">Actief</label>
                     </div>
+                    }
 
                     <div class="d-grid gap-2">
                         <button id="register-submit" type="submit" class="btn btn-primary">Wijzig info</button>
