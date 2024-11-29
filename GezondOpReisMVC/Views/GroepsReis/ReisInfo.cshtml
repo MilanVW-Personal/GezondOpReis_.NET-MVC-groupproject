@@ -1,8 +1,6 @@
 @model GroepsReisInfoViewModel
 @{
     ViewData["Title"] = "Groepsreizen";
-    Console.WriteLine(Model.Fotos);
-    Console.WriteLine("Tets");
 }
 <h2 class="text-center mb-4">@Model.Naam</h2>
 
@@ -34,27 +32,54 @@
     </div>
 
     <div class="row">
-        <div class="col-md-12">
-            <div class="card shadow-sm border-0">
+        <div class="col-md-8">
+            <div class="card shadow-sm border-0 mb-4">
                 <div class="card-body">
-                    <h5 class="card-title">@Model.Naam</h5>
+                    <h4 class="card-title">Over deze reis</h4>
                     <p class="card-text text-muted">
                         @Model.Beschrijving
                     </p>
-                    <ul class="list-unstyled mb-4">
-                        <li><strong>Periode:</strong> @Model.BeginDatum.ToShortDateString() - @Model.EindDatum.ToShortDateString()</li>
-                        <li><strong>Leeftijdscategorie:</strong> @Model.MinLeeftijd - @Model.MaxLeeftijd</li>
-                        <li><strong>Prijs:</strong> €@Model.Prijs.ToString("F2")</li>
-                    </ul>
-@*                     @foreach (var a in Model.Activiteiten)
-                    {
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">@a.Naam</h5>
-                                <p class="card-text">@a.Beschrijving</p>
-                            </div>
+                    <hr />
+                    <div class="row">
+                        <div class="col-md-6">
+                            <ul class="list-unstyled">
+                                <li class="mb-2"><i class="bi bi-calendar-event me-2"></i> @Model.BeginDatum.ToShortDateString() - @Model.EindDatum.ToShortDateString()</li>
+                                <li class="mb-2"><i class="bi bi-people me-2"></i> @Model.MinLeeftijd - @Model.MaxLeeftijd jaar</li>
+                            </ul>
                         </div>
-                    } *@
+                        <div class="col-md-6">
+                            <ul class="list-unstyled">
+                                <li class="mb-2"><i class="bi bi-currency-euro me-2"></i><strong>Prijs:</strong> €@Model.Prijs.ToString("F2")</li>
+                                <li class="mb-2"><i class="bi bi-person-check me-2"></i><strong>Aantal Deelnemers:</strong> @(Model.Deelnemers?.Count ?? 0)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card shadow-sm border-0 mb-4">
+                <div class="card-body">
+                    <h4 class="card-title">Monitoren</h4>
+                    <div class="list-group list-group-flush">
+                        @if (Model.Monitoren != null && Model.Monitoren.Any())
+                        {
+                            foreach (var monitor in Model.Monitoren)
+                            {
+                                <div class="list-group-item border-0">
+                                    <div class="d-flex align-items-center">
+                                        <div class="flex-grow-1">
+                                            <h6 class="mb-0">@monitor.Persoon.Voornaam @monitor.Persoon.Naam</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <p class="text-muted mb-0">Geen monitoren toegewezen</p>
+                        }
+                    </div>
                 </div>
             </div>
         </div>
