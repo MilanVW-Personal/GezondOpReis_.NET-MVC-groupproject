@@ -84,6 +84,7 @@ namespace GezondOpReis.Controllers
                 if (bestemmingMetReisEnFoto.Groepsreizen.Any()) // Als er records in de groepsreizen zitten, dan zal je deze niet kunnen verwijderen
                 {
                    TempData["AlertMessage"] = "Bestemming kan niet worden verwijderd!";
+                    return RedirectToAction(nameof(Index));
                 }
                 else // Als er geen reizen aan de bestemmingen gekoppeld zijn, dan verwijder je de Reviews en de Foto's die aan de bestemming gelinkt zijn.
                 {
@@ -181,7 +182,10 @@ namespace GezondOpReis.Controllers
                 }
 
                 Foto newFoto = new() { Naam = fileName, BestemmingId = bestemming.Id }; // nieuwe foto aanmaken
+                Console.WriteLine(newFoto.Naam);
                 await _context.FotoRepo.AddAsync(newFoto); // deze nieuwe foto toevoegen
+
+                await _context.SaveChangesAsync();
 
                 TempData["AlertMessage"] = "Bestemming aangemaakt!"; // TempData wordt hier gebruikt om de alert te kunnen tonen na het doen van een CRUD functie
                 return RedirectToAction(nameof(Index));

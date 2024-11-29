@@ -7,7 +7,7 @@
 }
 
 <div class="text-center">
-    <h1>Gebruikerslijst</h1>
+    <h2>Gebruikerslijst</h2>
 </div>
 
 <div>
@@ -51,9 +51,8 @@
                             </svg>
                         </a>
                         <a asp-action="UserDetails" asp-route-id="@user.Id" class="btn btn-secondary me-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
-                                <path fill="currentColor" d="M12 12c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2zm0-2c-1.7 0-3 1.3-3 3s1.3 3 3 3 3-1.3 3-3-1.3-3-3-3zm0-2c2.2 0 4 1.8 4 4s-1.8 4-4 4-4-1.8-4-4 1.8-4 4-4z" />
-                            </svg>
+                            
+                            <i class="bi bi-info-circle" width="1em" height="1em" viewBox="0 0 24 24"></i>
                         </a>
                         @if (!user.Email.Equals("admin@gmail.com"))
                         {
