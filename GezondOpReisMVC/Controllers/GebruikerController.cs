@@ -146,8 +146,6 @@ namespace GezondOpReis.Controllers
         {
             if (ModelState.IsValid)
             {
-                // Your account creation logic here
-                // For example, using Identity:
                 var user = new CustomUser
                 {
                     UserName = model.Voornaam + model.Naam + model.GeboorteDatum.Day + model.GeboorteDatum.Month + model.GeboorteDatum.Year,
@@ -164,8 +162,7 @@ namespace GezondOpReis.Controllers
                     ContactNummer = model.ContactNummer,
                     TelefoonNummer = model.TelefoonNummer,
                     RekeningNummer = model.RekeningNummer,
-                    IsActief = true // Set to true or based on your logic
-
+                    IsActief = true
                 };
 
                 var result = await _userManager.CreateAsync(user, model.Passwoord);
@@ -175,6 +172,21 @@ namespace GezondOpReis.Controllers
                     var addToRoleResult = await _userManager.AddToRoleAsync(user, "Gebruiker");
                     if (addToRoleResult.Succeeded)
                     {
+                        // Check if the IsOuder checkbox is checked and add the "Ouder" role if true
+                        if (model.IsOuder)
+                        {
+                            var removeUserRole = await _userManager.RemoveFromRoleAsync(user, "Gebruiker");
+                            var addToOuderRoleResult = await _userManager.AddToRoleAsync(user, "Ouder");
+                            if (!addToOuderRoleResult.Succeeded && removeUserRole.Succeeded)
+                            {
+                                foreach (var error in addToOuderRoleResult.Errors)
+                                {
+                                    ModelState.AddModelError(string.Empty, error.Description);
+                                }
+                                return View(model);
+                            }
+                        }
+
                         await _signInManager.SignInAsync(user, isPersistent: false);
                         return RedirectToAction("Index", "Groepsreis");
                     }

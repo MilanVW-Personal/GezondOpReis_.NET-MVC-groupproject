@@ -16,5 +16,7 @@
         public string? RekeningNummer { get; set; }
 
         public string Passwoord { get; set; }
+        
+        public bool IsOuder { get; set; }
     }
 }

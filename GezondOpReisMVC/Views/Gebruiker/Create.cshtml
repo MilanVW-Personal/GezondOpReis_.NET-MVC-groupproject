@@ -8,9 +8,7 @@
 <div class="d-flex justify-content-center align-items-center min-vh-100">
     <div class="col-md-8">
         <div class="card shadow-lg">
-            
-                <h2 class="text-center mt-3">Maak account</h2>
-            
+            <h2 class="text-center mt-3">Maak account</h2>
             <div class="card-body p-4">
                 <form id="account" method="post">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -95,6 +93,11 @@
                                 <input asp-for="RekeningNummer" class="form-control" placeholder="Rekeningnummer" />
                                 <label asp-for="RekeningNummer" class="form-label">Rekeningnummer</label>
                                 <span asp-validation-for="RekeningNummer" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-check mb-3">
+                                <input asp-for="IsOuder" class="form-check-input" />
+                                <label asp-for="IsOuder" class="form-check-label">Account als Ouder aanmaken</label>
                             </div>
                         </div>
                     </div>
