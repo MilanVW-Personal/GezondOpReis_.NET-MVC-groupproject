@@ -1,0 +1,50 @@
+﻿@model GezondOpReis.ViewModels.OpleidingDetailsViewModel
+
+@{
+    ViewData["Title"] = "Opleiding Verwijderen";
+}
+
+<h1>Opleiding Verwijderen</h1>
+
+<h3>Weet je zeker dat je deze opleiding wilt verwijderen?</h3>
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Naam)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Naam)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Beschrijving)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Beschrijving)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.StartDatum)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.StartDatum)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.EindDatum)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.EindDatum)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.AantalPlaatsen)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.AantalPlaatsen)
+        </dd>
+    </dl>
+
+    <form asp-action="DeleteConfirmed" method="post">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Verwijderen" class="btn btn-danger" /> |
+        <a asp-action="Index" class="btn btn-secondary">Terug naar lijst</a>
+    </form>
+</div>

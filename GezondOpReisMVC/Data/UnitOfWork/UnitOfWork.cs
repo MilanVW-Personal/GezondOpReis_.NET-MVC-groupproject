@@ -1,3 +1,5 @@
+using GezondOpReis.Models;
+
 namespace GezondOpReis.Data.UnitOfWork
 {
     public class UnitOfWork : IUnitOfWork
@@ -10,6 +12,8 @@ namespace GezondOpReis.Data.UnitOfWork
 		private IGroepsReisRepository groepsReisRepository;
         private IFotoRepo fotoRepo;
         private IReviewRepo reviewRepo;
+        private IOpleidingRepo opleidingRepo;
+        private IOpleidingPersoonRepo opleidingPersoonRepo;
 
 		public UnitOfWork(GezondOpReisContext context)
 
@@ -54,6 +58,20 @@ namespace GezondOpReis.Data.UnitOfWork
             get
             {
                 return reviewRepo ??= new ReviewRepo(_context);
+            }
+        }
+        public IOpleidingRepo OpleidingRepo
+        {
+            get
+            {
+                return opleidingRepo ??= new OpleidingRepo(_context);
+            }
+        }
+        public IOpleidingPersoonRepo OpleidingPersoonRepo
+        {
+            get
+            {
+                return opleidingPersoonRepo ??= new OpleidingPersoonRepo(_context);
             }
         }
 

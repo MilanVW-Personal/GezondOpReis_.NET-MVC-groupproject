@@ -1,0 +1,61 @@
+﻿@using GezondOpReis.ViewModels
+@model OpleidingDetailsViewModel
+
+@{
+    ViewData["Title"] = "Inschrijven";
+    Layout = "/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Inschrijven voor Opleiding</h1>
+
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Naam)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Naam)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Beschrijving)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Beschrijving)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.StartDatum)
+        </dt>
+        <dd class="col-sm-10">
+            @(Model.StartDatum.ToString("dd-MM-yyyy"))
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.EindDatum)
+        </dt>
+        <dd class="col-sm-10">
+            @(Model.EindDatum.ToString("dd-MM-yyyy"))
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.AantalPlaatsen)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.AantalPlaatsen)
+        </dd>
+    </dl>
+</div>
+
+@if (ViewBag.Success == null || !(bool)ViewBag.Success)
+{
+    <form asp-action="Inschrijven" method="post">
+        <input type="hidden" asp-for="Id" />
+        <button type="submit" class="btn btn-primary">Inschrijven</button>
+    </form>
+}
+
+<div>
+    @if (ViewBag.Message != null)
+    {
+        <p class="@(ViewBag.Success == true ? "text-success" : "text-danger")">@ViewBag.Message</p>
+    }
+    <a asp-action="Index" class="btn btn-secondary">Terug naar lijst</a>
+</div>

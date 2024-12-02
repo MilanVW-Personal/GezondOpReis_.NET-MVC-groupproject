@@ -57,6 +57,24 @@
                 <a asp-controller="Gebruiker" asp-area="" asp-action="Edit" style="text-decoration: none; color: inherit;">Wijzig informatie</a>
             </button>
             
+
+
+
+
+
+
+
+
+
+
+            @if (User.IsInRole("Monitor"))
+            {
+                <button class="btn btn-primary ml-2">
+                    <a asp-controller="Opleiding" asp-action="Index" style="text-decoration: none; color: inherit;">Bekijk Opleidingen</a>
+                </button>
+            }
+           
+
         </div>
        
     </div>
