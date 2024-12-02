@@ -1,0 +1,50 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model Kind
+
+<h4>Gebruik onderstaand formulier om een nieuwe bestemming aan te maken</h4>
+<div>
+    <form asp-action="Create" enctype="multipart/form-data">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="Naam" class="control-label"></label>
+            <input asp-for="Naam" class="form-control" />
+            <span asp-validation-for="Naam" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Voornaam" class="control-label"></label>
+            <input asp-for="Voornaam" class="form-control" />
+            <span asp-validation-for="Voornaam" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="GeboorteDatum" class="control-label"></label>
+            <input asp-for="GeboorteDatum" class="form-control" />
+            <span asp-validation-for="GeboorteDatum" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Allergieen" class="control-label"></label>
+            <input asp-for="Allergieen" class="form-control" />
+            <span asp-validation-for="Allergieen" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Medicatie" class="control-label"></label>
+            <input asp-for="Medicatie" class="form-control" />
+            <span asp-validation-for="Medicatie" class="text-danger"></span>
+        </div>
+
+        <div class="form-group mt-2">
+            <input type="submit" value="Kind toevoegen" class="btn btn-primary" />
+            <a asp-action="Index" class="btn btn-primary">Terug naar overzicht</a>
+        </div>
+    </form>
+</div>
+  
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

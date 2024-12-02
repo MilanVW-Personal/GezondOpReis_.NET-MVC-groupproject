@@ -56,6 +56,12 @@
             <button class="btn btn-primary">
                 <a asp-controller="Gebruiker" asp-area="" asp-action="Edit" style="text-decoration: none; color: inherit;">Wijzig informatie</a>
             </button>
+            @if(User.IsInRole("Ouder"))
+            {
+                <button class="btn btn-primary">
+                    <a asp-controller="Kind" asp-route-id="65-e02b111ad57a" asp-area="" asp-action="Index" style="text-decoration: none; color: inherit;">Toon Kinderen</a>
+                </button>
+            }
             
         </div>
        

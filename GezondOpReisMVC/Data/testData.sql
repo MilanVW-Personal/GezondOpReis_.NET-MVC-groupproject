@@ -180,3 +180,9 @@ INSERT INTO AspNetUserRoles (UserId, RoleId) VALUES
 ('user8', 'role2'),
 ('user9', 'role2'),
 ('user10', 'role2');
+
+
+SET IDENTITY_INSERT Kind ON;
+INSERT INTO Kind (Id, PersoonId, Naam, Voornaam, GeboorteDatum, Allergieen, Medicatie, CustomUserId) VALUES
+(1, '65-e02b111ad57a', 'Peeters', 'Lisa', '2006-05-15', 'Gluten', 'Glutenvrije voeding', '65-e02b111ad57a')
+SET IDENTITY_INSERT Kind OFF;

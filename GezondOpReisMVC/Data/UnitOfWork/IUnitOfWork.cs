@@ -9,6 +9,9 @@ namespace GezondOpReis.Data.UnitOfWork
         IFotoRepo FotoRepo { get; }
         IReviewRepo ReviewRepo { get;}
 
+        IKindRepo KindRepo { get; }
+        IGebruikerRepo GebruikerRepo { get; }
+
 		public Task SaveChangesAsync();
     }
 }

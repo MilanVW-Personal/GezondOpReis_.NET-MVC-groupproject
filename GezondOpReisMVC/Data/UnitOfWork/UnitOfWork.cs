@@ -5,11 +5,13 @@ namespace GezondOpReis.Data.UnitOfWork
         private readonly GezondOpReisContext _context;
 
 
-    private IBestemmingRepo bestemmingRepo;
-    private IActiviteitenRepo activiteitenRepo;
+        private IBestemmingRepo bestemmingRepo;
+        private IActiviteitenRepo activiteitenRepo;
 		private IGroepsReisRepository groepsReisRepository;
         private IFotoRepo fotoRepo;
         private IReviewRepo reviewRepo;
+        private IKindRepo kindRepo;
+        private IGebruikerRepo gebruikerRepo;
 
 		public UnitOfWork(GezondOpReisContext context)
 
@@ -25,7 +27,7 @@ namespace GezondOpReis.Data.UnitOfWork
 		}
 
 
-    public IBestemmingRepo BestemmingRepo
+        public IBestemmingRepo BestemmingRepo
         {
             get
             {
@@ -54,6 +56,22 @@ namespace GezondOpReis.Data.UnitOfWork
             get
             {
                 return reviewRepo ??= new ReviewRepo(_context);
+            }
+        }
+
+        public IKindRepo KindRepo
+        {
+            get
+            {
+                return kindRepo ??= new KindRepo(_context);
+            }
+        }
+
+        public IGebruikerRepo GebruikerRepo
+        {
+            get
+            {
+                return gebruikerRepo ??= new GebruikerRepo(_context);
             }
         }
 

@@ -1,0 +1,39 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model List<KindViewModel>
+
+<div class="d-flex justify-content-between align-items mb-4">
+    <h2 class="mb-0">Kinderen van gebruiker</h2>
+    <a asp-action="Create" class="btn btn-primary" style="margin-top: auto; margin-bottom: auto;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M11 21v-8H3v-2h8V3h2v8h8v2h-8v8z" /></svg>
+    </a>
+</div>
+
+<div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Naam</th>
+                <th>Voornaam</th>
+                <th>Geboortedatum</th>
+                <th>Allergieën</th>
+                <th>Medicatie</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var kind in Model)
+            {
+                <tr>
+                    <td>@kind.Naam</td>
+                    <td>@kind.Voornaam</td>
+                    <td>@kind.GeboorteDatum.ToString("yyyy-MM-dd")</td>
+                    <td>@kind.Allergieen</td>
+                    <td>@kind.Medicatie</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
