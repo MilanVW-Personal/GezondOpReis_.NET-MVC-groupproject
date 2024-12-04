@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GezondOpReis.Migrations
 {
     [DbContext(typeof(GezondOpReisContext))]
-    [Migration("20241122130950_test")]
-    partial class test
+    [Migration("20241204091417_opleidingAanpassing")]
+    partial class opleidingAanpassing
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -629,7 +629,7 @@ namespace GezondOpReis.Migrations
                     b.HasOne("GezondOpReis.Models.Bestemming", "Bestemming")
                         .WithMany("Fotos")
                         .HasForeignKey("BestemmingId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Bestemming");
@@ -709,13 +709,13 @@ namespace GezondOpReis.Migrations
                     b.HasOne("GezondOpReis.Models.Activiteit", "Activiteit")
                         .WithMany("Programmas")
                         .HasForeignKey("ActiviteidId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("GezondOpReis.Models.Groepsreis", "Groepsreis")
                         .WithMany("Programmas")
                         .HasForeignKey("GroepsreisId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Activiteit");

@@ -1,10 +1,10 @@
 ﻿@model GezondOpReis.ViewModels.OpleidingDetailsViewModel
 
 @{
-    ViewData["Title"] = "Opleiding Verwijderen";
+    ViewData["Title"] = "Opleiding verwijderen";
 }
 
-<h1>Opleiding Verwijderen</h1>
+<h1>Opleiding verwijderen</h1>
 
 <h3>Weet je zeker dat je deze opleiding wilt verwijderen?</h3>
 <div>
@@ -41,6 +41,11 @@
             @Html.DisplayFor(model => model.AantalPlaatsen)
         </dd>
     </dl>
+
+    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+    {
+        <div class="alert alert-danger">@Model.ErrorMessage</div>
+    }
 
     <form asp-action="DeleteConfirmed" method="post">
         <input type="hidden" asp-for="Id" />

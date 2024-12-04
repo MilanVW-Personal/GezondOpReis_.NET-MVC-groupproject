@@ -54,9 +54,19 @@
                     </div>
                     @if (User.IsInRole("Monitor") && opleiding.AantalPlaatsen > 0)
                     {
-                        <a asp-action="Inschrijven" asp-route-id="@opleiding.Id" class="btn btn-primary me-2">
-                            Inschrijven
-                        </a>
+                        
+                        if (opleiding.IsIngeschreven)
+                        {
+                            <a asp-action="Uitschrijven" asp-route-id="@opleiding.Id" class="btn btn-danger me-2">
+                                Uitschrijven
+                            </a>
+                        }
+                        else
+                        {
+                            <a asp-action="Inschrijven" asp-route-id="@opleiding.Id" class="btn btn-primary me-2">
+                                Inschrijven
+                            </a>
+                        }
                     }
                     
                 </div>

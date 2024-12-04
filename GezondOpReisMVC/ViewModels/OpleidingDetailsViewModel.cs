@@ -8,5 +8,7 @@
         public DateTime StartDatum { get; set; }
         public DateTime EindDatum { get; set; }
         public int AantalPlaatsen { get; set; }
+        public string? ErrorMessage { get; set; }
+
     }
 }

@@ -23,22 +23,29 @@ namespace GezondOpReis.Controllers
         public async Task<IActionResult> Index()
         {
             var opleidingen = await _context.OpleidingRepo.GetAllAsync();
-            var opleidingViewModels = opleidingen.Select(o => new OpleidingViewModel
+            List<OpleidingViewModel> viewModel = new List<OpleidingViewModel>();
+            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+            foreach (var opleiding in opleidingen)
             {
-                Id = o.Id,
-                Naam = o.Naam,
-                Beschrijving = o.Beschrijving,
-                StartDatum = o.Begindatum,
-                EindDatum = o.Einddatum,
-                AantalPlaatsen = o.AantalPlaatsen
-            }).ToList();
-
-            var viewModel = new OpleidingIndexViewModel
+                var ingeschreven = await _context.OpleidingPersoonRepo.IsUserInschrijvingBestaatAsync(user.Id, opleiding.Id);
+                OpleidingViewModel vm = new OpleidingViewModel
+                {
+                    Id = opleiding.Id,
+                    Naam = opleiding.Naam,
+                    Beschrijving = opleiding.Beschrijving,
+                    StartDatum = opleiding.Begindatum,
+                    EindDatum = opleiding.Einddatum,
+                    AantalPlaatsen = opleiding.AantalPlaatsen,
+                    IsIngeschreven = ingeschreven
+                };
+                viewModel.Add(vm);
+            }
+            OpleidingIndexViewModel vam = new OpleidingIndexViewModel
             {
-                Opleidingen = opleidingViewModels
+                Opleidingen = viewModel
             };
 
-            return View(viewModel);
+            return View(vam);
         }
 
         [Authorize(Roles = "Beheerder")]
@@ -203,6 +210,25 @@ namespace GezondOpReis.Controllers
                 return NotFound();
             }
 
+            var opleidingMetPersoon = await _context.OpleidingPersoonRepo.GetAllAsync();
+            bool heeftInschrijvingen = opleidingMetPersoon.Any(op => op.OpleidingId == id);
+
+            if (heeftInschrijvingen)
+            {
+                var viewModel = new OpleidingDetailsViewModel
+                {
+                    Id = opleiding.Id,
+                    Naam = opleiding.Naam,
+                    Beschrijving = opleiding.Beschrijving,
+                    StartDatum = opleiding.Begindatum,
+                    EindDatum = opleiding.Einddatum,
+                    AantalPlaatsen = opleiding.AantalPlaatsen,
+                    ErrorMessage = "Je kunt deze opleiding niet verwijderen omdat er nog inschrijvingen aanwezig zijn."
+                };
+
+                return View("Delete", viewModel);
+            }
+
             _context.OpleidingRepo.Delete(opleiding);
             await _context.SaveChangesAsync();
 
@@ -226,7 +252,17 @@ namespace GezondOpReis.Controllers
                 return NotFound();
             }
 
-            if(opleiding.AantalPlaatsen > 0)
+            var userId = _userManager.GetUserId(User);
+            var isGeschrevenIn = await _context.OpleidingPersoonRepo.IsUserInschrijvingBestaatAsync(userId, id);
+
+            if (isGeschrevenIn)
+            {
+                return RedirectToAction(nameof(Uitschrijven), new { id = id });
+            }
+            
+            
+
+            if (opleiding.AantalPlaatsen > 0)
             {
                 opleiding.AantalPlaatsen = opleiding.AantalPlaatsen - 1;
             }
@@ -236,20 +272,44 @@ namespace GezondOpReis.Controllers
             }
             _context.OpleidingRepo.Update(opleiding);
 
-            // Get the currently logged-in user's ID
-            var userId = _userManager.GetUserId(User);
-
-
-            
             var opleidingPersoon = new OpleidingPersoon
             {
                 OpleidingId = id,
                 PersoonId = userId,
             };
 
-            // Add the entry to the repository
             _context.OpleidingPersoonRepo.AddAsync(opleidingPersoon);
             await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        [Authorize(Roles = "Monitor")]
+        [HttpGet]
+        public async Task<IActionResult> Uitschrijven(int id)
+        {
+            if (id <= 0)
+            {
+                return NotFound();
+            }
+
+            var opleiding = await _context.OpleidingRepo.GetByIdAsync(id);
+            if (opleiding == null)
+            {
+                return NotFound();
+            }
+           
+
+            var userId = _userManager.GetUserId(User);
+            var opleidingPersoon = await _context.OpleidingPersoonRepo.GetByUserIdAndOpleidingIdAsync(userId, id);
+
+            if (opleidingPersoon != null)
+            {
+                _context.OpleidingPersoonRepo.Delete(opleidingPersoon);
+                opleiding.AantalPlaatsen++;
+                _context.OpleidingRepo.Update(opleiding);
+                await _context.SaveChangesAsync();
+            }
 
             return RedirectToAction(nameof(Index));
         }
