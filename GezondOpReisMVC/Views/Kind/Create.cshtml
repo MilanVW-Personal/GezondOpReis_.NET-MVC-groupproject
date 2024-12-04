@@ -3,9 +3,9 @@
 *@
 @{
 }
-@model Kind
+@model KindCreateViewModel
 
-<h4>Gebruik onderstaand formulier om een nieuwe bestemming aan te maken</h4>
+<h4>Gebruik onderstaand formulier om een nieuw kind toe te voegen</h4>
 <div>
     <form asp-action="Create" enctype="multipart/form-data">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -37,7 +37,7 @@
 
         <div class="form-group mt-2">
             <input type="submit" value="Kind toevoegen" class="btn btn-primary" />
-            <a asp-action="Index" class="btn btn-primary">Terug naar overzicht</a>
+            <a asp-action="Index" asp-route-id="65-e02b111ad57a" class="btn btn-primary">Terug naar overzicht</a>
         </div>
     </form>
 </div>

@@ -4,16 +4,17 @@ namespace GezondOpReis.Data.Repo
 {
     public class KindRepo : GenericRepository<Kind>, IKindRepo
     {
-        public KindRepo(GezondOpReisContext context) : base(context) 
+        public KindRepo(GezondOpReisContext context) : base(context)
         {
-            
+
         }
 
         public async Task<IEnumerable<Kind>> GetAllKinderenFromOuders(string id)
         {
-            return _context.Kinderen
+            return await _context.Kinderen
                 .Include(o => o.CustomUser)
-                .Where(k => k.PersoonId == id.ToString() && k.PersoonId == id);
+                .Where(k => k.PersoonId == id)
+                .ToListAsync();
         }
     }
 }

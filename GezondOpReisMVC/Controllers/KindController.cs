@@ -7,11 +7,13 @@ namespace GezondOpReis.Controllers
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly UserManager<CustomUser> _userManager;
 
-        public KindController(IUnitOfWork unitOfWork, IMapper mapper)
+        public KindController(IUnitOfWork unitOfWork, IMapper mapper, UserManager<CustomUser> userManager)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _userManager = userManager;
         }
 
         public async Task<ActionResult<IEnumerable<Kind>>> Index(string id)
@@ -35,27 +37,43 @@ namespace GezondOpReis.Controllers
             return View();
         }
 
+        public IActionResult Edit()
+        {
+            return View();
+        }
 
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Create([Bind("PersoonId,Naam,Voornaam,Geboortedatum,Allergieen,Medicatie")] Kind kind)
-        //{
 
-        //    var userID = User.FindFirstValue(ClaimTypes.NameIdentifier);
-        //    var huidigeGebruikerAlsOuder = await _unitOfWork.GebruikerRepo.GetUserById(userID);
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(KindCreateViewModel vm)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.FindByNameAsync(User.Identity.Name);
 
-        //    kind.PersoonId = userID;
-        //    kind.CustomUser = huidigeGebruikerAlsOuder;
+                Kind newkind = new()
+                {
+                    PersoonId = user.Id,
+                    Naam = vm.Naam,
+                    Voornaam = vm.Voornaam,
+                    GeboorteDatum = vm.GeboorteDatum,
+                    Allergieen = vm.Allergieen,
+                    Medicatie = vm.Medicatie,
+                };
 
-        //    if (ModelState.IsValid)
-        //    {
-        //        await _unitOfWork.KindRepo.AddAsync(kind);
-        //        await _unitOfWork.SaveChangesAsync();
+           
+                    await _unitOfWork.KindRepo.AddAsync(newkind);
+                    await _unitOfWork.SaveChangesAsync();
 
-        //        TempData["AlertMessage"] = "Kind toegevoegd!";
-        //    }
+                    TempData["AlertMessage"] = "Kind toegevoegd!";
+                    return RedirectToAction(nameof(Index), new { id = user.Id });
+            }
 
-        //    return RedirectToAction(nameof(Index), new {id = userID});
-        //}
+            return View(vm);
+        }
+
+
+
+
     }
 }
