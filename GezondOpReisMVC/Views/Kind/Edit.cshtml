@@ -8,13 +8,13 @@
     ViewData["Title"] = "Bewerk bestemming";
 }
 
-<h4>Bewerk @Html.DisplayFor(modelItem => modelItem.Naam)</h4>
+<h4>Bewerk gegevens van @Html.DisplayFor(modelItem => modelItem.Voornaam) @Html.DisplayFor(modelItem => modelItem.Naam)?</h4>
 <form asp-action="Edit">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <input type="hidden" asp-for="Id" />
     <div class="form-group">
-        <label asp-for="Naam" class="control-label"></label>
-        <input asp-for="Naam" class="form-control" />
+        <label asp-for="Voornaam" class="control-label"></label>
+        <input asp-for="Voornaam" class="form-control" />
         <span asp-validation-for="Naam" class="text-danger"></span>
     </div>
     <div class="form-group">
@@ -39,7 +39,7 @@
     </div>
     <div class="form-group mt-2">
         <input type="submit" value="Gegevens kind wijzigen" class="btn btn-success" asp-action="Edit" />
-        <a asp-action="Index" class="btn btn-primary">Terug naar overzicht</a> <!--Ook mogelijk met <input/> tag-->
+        <a asp-action="Index" asp-route-id="@User.FindFirstValue(ClaimTypes.NameIdentifier)" class="btn btn-primary">Terug naar overzicht</a> <!--Ook mogelijk met <input/> tag-->
     </div>
 </form>
 

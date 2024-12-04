@@ -1,5 +1,6 @@
 ﻿using GezondOpReis.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace GezondOpReis.Controllers
 {
@@ -22,7 +23,7 @@ namespace GezondOpReis.Controllers
 
             List<KindViewModel> kinderenMetOudersVM = new();
 
-            foreach(var kvo in kinderenVanOuders)
+            foreach (var kvo in kinderenVanOuders)
             {
                 KindViewModel vm = _mapper.Map<KindViewModel>(kvo);
                 vm.Id = kvo.Id;
@@ -37,9 +38,37 @@ namespace GezondOpReis.Controllers
             return View();
         }
 
-        public IActionResult Edit()
+        public async Task<ActionResult> Edit(int id)
         {
-            return View();
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var kind = await _unitOfWork.KindRepo.GetByIdAsync(id);
+
+            if (kind == null)
+            {
+                return NotFound();
+            }
+
+            KindEditViewModel vm = _mapper.Map<KindEditViewModel>(kind);
+
+            return View(vm);
+        }
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var kind = await _unitOfWork.KindRepo.GetByIdAsync(id);
+
+            KindDeleteViewModel vm = _mapper.Map<KindDeleteViewModel>(kind);
+
+            return View(vm);
         }
 
 
@@ -61,12 +90,12 @@ namespace GezondOpReis.Controllers
                     Medicatie = vm.Medicatie,
                 };
 
-           
-                    await _unitOfWork.KindRepo.AddAsync(newkind);
-                    await _unitOfWork.SaveChangesAsync();
 
-                    TempData["AlertMessage"] = "Kind toegevoegd!";
-                    return RedirectToAction(nameof(Index), new { id = user.Id });
+                await _unitOfWork.KindRepo.AddAsync(newkind);
+                await _unitOfWork.SaveChangesAsync();
+
+                TempData["AlertMessage"] = "Kind toegevoegd!";
+                return RedirectToAction(nameof(Index), new { id = user.Id });
             }
 
             return View(vm);
@@ -74,6 +103,55 @@ namespace GezondOpReis.Controllers
 
 
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, KindEditViewModel vm)
+        {
 
+            var kind = await _unitOfWork.KindRepo.GetByIdAsync(id);
+
+            if (id != kind.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    kind.Naam = vm.Naam;
+                    kind.Voornaam = vm.Voornaam;
+                    kind.GeboorteDatum = vm.GeboorteDatum;
+                    kind.Allergieen = vm.Allergieen;
+                    kind.Medicatie = vm.Medicatie;
+
+                    _unitOfWork.KindRepo.Update(kind);
+                    await _unitOfWork.SaveChangesAsync();
+
+                    TempData["AlertMessage"] = "Gegevens van kind gewijzigd!";
+                    return RedirectToAction(nameof(Index), new { id = kind.PersoonId });
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (await _unitOfWork.KindRepo.GetByIdAsync(id) == null)
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+            }
+
+            return View(vm);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            return View();
+        }
     }
 }
