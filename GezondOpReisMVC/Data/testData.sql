@@ -180,3 +180,10 @@ INSERT INTO AspNetUserRoles (UserId, RoleId) VALUES
 ('user8', 'role2'),
 ('user9', 'role2'),
 ('user10', 'role2');
+
+INSERT INTO Kind (PersoonId, Naam, Voornaam, GeboorteDatum, Allergieen, Medicatie, CustomUserId) VALUES
+('3b7fd5de-dd9e-4370-bfc2-476d84be1e30', 'AdminKind1', 'Admin', '1990-01-01', 'Geen', 'Geen', '3b7fd5de-dd9e-4370-bfc2-476d84be1e30'),
+('3b7fd5de-dd9e-4370-bfc2-476d84be1e30', 'AdminKind2', 'Admin', '1990-01-01', 'Geen', 'Geen', '3b7fd5de-dd9e-4370-bfc2-476d84be1e30'),
+('3b7fd5de-dd9e-4370-bfc2-476d84be1e30', 'AdminKind3', 'Admin', '1990-01-01', 'Geen', 'Geen', '3b7fd5de-dd9e-4370-bfc2-476d84be1e30'),
+('3b7fd5de-dd9e-4370-bfc2-476d84be1e30', 'AdminKind4', 'Admin', '1990-01-01', 'Geen', 'Geen', '3b7fd5de-dd9e-4370-bfc2-476d84be1e30'),
+('3b7fd5de-dd9e-4370-bfc2-476d84be1e30', 'AdminKind5', 'Admin', '1990-01-01', 'Geen', 'Geen', '3b7fd5de-dd9e-4370-bfc2-476d84be1e30');

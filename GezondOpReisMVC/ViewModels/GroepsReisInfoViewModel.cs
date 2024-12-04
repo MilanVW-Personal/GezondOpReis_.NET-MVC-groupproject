@@ -4,7 +4,7 @@ namespace GezondOpReis.ViewModels
 {
     public class GroepsReisInfoViewModel
     {
-
+        public int Id { get; set; }
         public string Naam { get; set; }
         public List<string> Fotos { get; set; }
         public string Beschrijving { get; set; }
