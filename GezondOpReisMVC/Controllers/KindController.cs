@@ -151,7 +151,16 @@ namespace GezondOpReis.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            return View();
+            var kind = await _unitOfWork.KindRepo.GetByIdAsync(id);
+
+            if (kind != null)
+            {
+                _unitOfWork.KindRepo.Delete(kind);
+                await _unitOfWork.SaveChangesAsync();
+            }
+
+            TempData["AlertMessage"] = "Kind verwijderd!";
+            return RedirectToAction(nameof(Index), new {id = kind.PersoonId});
         }
     }
 }

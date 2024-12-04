@@ -37,7 +37,7 @@
 
         <div class="form-group mt-2">
             <input type="submit" value="Kind toevoegen" class="btn btn-primary" />
-            <a asp-action="Index" asp-route-id="65-e02b111ad57a" class="btn btn-primary">Terug naar overzicht</a>
+            <a asp-action="Index" asp-route-id="@User.FindFirstValue(ClaimTypes.NameIdentifier)" class="btn btn-primary">Terug naar overzicht</a>
         </div>
     </form>
 </div>
