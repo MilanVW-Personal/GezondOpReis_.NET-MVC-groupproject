@@ -94,6 +94,8 @@ namespace GezondOpReis.Controllers
                 return NotFound();
             }
 
+            var inschrevenPersonen = await _context.OpleidingPersoonRepo.GetInschrevenPersonenByOpleidingIdAsync(id);
+
             var viewModel = new OpleidingDetailsViewModel
             {
                 Id = opleiding.Id,
@@ -101,7 +103,8 @@ namespace GezondOpReis.Controllers
                 Beschrijving = opleiding.Beschrijving,
                 StartDatum = opleiding.Begindatum,
                 EindDatum = opleiding.Einddatum,
-                AantalPlaatsen = opleiding.AantalPlaatsen
+                AantalPlaatsen = opleiding.AantalPlaatsen,
+                InschrevenPersonen = inschrevenPersonen
             };
 
             return View(viewModel);
@@ -312,6 +315,35 @@ namespace GezondOpReis.Controllers
             }
 
             return RedirectToAction(nameof(Index));
+        }
+        [Authorize(Roles = "Beheerder")]
+
+        [Authorize(Roles = "Beheerder")]
+        [HttpPost]
+        public async Task<IActionResult> DeleteUsers(int id)
+        {
+            if (id <= 0)
+            {
+                return NotFound();
+            }
+
+            var opleiding = await _context.OpleidingRepo.GetByIdAsync(id);
+            if (opleiding == null)
+            {
+                return NotFound();
+            }
+
+            var inschrevenPersonen = await _context.OpleidingPersoonRepo.GetInschrevenPersonenByOpleidingAsync(id);
+            foreach (var persoon in inschrevenPersonen)
+            {
+                _context.OpleidingPersoonRepo.Delete(persoon);
+                opleiding.AantalPlaatsen++;
+            }
+
+            _context.OpleidingRepo.Update(opleiding);
+            await _context.SaveChangesAsync();
+
+            return Json(new { success = true });
         }
     }
 }

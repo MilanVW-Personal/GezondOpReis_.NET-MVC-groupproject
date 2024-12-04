@@ -10,5 +10,8 @@
         public int AantalPlaatsen { get; set; }
         public string? ErrorMessage { get; set; }
 
+        public List<string> InschrevenPersonen { get; set; }
+
     }
+    
 }

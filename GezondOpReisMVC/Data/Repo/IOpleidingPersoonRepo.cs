@@ -6,5 +6,7 @@ namespace GezondOpReis.Data.Repo
     {
         Task<bool> IsUserInschrijvingBestaatAsync(string userId, int opleidingId);
         Task<OpleidingPersoon?> GetByUserIdAndOpleidingIdAsync(string userId, int opleidingId);
+        Task<List<string>> GetInschrevenPersonenByOpleidingIdAsync(int opleidingId);
+        Task<List<OpleidingPersoon>> GetInschrevenPersonenByOpleidingAsync(int opleidingId);
     }
 }

@@ -41,9 +41,57 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.AantalPlaatsen)
         </dd>
+        <dt class="col-sm-2">
+            Inschreven Personen
+        </dt>
+        <dd class="col-sm-10">
+            <ul id="inschrevenPersonenList">
+                @foreach (var persoon in Model.InschrevenPersonen)
+                {
+                    <li class="mb-3 d-flex justify-content-between align-items-center">
+                        <div>
+                            <strong>@persoon</strong>
+                        </div>
+                       
+                    </li>
+                }
+            </ul>
+        </dd>
     </dl>
 </div>
+
 <div>
     <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Bewerken</a> |
-    <a asp-action="Index" class="btn btn-secondary">Terug naar lijst</a>
+    <a asp-action="Index" class="btn btn-secondary">Terug naar lijst</a> |
+    <button id="deleteUsersButton" class="btn btn-danger">Verwijder alle ingeschreven monitors</button>
 </div>
+
+@section Scripts {
+    <script>
+        document.getElementById('deleteUsersButton').addEventListener('click', function (e) {
+            e.preventDefault();
+
+            fetch('@Url.Action("DeleteUsers", "Opleiding", new { id = Model.Id })', {
+                method: 'POST',
+                headers: {
+                    'RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val()
+                }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Verwijder alle li-elementen uit de ul
+                        var inschrevenPersonenList = document.getElementById('inschrevenPersonenList');
+                        inschrevenPersonenList.innerHTML = '<p>Er zijn geen ingeschreven personen voor deze opleiding.</p>';
+
+                        // Werk het aantal plaatsen bij
+                        var aantalPlaatsenElement = document.querySelector('dt:contains("AantalPlaatsen") + dd');
+                        if (aantalPlaatsenElement) {
+                            aantalPlaatsenElement.textContent = '@Model.AantalPlaatsen + @Model.InschrevenPersonen.Count';
+                        }
+                    }
+                });
+            
+        });
+    </script>
+}
