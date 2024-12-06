@@ -182,8 +182,10 @@ INSERT INTO AspNetUserRoles (UserId, RoleId) VALUES
 ('user10', 'role2');
 
 INSERT INTO Kind (PersoonId, Naam, Voornaam, GeboorteDatum, Allergieen, Medicatie, CustomUserId) VALUES
-('3b7fd5de-dd9e-4370-bfc2-476d84be1e30', 'AdminKind1', 'Admin', '1990-01-01', 'Geen', 'Geen', '3b7fd5de-dd9e-4370-bfc2-476d84be1e30'),
-('3b7fd5de-dd9e-4370-bfc2-476d84be1e30', 'AdminKind2', 'Admin', '1990-01-01', 'Geen', 'Geen', '3b7fd5de-dd9e-4370-bfc2-476d84be1e30'),
-('3b7fd5de-dd9e-4370-bfc2-476d84be1e30', 'AdminKind3', 'Admin', '1990-01-01', 'Geen', 'Geen', '3b7fd5de-dd9e-4370-bfc2-476d84be1e30'),
-('3b7fd5de-dd9e-4370-bfc2-476d84be1e30', 'AdminKind4', 'Admin', '1990-01-01', 'Geen', 'Geen', '3b7fd5de-dd9e-4370-bfc2-476d84be1e30'),
-('3b7fd5de-dd9e-4370-bfc2-476d84be1e30', 'AdminKind5', 'Admin', '1990-01-01', 'Geen', 'Geen', '3b7fd5de-dd9e-4370-bfc2-476d84be1e30');
+('c14ac27f-bcbb-44d4-8908-a14ad350db12', 'Naam10Jaar', 'Admin', '2014-01-01', 'Geen', 'Geen', 'c14ac27f-bcbb-44d4-8908-a14ad350db12'),
+('c14ac27f-bcbb-44d4-8908-a14ad350db12', 'naam8jaar', 'Admin', '2016-01-01', 'Geen', 'Geen', 'c14ac27f-bcbb-44d4-8908-a14ad350db12'),
+('c14ac27f-bcbb-44d4-8908-a14ad350db12', 'naam6jaar', 'Admin', '2018-01-01', 'Geen', 'Geen', 'c14ac27f-bcbb-44d4-8908-a14ad350db12'),
+('c14ac27f-bcbb-44d4-8908-a14ad350db12', 'Naam12Jaar', 'Admin', '2012-01-01', 'Geen', 'Geen', 'c14ac27f-bcbb-44d4-8908-a14ad350db12'),
+('c14ac27f-bcbb-44d4-8908-a14ad350db12', 'naam16jaar', 'Admin', '2008-01-01', 'Geen', 'Geen', 'c14ac27f-bcbb-44d4-8908-a14ad350db12'),
+('c14ac27f-bcbb-44d4-8908-a14ad350db12', 'naam18jaar', 'Admin', '2006-01-01', 'Geen', 'Geen', 'c14ac27f-bcbb-44d4-8908-a14ad350db12'),
+('c14ac27f-bcbb-44d4-8908-a14ad350db12', 'naam14jaar', 'Admin', '2010-01-01', 'Geen', 'Geen', 'c14ac27f-bcbb-44d4-8908-a14ad350db12');
