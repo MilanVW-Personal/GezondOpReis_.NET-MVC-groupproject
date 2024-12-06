@@ -1,0 +1,86 @@
+﻿@using GezondOpReis.ViewModels
+@model OpleidingIndexViewModel
+
+@{
+    ViewData["Title"] = "Opleidingen";
+    Layout = "/Views/Shared/_Layout.cshtml";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="mb-0">Opleidingen</h2>
+    @if (User.IsInRole("Beheerder"))
+    {
+        <a href="@Url.Action("Create", "Opleiding")" class="btn btn-primary shadow-sm" style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: bold; padding: 0;">+</a>
+    }
+</div>
+
+<div>
+    <div id="userListContainer">
+        @foreach (var opleiding in Model.Opleidingen)
+        {
+            <div class="card mb-3 user-card">
+                <div class="card-body position-relative">
+                    @if (User.IsInRole("Beheerder"))
+                    {
+                        <div class="card-buttons position-absolute top-0 end-0 me-2 mt-2">
+                            <a asp-action="Edit" asp-route-id="@opleiding.Id" class="btn btn-primary me-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                    <path fill="currentColor" d="M5 19h1.425L16.2 9.225L14.775 7.8L5 17.575zm-2 2v-4.25L16.2 3.575q.3-.275.663-.425t.762-.15t.775.15t.65.45L20.425 5q.3.275.438.65T21 6.4q0 .4-.137.763t-.438.662L7.25 21zM19 6.4L17.6 5zm-3.525 2.125l-.7-.725L16.2 9.225z" />
+                                </svg>
+                            </a>
+                            <a asp-action="Details" asp-route-id="@opleiding.Id" class="btn btn-secondary me-2">
+
+                                <i class="bi bi-info-circle" width="1em" height="1em" viewBox="0 0 24 24"></i>
+
+                            </a>
+                            <a asp-action="Delete" asp-route-id="@opleiding.Id" class="btn btn-danger">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                    <path fill="currentColor" d="M7 21q-.825 0-1.412-.587T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413T17 21zm2-4h2V8H9zm4 0h2V8h-2z" />
+                                </svg>
+                            </a>
+                        </div>
+                    }
+                    
+                    <h5 class="card-title">@opleiding.Naam</h5>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p class="card-text"><b>Beschrijving:</b> @opleiding.Beschrijving</p>
+                            <p class="card-text"><b>Start Datum:</b> @(opleiding.StartDatum.ToString("dd-MM-yyyy"))</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p class="card-text"><b>Aantal Plaatsen:</b> @opleiding.AantalPlaatsen</p>
+                            <p class="card-text"><b>Eind Datum:</b> @(opleiding.EindDatum.ToString("dd-MM-yyyy"))</p>
+                        </div>
+                    </div>
+                    @if (User.IsInRole("Monitor") && opleiding.AantalPlaatsen > 0)
+                    {
+                        
+                        if (opleiding.IsIngeschreven)
+                        {
+                            <a asp-action="Uitschrijven" asp-route-id="@opleiding.Id" class="btn btn-danger me-2">
+                                Uitschrijven
+                            </a>
+                        }
+                        else
+                        {
+                            <a asp-action="Inschrijven" asp-route-id="@opleiding.Id" class="btn btn-primary me-2">
+                                Inschrijven
+                            </a>
+                        }
+                    }
+                    
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<style>
+    .card-text {
+        margin-bottom: 0.5rem;
+    }
+
+    .card-buttons {
+        z-index: 1;
+    }
+</style>

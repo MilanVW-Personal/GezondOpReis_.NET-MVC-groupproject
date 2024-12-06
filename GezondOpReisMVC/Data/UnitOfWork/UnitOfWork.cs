@@ -1,3 +1,5 @@
+using GezondOpReis.Models;
+
 namespace GezondOpReis.Data.UnitOfWork
 {
     public class UnitOfWork : IUnitOfWork
@@ -7,24 +9,34 @@ namespace GezondOpReis.Data.UnitOfWork
 
         private IBestemmingRepo bestemmingRepo;
         private IActiviteitenRepo activiteitenRepo;
-		private IGroepsReisRepository groepsReisRepository;
+
+
+        private IGroepsReisRepository groepsReisRepository;
         private IFotoRepo fotoRepo;
         private IReviewRepo reviewRepo;
         private IKindRepo kindRepo;
         private IGebruikerRepo gebruikerRepo;
 
-		public UnitOfWork(GezondOpReisContext context)
+        private IOpleidingRepo opleidingRepo;
+        private IOpleidingPersoonRepo opleidingPersoonRepo;
+
+        private IProgrammaRepository programmaRepository;
+        private IOnkostenRepository onkostenRepository;
+        private IDeelnemerRepository deelnemerRepository;
+        private IKindRepository kindRepository;
+
+        public UnitOfWork(GezondOpReisContext context)
 
         {
             _context = context;
         }
         public IGroepsReisRepository GroepsReisRepository
-		{
-			get
-			{
-				return groepsReisRepository ??= new GroepsReisRepository(_context);
-			}
-		}
+        {
+            get
+            {
+                return groepsReisRepository ??= new GroepsReisRepository(_context);
+            }
+        }
 
 
         public IBestemmingRepo BestemmingRepo
@@ -59,6 +71,7 @@ namespace GezondOpReis.Data.UnitOfWork
             }
         }
 
+
         public IKindRepo KindRepo
         {
             get
@@ -72,6 +85,52 @@ namespace GezondOpReis.Data.UnitOfWork
             get
             {
                 return gebruikerRepo ??= new GebruikerRepo(_context);
+            }
+         }   
+
+        public IOpleidingRepo OpleidingRepo
+        {
+            get
+            {
+                return opleidingRepo ??= new OpleidingRepo(_context);
+            }
+        }
+        public IOpleidingPersoonRepo OpleidingPersoonRepo
+        {
+            get
+            {
+                return opleidingPersoonRepo ??= new OpleidingPersoonRepo(_context);
+            }
+        }
+
+
+        public IOnkostenRepository OnkostenRepository
+        {
+            get
+            {
+                return onkostenRepository ??= new OnkostenRepository(_context);
+            }
+        }
+        public IProgrammaRepository ProgrammaRepository
+        {
+            get
+            {
+                return programmaRepository ??= new ProgrammaRepository(_context);
+            }
+        }
+        public IDeelnemerRepository DeelnemerRepository
+        {
+            get
+            {
+                return deelnemerRepository ??= new DeelnemerRepository(_context);
+            }
+        }
+        public IKindRepository KindRepository
+        {
+            get
+            {
+                return kindRepository ??= new KindRepository(_context);
+
             }
         }
 

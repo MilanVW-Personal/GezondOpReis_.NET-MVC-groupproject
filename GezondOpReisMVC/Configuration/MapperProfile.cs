@@ -25,14 +25,21 @@ namespace GezondOpReis.Configuration
                 .ForMember(dest => dest.MinLeeftijd, opt =>opt.MapFrom(src => src.Bestemming.MinLeeftijd))
                 .ForMember(dest => dest.MaxLeeftijd, opt => opt.MapFrom(src => src.Bestemming.MaxLeeftijd));
             CreateMap<Groepsreis, GroepsReisInfoViewModel>()
-            .ForMember(dest => dest.Naam, opt => opt.MapFrom(src => src.Bestemming.Naam))
-            .ForMember(dest => dest.Fotos, opt => opt.MapFrom(src => src.Bestemming.Fotos.Select(f => f.Naam).ToList()))
-            .ForMember(dest => dest.Beschrijving, opt => opt.MapFrom(src => src.Bestemming.Beschrijving))
-            .ForMember(dest => dest.MinLeeftijd, opt => opt.MapFrom(src => src.Bestemming.MinLeeftijd))
-            .ForMember(dest => dest.MaxLeeftijd, opt => opt.MapFrom(src => src.Bestemming.MaxLeeftijd));
-            CreateMap<Kind, KindViewModel>();
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+                .ForMember(dest => dest.Naam, opt => opt.MapFrom(src => src.Bestemming.Naam))
+                .ForMember(dest => dest.Fotos, opt => opt.MapFrom(src => src.Bestemming.Fotos.Select(f => f.Naam).ToList()))
+                .ForMember(dest => dest.Beschrijving, opt => opt.MapFrom(src => src.Bestemming.Beschrijving))
+                .ForMember(dest => dest.MinLeeftijd, opt => opt.MapFrom(src => src.Bestemming.MinLeeftijd))
+                .ForMember(dest => dest.MaxLeeftijd, opt => opt.MapFrom(src => src.Bestemming.MaxLeeftijd));
+
+            CreateMap<Opleiding, OpleidingViewModel>();
+            CreateMap<OpleidingPersoon, OpleidingPersoonViewModel>();
+            
+              CreateMap<Kind, KindViewModel>();
             CreateMap<Kind, KindEditViewModel>();
             CreateMap<Kind, KindDeleteViewModel>();
+
+
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace GezondOpReis.Models
+namespace GezondOpReis.Models
 {
     public class Deelnemer
     {
@@ -7,6 +7,6 @@
         public int GroepsreisId { get; set; }
         public string? Opmerkingen { get; set; }
         public Groepsreis? Groepsreis { get; set; }
-		public Kind? Kind { get; set; }
-	}
+        public Kind? Kind { get; set; }
+    }
 }

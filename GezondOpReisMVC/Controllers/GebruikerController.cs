@@ -3,6 +3,7 @@ using GezondOpReis.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
@@ -14,12 +15,14 @@ namespace GezondOpReis.Controllers
         private readonly UserManager<CustomUser> _userManager;
         private readonly SignInManager<CustomUser> _signInManager;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly IUnitOfWork _context;
 
-        public GebruikerController(UserManager<CustomUser> userManager, RoleManager<IdentityRole> roleManager, SignInManager<CustomUser> signInManager)
+        public GebruikerController(UserManager<CustomUser> userManager, RoleManager<IdentityRole> roleManager, SignInManager<CustomUser> signInManager, IUnitOfWork context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
+            _context = context;
         }
 
         public IActionResult Login()
@@ -100,14 +103,8 @@ namespace GezondOpReis.Controllers
             {
                 return RedirectToAction("Login", "Gebruiker");
             }
-            Console.WriteLine(User);
-       
 
-            
             var user = await _userManager.FindByNameAsync(User.Identity.Name);
-
-
-
 
             bool isAdmin = await _userManager.IsInRoleAsync(user, "Beheerder");
 
@@ -128,6 +125,33 @@ namespace GezondOpReis.Controllers
                 RekeningNummer = user.RekeningNummer,
                 IsAdmin = isAdmin // Set the IsAdmin property
             };
+
+            // Controleer of de gebruiker de rol "Monitor" heeft
+            if (await _userManager.IsInRoleAsync(user, "Monitor"))
+            {
+                var opleidingen = await _context.OpleidingRepo.GetAllAsync();
+                var opleidingenViewModel = new List<OpleidingViewModel>();
+
+                foreach (var opleiding in opleidingen)
+                {
+                    var ingeschreven = await _context.OpleidingPersoonRepo.IsUserInschrijvingBestaatAsync(user.Id, opleiding.Id);
+                    if (ingeschreven)
+                    {
+                        opleidingenViewModel.Add(new OpleidingViewModel
+                        {
+                            Id = opleiding.Id,
+                            Naam = opleiding.Naam,
+                            Beschrijving = opleiding.Beschrijving,
+                            StartDatum = opleiding.Begindatum,
+                            EindDatum = opleiding.Einddatum,
+                            AantalPlaatsen = opleiding.AantalPlaatsen,
+                            IsIngeschreven = ingeschreven
+                        });
+                    }
+                }
+
+                viewModel.Opleidingen = opleidingenViewModel;
+            }
 
             return View(viewModel);
         }

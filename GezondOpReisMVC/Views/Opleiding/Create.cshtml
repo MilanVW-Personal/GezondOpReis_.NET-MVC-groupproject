@@ -1,0 +1,61 @@
+﻿@using GezondOpReis.ViewModels
+@model OpleidingCreateViewModel
+
+@{
+    ViewData["Title"] = "Nieuwe Opleiding";
+    Layout = "/Views/Shared/_LoginLayout.cshtml";
+}
+
+<div class="d-flex justify-content-center align-items-center min-vh-100">
+    <div class="col-md-6">
+        <div class="card shadow-lg">
+            <div class="card-header bg-primary text-white text-center">
+                <h2>Nieuwe Opleiding</h2>
+            </div>
+            <div class="card-body p-4">
+                <form id="account" method="post" asp-action="Create">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    <div class="form-floating mb-3">
+                        <input asp-for="Naam" class="form-control" placeholder="Naam" />
+                        <label asp-for="Naam" class="form-label">Naam</label>
+                        <span asp-validation-for="Naam" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <textarea asp-for="Beschrijving" class="form-control" placeholder="Beschrijving"></textarea>
+                        <label asp-for="Beschrijving" class="form-label">Beschrijving</label>
+                        <span asp-validation-for="Beschrijving" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <input asp-for="StartDatum" class="form-control" type="date" placeholder="Start Datum" />
+                        <label asp-for="StartDatum" class="form-label">Start Datum</label>
+                        <span asp-validation-for="StartDatum" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <input asp-for="EindDatum" class="form-control" type="date" placeholder="Eind Datum" />
+                        <label asp-for="EindDatum" class="form-label">Eind Datum</label>
+                        <span asp-validation-for="EindDatum" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <input asp-for="AantalPlaatsen" class="form-control" placeholder="Aantal Plaatsen" />
+                        <label asp-for="AantalPlaatsen" class="form-label">Aantal Plaatsen</label>
+                        <span asp-validation-for="AantalPlaatsen" class="text-danger"></span>
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <button id="register-submit" type="submit" class="btn btn-primary">Opleiding Toevoegen</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
