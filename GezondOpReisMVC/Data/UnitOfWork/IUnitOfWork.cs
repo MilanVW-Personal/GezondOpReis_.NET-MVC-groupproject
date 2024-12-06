@@ -9,6 +9,11 @@ namespace GezondOpReis.Data.UnitOfWork
         IActiviteitenRepo ActiviteitenRepo { get; }
         IFotoRepo FotoRepo { get; }
 
+
+        IKindRepo KindRepo { get; }
+        IGebruikerRepo GebruikerRepo { get; }
+
+
         IReviewRepo ReviewRepo { get; }
         IProgrammaRepository ProgrammaRepository { get; }
         IOnkostenRepository OnkostenRepository { get; }
@@ -18,5 +23,6 @@ namespace GezondOpReis.Data.UnitOfWork
         IOpleidingPersoonRepo OpleidingPersoonRepo { get; }
 
         public Task SaveChangesAsync();
+
     }
 }

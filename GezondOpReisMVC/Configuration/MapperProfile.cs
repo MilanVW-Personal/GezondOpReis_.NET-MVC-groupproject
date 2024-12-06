@@ -34,6 +34,11 @@ namespace GezondOpReis.Configuration
 
             CreateMap<Opleiding, OpleidingViewModel>();
             CreateMap<OpleidingPersoon, OpleidingPersoonViewModel>();
+            
+              CreateMap<Kind, KindViewModel>();
+            CreateMap<Kind, KindEditViewModel>();
+            CreateMap<Kind, KindDeleteViewModel>();
+
 
         }
     }

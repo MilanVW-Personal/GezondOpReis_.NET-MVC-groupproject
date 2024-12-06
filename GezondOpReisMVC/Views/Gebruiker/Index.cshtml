@@ -1,5 +1,6 @@
 ﻿@model GezondOpReis.ViewModels.GebruikerIndexViewModel
 
+
 @{
     ViewData["Title"] = "Gebruiker Index";
 }
@@ -56,6 +57,15 @@
             <button class="btn btn-primary">
                 <a asp-controller="Gebruiker" asp-area="" asp-action="Edit" style="text-decoration: none; color: inherit;">Wijzig informatie</a>
             </button>
+
+            @if(User.IsInRole("Ouder"))
+            {
+                <button class="btn btn-primary">
+                    <a asp-controller="Kind" asp-action="Index" asp-route-id="@User.FindFirstValue(ClaimTypes.NameIdentifier)" style="text-decoration: none; color: inherit;">Toon Kinderen</a>
+                </button>
+            }
+            
+
 
         </div>
        

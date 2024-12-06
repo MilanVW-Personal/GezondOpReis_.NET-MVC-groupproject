@@ -161,32 +161,42 @@ namespace GezondOpReis.Controllers
         //// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Code,Naam,Beschrijving,MinLeeftijd,MaxLeeftijd")] Bestemming bestemming, IFormFile fotoFile)
+        public async Task<IActionResult> Create([Bind("Id,Code,Naam,Beschrijving,MinLeeftijd,MaxLeeftijd")] Bestemming bestemming, List<IFormFile> fotoFiles)
         {
             if (ModelState.IsValid)
             {
                 /* Bestemming aanmaken voordat de foto wordt toegevoegd */
                 // Deze lijn zal éérst de bestemming toevoegen aan de database, als dit niet het geval is (bv. onderaan staat), dan zal dit niet lukken omdat men probeert een foto toe te voegen, omdat de bestemming nog niet bestaat.
-                await _context.BestemmingRepo.AddAsync(bestemming); 
+                await _context.BestemmingRepo.AddAsync(bestemming);
                 // De veranderingen opslaan.
                 await _context.SaveChangesAsync();
 
-                /* Foto toevoegen aan bestemming en /images folder */
-                var padNaarWwwRoot = Path.Combine(_webHostEnvironment.WebRootPath, "images"); // path naar de 'images' map in de 'wwwroot' folder
-                var fileName = fotoFile.FileName;
-                var volledigPad = Path.Combine(padNaarWwwRoot, fileName);
-
-                using (var stream = new FileStream(volledigPad, FileMode.Create))
+                if (fotoFiles != null && fotoFiles.Any())
                 {
-                    await fotoFile.CopyToAsync(stream); // content van de foto kopiëren naar de foto.
+                    /* Foto toevoegen aan bestemming en /images folder */
+                    var padNaarWwwRoot = Path.Combine(_webHostEnvironment.WebRootPath, "images"); // path naar de 'images' map in de 'wwwroot' folder
+
+                    foreach (var foto in fotoFiles)
+                    {
+                        if (foto.Length > 0)
+                        {
+                            var fileName = foto.FileName;
+                            var volledigPad = Path.Combine(padNaarWwwRoot, fileName);
+
+                            using (var stream = new FileStream(volledigPad, FileMode.Create))
+                            {
+                                await foto.CopyToAsync(stream); // content van de foto kopiëren naar de FileStream.
+                            }
+
+                            Foto newFoto = new() { Naam = fileName, BestemmingId = bestemming.Id }; // nieuwe foto aanmaken
+                            Console.WriteLine(newFoto.Naam);
+                            await _context.FotoRepo.AddAsync(newFoto); // deze nieuwe foto toevoegen
+                        }
+                    }
+
                 }
 
-                Foto newFoto = new() { Naam = fileName, BestemmingId = bestemming.Id }; // nieuwe foto aanmaken
-                Console.WriteLine(newFoto.Naam);
-                await _context.FotoRepo.AddAsync(newFoto); // deze nieuwe foto toevoegen
-
                 await _context.SaveChangesAsync();
-
                 TempData["AlertMessage"] = "Bestemming aangemaakt!"; // TempData wordt hier gebruikt om de alert te kunnen tonen na het doen van een CRUD functie
                 return RedirectToAction(nameof(Index));
             }
