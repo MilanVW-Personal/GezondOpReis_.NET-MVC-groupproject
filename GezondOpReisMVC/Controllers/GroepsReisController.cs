@@ -158,16 +158,35 @@ namespace GezondOpReis.Controllers
                 return Json(new { redirect = Url.Action("Login", "Gebruiker") });
             }
 
+            // Get the groepsreis with its bestemming to check age requirements
+            var groepsreis = await _context.GroepsReisRepository.GetGroepsReizenWithIdAsync(id);
+            if (groepsreis == null || groepsreis.Bestemming == null)
+            {
+                return NotFound();
+            }
+
             var kinderen = await _context.KindRepository.GetKinderenByUserAsync(userId);
             if (!kinderen.Any())
             {
                 return Json(new { redirect = Url.Action("Create", "Kind") });
             }
 
+            // Filter children based on age requirements from bestemming
+            var today = DateTime.Today;
+            var minLeeftijd = groepsreis.Bestemming.MinLeeftijd;
+            var maxLeeftijd = groepsreis.Bestemming.MaxLeeftijd;
+
+            var eligibleKinderen = kinderen.Where(k => {
+                var age = today.Year - k.GeboorteDatum.Year;
+                // Adjust age if birthday hasn't occurred this year
+                if (k.GeboorteDatum.Date > today.AddYears(-age)) age--;
+                return age >= minLeeftijd && age <= maxLeeftijd;
+            });
+
             var viewModel = new GroepsReisInschrijvenViewModel
             {
                 GroepsReisId = id,
-                Kinderen = kinderen.Select(k => new SelectListItem
+                Kinderen = eligibleKinderen.Select(k => new SelectListItem
                 {
                     Value = k.Id.ToString(),
                     Text = k.Voornaam + " " + k.Naam
@@ -176,9 +195,6 @@ namespace GezondOpReis.Controllers
 
             return PartialView("_InschrijvenModal", viewModel);
         }
-
-      
-     
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> InschrijvenOpReis(GroepsReisInschrijvenViewModel model)
