@@ -15,5 +15,14 @@
         public string TelefoonNummer { get; set; }
         public string? RekeningNummer { get; set; }
         public bool IsAdmin { get; set; }
+
+
+
+
+
+
+
+
+        public List<OpleidingViewModel> Opleidingen { get; set; }
     }
 }

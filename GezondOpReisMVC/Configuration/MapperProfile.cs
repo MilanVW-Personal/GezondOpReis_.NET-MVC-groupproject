@@ -31,6 +31,10 @@ namespace GezondOpReis.Configuration
                 .ForMember(dest => dest.Beschrijving, opt => opt.MapFrom(src => src.Bestemming.Beschrijving))
                 .ForMember(dest => dest.MinLeeftijd, opt => opt.MapFrom(src => src.Bestemming.MinLeeftijd))
                 .ForMember(dest => dest.MaxLeeftijd, opt => opt.MapFrom(src => src.Bestemming.MaxLeeftijd));
+
+            CreateMap<Opleiding, OpleidingViewModel>();
+            CreateMap<OpleidingPersoon, OpleidingPersoonViewModel>();
+
         }
     }
 }

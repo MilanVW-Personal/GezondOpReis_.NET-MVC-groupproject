@@ -8,11 +8,15 @@ namespace GezondOpReis.Data.UnitOfWork
         IBestemmingRepo BestemmingRepo { get; }
         IActiviteitenRepo ActiviteitenRepo { get; }
         IFotoRepo FotoRepo { get; }
+
         IReviewRepo ReviewRepo { get; }
         IProgrammaRepository ProgrammaRepository { get; }
         IOnkostenRepository OnkostenRepository { get; }
         IDeelnemerRepository DeelnemerRepository { get; }
         IKindRepository KindRepository { get; }
+        IOpleidingRepo OpleidingRepo { get; }
+        IOpleidingPersoonRepo OpleidingPersoonRepo { get; }
+
         public Task SaveChangesAsync();
     }
 }
