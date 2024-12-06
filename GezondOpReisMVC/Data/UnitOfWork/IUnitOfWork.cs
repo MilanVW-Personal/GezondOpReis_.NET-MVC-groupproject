@@ -10,7 +10,7 @@ namespace GezondOpReis.Data.UnitOfWork
         IFotoRepo FotoRepo { get; }
 
 
-        IKindRepo KindRepo { get; }
+        
         IGebruikerRepo GebruikerRepo { get; }
 
 

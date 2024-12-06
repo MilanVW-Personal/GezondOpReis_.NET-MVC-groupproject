@@ -5,11 +5,11 @@
 @model KindEditViewModel
 
 @{
-    ViewData["Title"] = "Bewerk bestemming";
+    ViewData["Title"] = "Bewerk kind";
 }
 
 <h4>Bewerk gegevens van @Html.DisplayFor(modelItem => modelItem.Voornaam) @Html.DisplayFor(modelItem => modelItem.Naam)?</h4>
-<form asp-action="Edit">
+<form asp-action="Edit" onsubmit="return validateForm()">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <input type="hidden" asp-for="Id" />
     <div class="form-group">
@@ -29,12 +29,12 @@
     </div>
     <div class="form-group">
         <label asp-for="Allergieen" class="control-label"></label>
-        <input asp-for="Allergieen" class="form-control" />
+        <input asp-for="Allergieen" class="form-control" id="allergieen"/>
         <span asp-validation-for="Allergieen" class="text-danger"></span>
     </div>
     <div class="form-group">
         <label asp-for="Medicatie" class="control-label"></label>
-        <input asp-for="Medicatie" class="form-control" />
+        <input asp-for="Medicatie" class="form-control" id="medicatie" />
         <span asp-validation-for="Medicatie" class="text-danger"></span>
     </div>
     <div class="form-group mt-2">
@@ -48,5 +48,24 @@
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
+
+        <script>
+
+            function validateForm() {
+                let medicatie = document.getElementById("medicatie");
+                let allergieen = document.getElementById("allergieen");
+
+                if (medicatie.value.trim() === "") {
+                    medicatie.value = "Geen";
+                }
+
+                if (allergieen.value.trim() === "") {
+                    allergieen.value = "Geen";
+                }
+
+                return true;
+            }
+
+        </script>
     }
 }

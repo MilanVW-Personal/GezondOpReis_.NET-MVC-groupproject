@@ -19,7 +19,7 @@ namespace GezondOpReis.Controllers
 
         public async Task<ActionResult<IEnumerable<Kind>>> Index(string id)
         {
-            var kinderenVanOuders = await _unitOfWork.KindRepo.GetAllKinderenFromOuders(id);
+            var kinderenVanOuders = await _unitOfWork.KindRepository.GetAllKinderenFromOuders(id);
 
             List<KindViewModel> kinderenMetOudersVM = new();
 
@@ -45,7 +45,7 @@ namespace GezondOpReis.Controllers
                 return NotFound();
             }
 
-            var kind = await _unitOfWork.KindRepo.GetByIdAsync(id);
+            var kind = await _unitOfWork.KindRepository.GetByIdAsync(id);
 
             if (kind == null)
             {
@@ -64,7 +64,7 @@ namespace GezondOpReis.Controllers
                 return NotFound();
             }
 
-            var kind = await _unitOfWork.KindRepo.GetByIdAsync(id);
+            var kind = await _unitOfWork.KindRepository.GetByIdAsync(id);
 
             KindDeleteViewModel vm = _mapper.Map<KindDeleteViewModel>(kind);
 
@@ -91,7 +91,7 @@ namespace GezondOpReis.Controllers
                 };
 
 
-                await _unitOfWork.KindRepo.AddAsync(newkind);
+                await _unitOfWork.KindRepository.AddAsync(newkind);
                 await _unitOfWork.SaveChangesAsync();
 
                 TempData["AlertMessage"] = "Kind toegevoegd!";
@@ -108,7 +108,7 @@ namespace GezondOpReis.Controllers
         public async Task<IActionResult> Edit(int id, KindEditViewModel vm)
         {
 
-            var kind = await _unitOfWork.KindRepo.GetByIdAsync(id);
+            var kind = await _unitOfWork.KindRepository.GetByIdAsync(id);
 
             if (id != kind.Id)
             {
@@ -125,7 +125,7 @@ namespace GezondOpReis.Controllers
                     kind.Allergieen = vm.Allergieen;
                     kind.Medicatie = vm.Medicatie;
 
-                    _unitOfWork.KindRepo.Update(kind);
+                    _unitOfWork.KindRepository.Update(kind);
                     await _unitOfWork.SaveChangesAsync();
 
                     TempData["AlertMessage"] = "Gegevens van kind gewijzigd!";
@@ -133,7 +133,7 @@ namespace GezondOpReis.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (await _unitOfWork.KindRepo.GetByIdAsync(id) == null)
+                    if (await _unitOfWork.KindRepository.GetByIdAsync(id) == null)
                     {
                         return NotFound();
                     }
@@ -151,11 +151,11 @@ namespace GezondOpReis.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var kind = await _unitOfWork.KindRepo.GetByIdAsync(id);
+            var kind = await _unitOfWork.KindRepository.GetByIdAsync(id);
 
             if (kind != null)
             {
-                _unitOfWork.KindRepo.Delete(kind);
+                _unitOfWork.KindRepository.Delete(kind);
                 await _unitOfWork.SaveChangesAsync();
             }
 
