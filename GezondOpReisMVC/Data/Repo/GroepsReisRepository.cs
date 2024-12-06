@@ -33,5 +33,17 @@ namespace GezondOpReis.Data.Repo
                     .ThenInclude(p => p.Activiteit)
                 .SingleOrDefaultAsync(gr => gr.Id == id);
         }
+
+        public async Task<Groepsreis> GetGroepReizenForDelete(int id)
+        {
+            return await _context.Groepsreizen
+                .Include(gr => gr.Onkosten)
+                .Include(gr => gr.Bestemming)
+                .Include(gr => gr.Programmas)
+                .Include(gr => gr.Monitoren)
+                .Include(gr => gr.Deelnemers)
+                .SingleOrDefaultAsync(gr => gr.Id == id);
+
+        }
     }
 }

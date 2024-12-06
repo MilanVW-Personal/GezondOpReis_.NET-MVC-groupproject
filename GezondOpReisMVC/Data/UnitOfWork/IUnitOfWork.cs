@@ -1,14 +1,18 @@
+using GezondOpReis.Data.Repo;
+
 namespace GezondOpReis.Data.UnitOfWork
 {
     public interface IUnitOfWork
     {
-
+        IGroepsReisRepository GroepsReisRepository { get; }
         IBestemmingRepo BestemmingRepo { get; }
         IActiviteitenRepo ActiviteitenRepo { get; }
-        IGroepsReisRepository GroepsReisRepository { get; }
         IFotoRepo FotoRepo { get; }
-        IReviewRepo ReviewRepo { get;}
-
-		public Task SaveChangesAsync();
+        IReviewRepo ReviewRepo { get; }
+        IProgrammaRepository ProgrammaRepository { get; }
+        IOnkostenRepository OnkostenRepository { get; }
+        IDeelnemerRepository DeelnemerRepository { get; }
+        IKindRepository KindRepository { get; }
+        public Task SaveChangesAsync();
     }
 }

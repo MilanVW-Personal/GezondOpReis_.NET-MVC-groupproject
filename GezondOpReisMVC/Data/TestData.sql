@@ -180,3 +180,12 @@ INSERT INTO AspNetUserRoles (UserId, RoleId) VALUES
 ('user8', 'role2'),
 ('user9', 'role2'),
 ('user10', 'role2');
+
+INSERT INTO Kind (PersoonId, Naam, Voornaam, GeboorteDatum, Allergieen, Medicatie, CustomUserId) VALUES
+('3b7fd5de-dd9e-4370-bfc2-476d84be1e30', 'Naam10Jaar', 'Admin', '2014-01-01', 'Geen', 'Geen', '3b7fd5de-dd9e-4370-bfc2-476d84be1e30'),
+('3b7fd5de-dd9e-4370-bfc2-476d84be1e30', 'naam8jaar', 'Admin', '2016-01-01', 'Geen', 'Geen', '3b7fd5de-dd9e-4370-bfc2-476d84be1e30'),
+('3b7fd5de-dd9e-4370-bfc2-476d84be1e30', 'naam6jaar', 'Admin', '2018-01-01', 'Geen', 'Geen', '3b7fd5de-dd9e-4370-bfc2-476d84be1e30'),
+('3b7fd5de-dd9e-4370-bfc2-476d84be1e30', 'Naam12Jaar', 'Admin', '2012-01-01', 'Geen', 'Geen', '3b7fd5de-dd9e-4370-bfc2-476d84be1e30'),
+('3b7fd5de-dd9e-4370-bfc2-476d84be1e30', 'naam16jaar', 'Admin', '2008-01-01', 'Geen', 'Geen', '3b7fd5de-dd9e-4370-bfc2-476d84be1e30'),
+('3b7fd5de-dd9e-4370-bfc2-476d84be1e30', 'naam18jaar', 'Admin', '2006-01-01', 'Geen', 'Geen', '3b7fd5de-dd9e-4370-bfc2-476d84be1e30'),
+('3b7fd5de-dd9e-4370-bfc2-476d84be1e30', 'naam14jaar', 'Admin', '2010-01-01', 'Geen', 'Geen', '3b7fd5de-dd9e-4370-bfc2-476d84be1e30');
