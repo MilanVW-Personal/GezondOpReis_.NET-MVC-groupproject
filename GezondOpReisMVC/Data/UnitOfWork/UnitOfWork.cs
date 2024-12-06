@@ -7,29 +7,35 @@ namespace GezondOpReis.Data.UnitOfWork
         private readonly GezondOpReisContext _context;
 
 
-    private IBestemmingRepo bestemmingRepo;
-    private IActiviteitenRepo activiteitenRepo;
-		private IGroepsReisRepository groepsReisRepository;
+        private IBestemmingRepo bestemmingRepo;
+        private IActiviteitenRepo activiteitenRepo;
+        private IGroepsReisRepository groepsReisRepository;
         private IFotoRepo fotoRepo;
         private IReviewRepo reviewRepo;
+
         private IOpleidingRepo opleidingRepo;
         private IOpleidingPersoonRepo opleidingPersoonRepo;
 
-		public UnitOfWork(GezondOpReisContext context)
+        private IProgrammaRepository programmaRepository;
+        private IOnkostenRepository onkostenRepository;
+        private IDeelnemerRepository deelnemerRepository;
+        private IKindRepository kindRepository;
+
+        public UnitOfWork(GezondOpReisContext context)
 
         {
             _context = context;
         }
         public IGroepsReisRepository GroepsReisRepository
-		{
-			get
-			{
-				return groepsReisRepository ??= new GroepsReisRepository(_context);
-			}
-		}
+        {
+            get
+            {
+                return groepsReisRepository ??= new GroepsReisRepository(_context);
+            }
+        }
 
 
-    public IBestemmingRepo BestemmingRepo
+        public IBestemmingRepo BestemmingRepo
         {
             get
             {
@@ -60,6 +66,7 @@ namespace GezondOpReis.Data.UnitOfWork
                 return reviewRepo ??= new ReviewRepo(_context);
             }
         }
+
         public IOpleidingRepo OpleidingRepo
         {
             get
@@ -72,6 +79,36 @@ namespace GezondOpReis.Data.UnitOfWork
             get
             {
                 return opleidingPersoonRepo ??= new OpleidingPersoonRepo(_context);
+            }
+        }
+
+
+        public IOnkostenRepository OnkostenRepository
+        {
+            get
+            {
+                return onkostenRepository ??= new OnkostenRepository(_context);
+            }
+        }
+        public IProgrammaRepository ProgrammaRepository
+        {
+            get
+            {
+                return programmaRepository ??= new ProgrammaRepository(_context);
+            }
+        }
+        public IDeelnemerRepository DeelnemerRepository
+        {
+            get
+            {
+                return deelnemerRepository ??= new DeelnemerRepository(_context);
+            }
+        }
+        public IKindRepository KindRepository
+        {
+            get
+            {
+                return kindRepository ??= new KindRepository(_context);
             }
         }
 

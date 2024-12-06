@@ -1,0 +1,59 @@
+@model GroepsReisInschrijvenViewModel
+
+<div class="modal fade" id="inschrijvenModal" tabindex="-1" aria-labelledby="inschrijvenModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="inschrijvenModalLabel">Kind inschrijven voor reis</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="inschrijvenForm" asp-action="InschrijvenOpReis" method="post">
+                <div class="modal-body">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="GroepsReisId" />
+                    
+                    <div class="mb-3">
+                        <label asp-for="KindId" class="form-label">Selecteer kind</label>
+                        <select asp-for="KindId" asp-items="Model.Kinderen" class="form-select">
+                            <option value="">-- Selecteer een kind --</option>
+                        </select>
+                        <span asp-validation-for="KindId" class="text-danger"></span>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label asp-for="Opmerkingen" class="form-label">Opmerkingen</label>
+                        <textarea asp-for="Opmerkingen" class="form-control" rows="3"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuleren</button>
+                    <button type="submit" class="btn btn-primary">Inschrijven</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+$(document).ready(function() {
+    $("#inschrijvenForm").on("submit", function(e) {
+        e.preventDefault();
+        $.ajax({
+            url: this.action,
+            type: this.method,
+            data: $(this).serialize(),
+            success: function(response) {
+                if (response.indexOf("<html") >= 0) {
+                    // Server returned a full page - redirect
+                    window.location.reload();
+                } else {
+                    // Server returned the modal partial view with errors
+                    $("#inschrijvenModal .modal-content").html($(response).find(".modal-content").html());
+                }
+            },
+            error: function() {
+                alert("Er is een fout opgetreden. Probeer het opnieuw.");
+            }
+        });
+    });
+});

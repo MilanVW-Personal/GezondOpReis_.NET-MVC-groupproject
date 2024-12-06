@@ -63,7 +63,7 @@
                         @if (User.Identity.IsAuthenticated && User.IsInRole("Beheerder"))
                         {
                             <div>
-                                <a asp-action="Delete" asp-route-id="@item.id" class="btn btn-danger">
+                                <a href="#" class="btn btn-danger" onclick="showDeleteModal(@item.id, '@item.Naam')">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" viewBox="0 0 24 24" class="me-0">
                                         <path fill="currentColor" d="M7 21q-.825 0-1.412-.587T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413T17 21zm2-4h2V8H9zm4 0h2V8h-2z" />
                                     </svg>
@@ -75,6 +75,28 @@
             </div>
         </div>
     }
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Bevestig verwijdering</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Weet u zeker dat u de groepsreis "<span id="tripName"></span>" wilt verwijderen?</p>
+                <p class="text-danger">Let op: Deze actie kan niet ongedaan worden gemaakt!</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuleren</button>
+                
+                <a  id="dynamicDeleteButton" class="btn btn-danger">Verwijderen</a>
+
+            </div>
+        </div>
+    </div>
 </div>
 
 @section Scripts {
@@ -119,7 +141,6 @@
                 // Check date range
                 const matchesPeriod = (!startDate || reisStart >= startDate) && (!endDate || reisEnd >= endDate);
 
-
                 if (matchesQuery && matchesAge && matchesPeriod) {
                     reis.style.display = 'block';
                 } else {
@@ -127,5 +148,20 @@
                 }
             });
         }
+
+        // Delete modal functionality
+        let deleteId = null;
+        const modal = new bootstrap.Modal(document.getElementById('deleteModal'));
+
+        function showDeleteModal(id, name) {
+            deleteId = id;
+            document.getElementById('tripName').textContent = name;
+
+            const deleteButton = document.getElementById('dynamicDeleteButton');
+            deleteButton.setAttribute('href', `/GroepsReis/DeleteConfirmed/${deleteId}`);
+            modal.show();
+            
+        }
+
     </script>
 }

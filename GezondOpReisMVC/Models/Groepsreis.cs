@@ -10,7 +10,7 @@
 
 		public List<Onkosten>? Onkosten { get; set; }  // voor delete mag verweiderd worden
 		public Bestemming? Bestemming { get; set; }  // voor delete moet linking breken
-		public List<Programma>? Programmas { get; set; } // voor delete moet linking breken
+		public List<Programma>? Programmas { get; set; } // voor delete mag verweiderd worden
         public List<Monitor>? Monitoren { get; set; } // voor delete moet linking breken
         public List<Deelnemer>? Deelnemers { get; set; } // voor delete moet linking breken
     }
