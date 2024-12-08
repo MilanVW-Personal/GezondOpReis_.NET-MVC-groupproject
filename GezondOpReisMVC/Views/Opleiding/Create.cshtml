@@ -3,7 +3,7 @@
 
 @{
     ViewData["Title"] = "Nieuwe Opleiding";
-    Layout = "/Views/Shared/_LoginLayout.cshtml";
+    Layout = "/Views/Shared/_Layout.cshtml";
 }
 
 <div class="d-flex justify-content-center align-items-center min-vh-100">
@@ -18,38 +18,37 @@
 
                     <div class="form-floating mb-3">
                         <input asp-for="Naam" class="form-control" placeholder="Naam" />
-                        <label asp-for="Naam" class="form-label">Naam</label>
+                        <label asp-for="Naam" class="form-label"></label>
                         <span asp-validation-for="Naam" class="text-danger"></span>
                     </div>
 
                     <div class="form-floating mb-3">
                         <textarea asp-for="Beschrijving" class="form-control" placeholder="Beschrijving"></textarea>
-                        <label asp-for="Beschrijving" class="form-label">Beschrijving</label>
+                        <label asp-for="Beschrijving" class="form-label"></label>
                         <span asp-validation-for="Beschrijving" class="text-danger"></span>
                     </div>
 
                     <div class="form-floating mb-3">
-                        <input asp-for="StartDatum" class="form-control" type="date" placeholder="Start Datum" />
-                        <label asp-for="StartDatum" class="form-label">Start Datum</label>
+                        <input asp-for="StartDatum" class="form-control" type="date" placeholder="Startdatum" />
+                        <label asp-for="StartDatum" class="form-label"></label>
                         <span asp-validation-for="StartDatum" class="text-danger"></span>
                     </div>
 
                     <div class="form-floating mb-3">
-                        <input asp-for="EindDatum" class="form-control" type="date" placeholder="Eind Datum" />
-                        <label asp-for="EindDatum" class="form-label">Eind Datum</label>
+                        <input asp-for="EindDatum" class="form-control" type="date" placeholder="Eindatum" />
+                        <label asp-for="EindDatum" class="form-label"></label>
                         <span asp-validation-for="EindDatum" class="text-danger"></span>
                     </div>
 
                     <div class="form-floating mb-3">
-                        <input asp-for="AantalPlaatsen" class="form-control" placeholder="Aantal Plaatsen" />
-                        <label asp-for="AantalPlaatsen" class="form-label">Aantal Plaatsen</label>
+                        <input asp-for="AantalPlaatsen" class="form-control" placeholder="Aantal plaatsen" />
+                        <label asp-for="AantalPlaatsen" class="form-label"></label>
                         <span asp-validation-for="AantalPlaatsen" class="text-danger"></span>
                     </div>
 
                     <div class="d-grid gap-2">
-                        <button id="register-submit" type="submit" class="btn btn-primary">Opleiding Toevoegen</button>
+                        <button id="register-submit" type="submit" class="btn btn-primary">Opleiding toevoegen</button>
                     </div>
-
                 </form>
             </div>
         </div>
