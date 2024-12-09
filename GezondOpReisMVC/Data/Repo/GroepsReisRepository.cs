@@ -45,5 +45,20 @@ namespace GezondOpReis.Data.Repo
                 .SingleOrDefaultAsync(gr => gr.Id == id);
 
         }
+
+        public async Task<IEnumerable<Groepsreis>> GetIngeschrevenGroepsreizen(string persoonId)
+        {
+            return await _context.Groepsreizen
+                .Include(gr => gr.Bestemming)
+                    .ThenInclude(b => b.Fotos)
+                .Include(gr => gr.Monitoren)
+                    .ThenInclude(m => m.Persoon)
+                .Include(gr => gr.Deelnemers)
+                    .ThenInclude(d => d.Kind)
+                .Include(gr => gr.Programmas)
+                    .ThenInclude(p => p.Activiteit)
+                .Where(gr => gr.Deelnemers.Any(dl => dl.Kind.PersoonId == persoonId))
+                .ToListAsync();
+        }
     }
 }
