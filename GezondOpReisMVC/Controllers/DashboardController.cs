@@ -22,12 +22,12 @@ namespace GezondOpReis.Controllers
                 return NotFound();
 
             var kinderen = await _unitOfWork.KindRepository.GetAllKinderenFromOuders(user.Id);
-            var beschikbareReizen = await _unitOfWork.GroepsReisRepository.GetAllGroepsReizenAsync();
+            var vorigeReizen = await _unitOfWork.GroepsReisRepository.GetVorigeReizen(user.Id); // Deze methode zal alle reizen, waarop je bent ingeschreven, ophalen waarvan de einddatum in het verleden ligt. 
             var ingeschrevenReizen = await _unitOfWork.GroepsReisRepository.GetIngeschrevenGroepsreizen(user.Id);
 
             var vm = new DashboardViewModel
             {
-                BeschikbareReizen = beschikbareReizen.ToList(),
+                VorigeReizen = vorigeReizen.ToList(),
                 IngeschrevenReizen = ingeschrevenReizen.ToList(),
                 Kinderen = kinderen.ToList()
             };

@@ -22,9 +22,10 @@
     <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-inner">
         
-            @foreach(var groepsReis in Model.BeschikbareReizen)
+            @foreach(var groepsReis in Model.VorigeReizen)
             {
-                var activeProp = Model.BeschikbareReizen.IndexOf(groepsReis) == 0 ? "active" : "";
+                // Woensdag hier logica van de datums invoeren... (=> Als de hudige datum groter is dan einddatum, komen de reizen hier te staan, maar als de hudige datum groter is dan de einddatum + 1 maand, dan worden deze uit de lijst verwijderd)
+                var activeProp = Model.VorigeReizen.IndexOf(groepsReis) == 0 ? "active" : "";
                 <div class="carousel-item @activeProp">
                     <div class="card" style="width: auto;">
                         @*<img src="..." class="card-img-top" alt="..."> *@
@@ -40,6 +41,8 @@
         </div>
     </div>
 
+    @*================================*@
+
     <div class="container position-relative">
         <div class="d-flex justify-content-between align-items-center mt-4 mb-4">
             <h2 class="mb-0">Ingeschreven groepsreizen</h2>
@@ -49,9 +52,10 @@
     <div class="row row-cols-1 row-cols-md-3 g-4">
         @foreach (var inschrijvingReis in Model.IngeschrevenReizen)
         {
-            <div class="col">
+            var dNone = DateTime.Now > inschrijvingReis.EindDatum ? "d-none" : "";  // Als de huidige datum groter is dan de einddatum van de groepsreis, dan zal deze worden verborgen / uit de lijst verwijderd.
+            <div class="col @dNone">
                 <div class="card h-100">
-                    @if(inschrijvingReis.Bestemming.Fotos.Count > 1)
+                    @if (inschrijvingReis.Bestemming.Fotos.Count > 1)
                     {
                         <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
                             <div class="carousel-inner">
