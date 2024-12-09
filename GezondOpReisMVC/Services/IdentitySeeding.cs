@@ -45,7 +45,7 @@ namespace GezondOpReis.Services
                     }
 
                     // Rollen seeden
-                    string[] roles = { "Beheerder", "Gebruiker" };
+                    string[] roles = { "Beheerder", "Gebruiker", "Monitor", "Ouder", "Verantwoordelijke" };
 
                     foreach (var role in roles)
                     {

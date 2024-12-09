@@ -1,0 +1,67 @@
+﻿@using GezondOpReis.ViewModels
+@model MonitorListViewModel
+@inject UserManager<GezondOpReis.Models.CustomUser> UserManager
+
+@{
+    ViewData["Title"] = "Monitorlijst";
+}
+
+<div class="text-center">
+    <h2>Lijst monitoren</h2>
+</div>
+
+<div>
+    @if (TempData["AlertMessage"] != null)
+    {
+        <div class="alert alert-success" role="alert">
+            <b>@TempData["AlertMessage"]</b>
+        </div>
+    }
+
+
+    <div id="monitorListContainer">
+        @foreach (var user in Model.Users)
+        {
+           
+            <div class="card mb-3 user-card" data-name="@user.Voornaam @user.Naam">
+                <div class="card-body position-relative">
+                    <div class="card-buttons position-absolute top-0 end-0 me-2 mt-2">
+                        <a asp-action="MonitorEdit" asp-route-id="@user.Id" class="btn btn-primary me-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                <path fill="currentColor" d="M5 19h1.425L16.2 9.225L14.775 7.8L5 17.575zm-2 2v-4.25L16.2 3.575q.3-.275.663-.425t.762-.15t.775.15t.65.45L20.425 5q.3.275.438.65T21 6.4q0 .4-.137.763t-.438.662L7.25 21zM19 6.4L17.6 5zm-3.525 2.125l-.7-.725L16.2 9.225z" />
+                            </svg>
+                        </a>
+                        <a asp-action="MonitorDetails" asp-route-id="@user.Id" class="btn btn-secondary me-2">
+
+                            <i class="bi bi-info-circle" width="1em" height="1em" viewBox="0 0 24 24"></i>
+                        </a>
+                        
+
+                    </div>
+                    <h5 class="card-title">@Html.DisplayFor(modelItem => user.Voornaam) @Html.DisplayFor(modelItem => user.Naam)</h5>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p class="card-text"><b>Email:</b> @Html.DisplayFor(modelItem => user.Email)</p>
+                            <p class="card-text"><b>Actief:</b> @(user.IsActief)</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p class="card-text"><b>Telefoonnummer:</b> @Html.DisplayFor(modelItem => user.TelefoonNummer)</p>
+                            <p class="card-text"><b>Hoofdmonitor:</b> @(user.IsHoofdMonitor)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<style>
+    .card-text {
+        margin-bottom: 0.5rem;
+    }
+
+    .card-buttons {
+        z-index: 1;
+    }
+</style>
+
