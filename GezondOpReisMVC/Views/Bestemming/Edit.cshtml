@@ -9,7 +9,7 @@
 }
 
 <h4>Bewerk @Html.DisplayFor(modelItem => modelItem.Naam)</h4>
-<form asp-action="Edit">
+<form asp-action="Edit" onsubmit="return ageValidation()">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <input type="hidden" asp-for="Id" />
     <div class="form-group">
@@ -29,12 +29,12 @@
     </div>
     <div class="form-group">
         <label asp-for="MinLeeftijd" class="control-label"></label>
-        <input asp-for="MinLeeftijd" class="form-control" />
+        <input asp-for="MinLeeftijd" class="form-control" id="minLeeftijd" />
         <span asp-validation-for="MinLeeftijd" class="text-danger"></span>
     </div>
     <div class="form-group">
         <label asp-for="MaxLeeftijd" class="control-label"></label>
-        <input asp-for="MaxLeeftijd" class="form-control" />
+        <input asp-for="MaxLeeftijd" class="form-control" id="maxLeeftijd" />
         <span asp-validation-for="MaxLeeftijd" class="text-danger"></span>
     </div>
     <div class="form-group mt-2">
@@ -49,4 +49,18 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+
+    <script>
+        const ageValidation = () => {
+            let minLeeftijd = document.querySelector("#minLeeftijd")
+            let maxLeeftijd = document.querySelector("#maxLeeftijd")
+
+            if (parseInt(minLeeftijd.value) > parseInt(maxLeeftijd.value)) {
+                alert("De minimum leeftijd kan niet groter zijn dan de maximum leeftijd!")
+                return false;
+            }
+
+            return true;
+        }
+    </script>
 }
