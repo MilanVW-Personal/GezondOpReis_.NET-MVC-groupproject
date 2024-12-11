@@ -272,10 +272,9 @@ namespace GezondOpReis.Controllers
             }
         }
 
-        public async Task<IActionResult> MonitorInschrijvenOpReis(string persoonId, int groepsReisId)
+        public async Task<IActionResult> MonitorInschrijvenOpReis(string persoonId, int groepsReisId, bool isHoofdMonitor)
         {
-
-            // Check if the child is already registered
+            // Check if the monitor is already registered
             var existingDeelnemer = await _context.MonitorRepository
                 .GetDeelnemerByMonitorAndReisAsync(persoonId, groepsReisId);
 
@@ -285,24 +284,62 @@ namespace GezondOpReis.Controllers
                 return RedirectToAction(nameof(ReisInfo), new { id = groepsReisId });
             }
 
+            // If trying to register as head monitor, check if one already exists
+            if (isHoofdMonitor)
+            {
+                var reis = await _context.GroepsReisRepository.GetGroepsReizenWithIdAsync(groepsReisId);
+                if (reis.Monitoren != null && reis.Monitoren.Any(m => m.isHoofdMonitor == true))
+                {
+                    TempData["ErrorMessage"] = "Er is al een hoofdmonitor voor deze reis.";
+                    return RedirectToAction(nameof(ReisInfo), new { id = groepsReisId });
+                }
+            }
+
             // Create new monitor
             var monitor = new Monitor
             {
                 PersoonId = persoonId,
                 GroepsreisId = groepsReisId,
-                
+                isHoofdMonitor = isHoofdMonitor
             };
 
             try
             {
                 await _context.MonitorRepository.AddAsync(monitor);
                 await _context.SaveChangesAsync();
+                TempData["AlertMessage"] = isHoofdMonitor ? "Succesvol ingeschreven als hoofdmonitor!" : "Succesvol ingeschreven als monitor!";
                 return RedirectToAction(nameof(ReisInfo), new { id = groepsReisId });
             }
             catch (Exception)
             {
                 ModelState.AddModelError("", "Er is een fout opgetreden bij het inschrijven. Probeer het opnieuw.");
                 return RedirectToAction(nameof(ReisInfo), new { id = groepsReisId });
+            }
+        }
+        public async Task<IActionResult> MonitorUitschrijvenVanReis(string monitorId, int reisId)
+        {
+            // Zoek de deelnemer op basis van kind en reis ID
+            var monitor = await _context.MonitorRepository.GetDeelnemerByMonitorAndReisAsync(monitorId, reisId);
+
+            if (monitor == null)
+            {
+                TempData["ErrorMessage"] = "Er is een fout opgetreden bij het uitschrijven. Probeer het opnieuw.";
+                return RedirectToAction(nameof(ReisInfo), new { id = reisId });
+            }
+
+            try
+            {
+                // Verwijder de deelnemer
+                _context.MonitorRepository.Delete(monitor);
+                await _context.SaveChangesAsync();
+
+                TempData["AlertMessage"] = "Monitor succesvol uitgeschreven van de reis.";
+                return RedirectToAction(nameof(ReisInfo), new { id = reisId });
+            }
+            catch (Exception)
+            {
+                TempData["ErrorMessage"] = "Er is een fout opgetreden bij het uitschrijven. Probeer het opnieuw.";
+                return RedirectToAction(nameof(ReisInfo), new { id = reisId });
             }
         }
     }
