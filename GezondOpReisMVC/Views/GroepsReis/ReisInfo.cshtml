@@ -1,6 +1,8 @@
 @model GroepsReisInfoViewModel
+@inject UserManager<CustomUser> UserManager
 @{
     ViewData["Title"] = "Groepsreizen";
+
 }
 <h2 class="text-center mb-4">@Model.Naam</h2>
 
@@ -86,6 +88,67 @@
             </div>
         </div>
     </div>
+    @if (Model.Deelnemers != null && Model.Deelnemers.Any() && User.Identity.IsAuthenticated)
+    {
+        
+        <div class="row mt-4">
+            <div class="col-md-12">
+                <div class="card shadow-sm border-0">
+                    <div class="card-body">
+                        <h4 class="card-title">Ingeschreven Kinderen</h4>
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Naam</th>
+                                        <th>Voornaam</th>
+                                        <th>Acties</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var deelnemer in Model.Deelnemers)
+                                    {
+                                        @if (User.Identity.Name == deelnemer.Kind.CustomUser.UserName)
+                                        {
+                                            
+                                        <tr>
+                                            <td>@deelnemer.Kind.Naam</td>
+                                            <td>@deelnemer.Kind.Voornaam</td>
+                                            <td>
+                                                <form asp-action="UitschrijvenVanReis" method="post" style="display: inline;">
+                                                    <input type="hidden" name="kindId" value="@deelnemer.Kind.Id" />
+                                                    <input type="hidden" name="reisId" value="@Model.Id" />
+                                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Weet je zeker dat je dit kind wilt uitschrijven?');">
+                                                        <i class="bi bi-person-dash"></i> Uitschrijven
+                                                    </button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+    @if (TempData["AlertMessage"] != null)
+    {
+        <div class="alert alert-success mt-4" role="alert">
+            @TempData["AlertMessage"]
+        </div>
+    }
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger mt-4" role="alert">
+            @TempData["ErrorMessage"]
+        </div>
+    }
+
     <div class="row mt-4">
         <div class="col-md-12 text-center">
             <div class="d-flex justify-content-center gap-3">
@@ -93,9 +156,9 @@
                 <button type="button" class="btn btn-primary" onclick="openInschrijvenModal(@Model.Id)">
                     <i class="bi bi-person-plus me-2"></i> Kind inschrijven
                 </button>
-                @if (User.Identity.IsAuthenticated && (User.IsInRole("Beheerder") || User.IsInRole("Monitor")))
+                @if (User.Identity.IsAuthenticated && User.IsInRole("Monitor"))
                 {
-                    <a href="#" class="btn btn-success">
+                    <a asp-action="MonitorInschrijvenOpReis" asp-route-groepsReisId="@Model.Id" asp-route-persoonId="@UserManager.GetUserId(User)" class="btn btn-success">
                         <i class="bi bi-person-badge me-2"></i>Inschrijven als Monitor
                     </a>
                 }

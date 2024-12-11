@@ -8,12 +8,12 @@ namespace GezondOpReis.Data.UnitOfWork
         IBestemmingRepo BestemmingRepo { get; }
         IActiviteitenRepo ActiviteitenRepo { get; }
         IFotoRepo FotoRepo { get; }
+        IMonitorRepository MonitorRepository { get; }
 
 
-        
         IGebruikerRepo GebruikerRepo { get; }
 
-
+        
         IReviewRepo ReviewRepo { get; }
         IProgrammaRepository ProgrammaRepository { get; }
         IOnkostenRepository OnkostenRepository { get; }

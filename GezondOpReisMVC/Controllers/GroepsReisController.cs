@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using GezondOpReis.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Monitor = GezondOpReis.Models.Monitor;
 
 namespace GezondOpReis.Controllers
 {
@@ -240,6 +241,68 @@ namespace GezondOpReis.Controllers
             {
                 ModelState.AddModelError("", "Er is een fout opgetreden bij het inschrijven. Probeer het opnieuw.");
                 return PartialView("_InschrijvenModal", model);
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UitschrijvenVanReis(int kindId, int reisId)
+        {
+            // Zoek de deelnemer op basis van kind en reis ID
+            var deelnemer = await _context.DeelnemerRepository.GetDeelnemerByKindAndReisAsync(kindId, reisId);
+
+            if (deelnemer == null)
+            {
+                return NotFound();
+            }
+
+            try
+            {
+                // Verwijder de deelnemer
+                _context.DeelnemerRepository.Delete(deelnemer);
+                await _context.SaveChangesAsync();
+
+                TempData["AlertMessage"] = "Kind succesvol uitgeschreven van de reis.";
+                return RedirectToAction(nameof(ReisInfo), new { id = reisId });
+            }
+            catch (Exception)
+            {
+                TempData["ErrorMessage"] = "Er is een fout opgetreden bij het uitschrijven. Probeer het opnieuw.";
+                return RedirectToAction(nameof(ReisInfo), new { id = reisId });
+            }
+        }
+
+        public async Task<IActionResult> MonitorInschrijvenOpReis(string persoonId, int groepsReisId)
+        {
+
+            // Check if the child is already registered
+            var existingDeelnemer = await _context.MonitorRepository
+                .GetDeelnemerByMonitorAndReisAsync(persoonId, groepsReisId);
+
+            if (existingDeelnemer != null)
+            {
+                ModelState.AddModelError("", "De monitor is al ingeschreven voor deze reis.");
+                return RedirectToAction(nameof(ReisInfo), new { id = groepsReisId });
+            }
+
+            // Create new monitor
+            var monitor = new Monitor
+            {
+                PersoonId = persoonId,
+                GroepsreisId = groepsReisId,
+                
+            };
+
+            try
+            {
+                await _context.MonitorRepository.AddAsync(monitor);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(ReisInfo), new { id = groepsReisId });
+            }
+            catch (Exception)
+            {
+                ModelState.AddModelError("", "Er is een fout opgetreden bij het inschrijven. Probeer het opnieuw.");
+                return RedirectToAction(nameof(ReisInfo), new { id = groepsReisId });
             }
         }
     }

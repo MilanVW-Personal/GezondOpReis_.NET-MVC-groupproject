@@ -29,6 +29,7 @@ namespace GezondOpReis.Data.Repo
                     .ThenInclude(m => m.Persoon)
                 .Include(gr => gr.Deelnemers)
                     .ThenInclude(d => d.Kind)
+                    .ThenInclude(c => c.CustomUser)
                 .Include(gr => gr.Programmas)
                     .ThenInclude(p => p.Activiteit)
                 .SingleOrDefaultAsync(gr => gr.Id == id);

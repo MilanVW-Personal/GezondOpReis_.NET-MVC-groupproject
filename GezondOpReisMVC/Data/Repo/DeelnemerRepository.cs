@@ -15,5 +15,6 @@ namespace GezondOpReis.Data.Repo
             return await _context.Set<Deelnemer>()
                 .FirstOrDefaultAsync(d => d.KindId == kindId && d.GroepsreisId == reisId);
         }
+
     }
 }
