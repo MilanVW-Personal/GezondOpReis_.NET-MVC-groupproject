@@ -1,0 +1,28 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "Onkost Details";
+}
+@model GezondOpReis.ViewModels.OnkostDetailsViewModel
+
+<h1>Bonnetje</h1>
+
+<div class="card mt-5">
+    <div class="card-header">
+        <h5 class="card-title">Bonnetje</h5>
+    </div>
+    <div class="card-body">
+        @if (!string.IsNullOrEmpty(Model.Foto))
+        {
+            <img src="~/images/@Model.Foto" alt="Onkostfoto" class="img-fluid" />
+        }
+        else
+        {
+            <p>Geen bonnetje beschikbaar.</p>
+        }
+    </div>
+</div>
+<div>
+    <a asp-action="Index" asp-route-id="@ViewBag.GroepsreisId" class="btn btn-secondary">Terug naar overzicht</a>
+</div>

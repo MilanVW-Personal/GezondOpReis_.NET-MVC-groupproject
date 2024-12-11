@@ -43,7 +43,27 @@
                                         <a class="dropdown-item" asp-area="" asp-controller="Opleiding" asp-action="Index">Opleidingen beheren</a>
                                     </li>
                                     <li>
+                                        <a class="dropdown-item" asp-area="" asp-controller="Gebruiker" asp-action="MonitorList">Monitoren beheren</a>
+                                        
+                                    </li>
+                                    <li>
                                         <a class="dropdown-item" asp-area="" asp-controller="Gebruiker" asp-action="UserList">Lijst van alle gebruikers</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    }
+                    @if (User.Identity.IsAuthenticated && User.IsInRole("Verantwoordelijke"))
+                    {
+                        <ul class="navbar-nav">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Beheren
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <li>
+                                        <a class="dropdown-item" asp-area="" asp-controller="Gebruiker" asp-action="MonitorList">Monitoren beheren</a>
+
                                     </li>
                                 </ul>
                             </li>

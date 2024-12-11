@@ -1,0 +1,51 @@
+﻿@model GezondOpReis.ViewModels.OnkostenIndexViewModel
+
+@{
+    ViewData["Title"] = "Onkosten";
+}
+
+<div class="container mt-5">
+    <div class="container position-relative">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="mb-0">Overzicht onkosten</h2>
+            @if (User.IsInRole("Beheerder") || User.IsInRole("Verantwoordelijke"))
+            {
+                <a href="@Url.Action("Create", "Onkosten", new { id = Model.GroepsreisId })" class="btn btn-primary shadow-sm" style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: bold; padding: 0;">+</a>
+            }
+        </div>
+    </div>
+    @if (Model != null && Model.Onkosten.Any())
+    {
+        <div class="row">
+            @foreach (var onkost in Model.Onkosten)
+            {
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">@onkost.Titel</h5>
+                            <p class="card-text"><strong>Beschrijving:</strong> @onkost.Beschrijving</p>
+                            <p class="card-text"><strong>Bedrag:</strong> €@onkost.Bedrag.ToString("N2")</p>
+                            <p class="card-text"><strong>Datum:</strong> @onkost.Datum.ToString("dd-MM-yyyy")</p>
+                            <a asp-action="Details" asp-route-id="@onkost.Id" class="btn btn-secondary me-2">Bekijk bonnetje</a>
+                            <a asp-action="Edit" asp-route-id="@onkost.Id" class="btn btn-primary me-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                    <path fill="currentColor" d="M5 19h1.425L16.2 9.225L14.775 7.8L5 17.575zm-2 2v-4.25L16.2 3.575q.3-.275.663-.425t.762-.15t.775.15t.65.45L20.425 5q.3.275.438.65T21 6.4q0 .4-.137.763t-.438.662L7.25 21zM19 6.4L17.6 5zm-3.525 2.125l-.7-.725L16.2 9.225z" />
+                                </svg>
+                            </a>
+                            <a asp-action="Delete" asp-route-id="@onkost.Id" class="btn btn-danger">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                    <path fill="currentColor" d="M7 21q-.825 0-1.412-.587T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413T17 21zm2-4h2V8H9zm4 0h2V8h-2z" />
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        <a asp-action="ReisInfo" asp-controller="GroepsReis" asp-route-id="@Model.GroepsreisId" class="btn btn-secondary">Terug naar overzicht</a>
+    }
+    else
+    {
+        <div class="alert alert-info">Geen onkosten beschikbaar.</div>
+    }
+</div>

@@ -62,15 +62,6 @@
                     <a asp-controller="Kind" asp-action="Index" asp-route-id="@User.FindFirstValue(ClaimTypes.NameIdentifier)" style="text-decoration: none; color: inherit;">Toon Kinderen</a>
                 </button>
             }
-            
-            @if (User.IsInRole("Beheerder") || User.IsInRole("Verantwoordelijke"))
-            {
-                <button class="btn btn-primary ml-2">
-                    <a asp-controller="Gebruiker" asp-action="MonitorList" style="text-decoration: none; color: inherit;">Monitoren beheren</a>
-                </button>
-            }
-
-
         </div>
        
     </div>

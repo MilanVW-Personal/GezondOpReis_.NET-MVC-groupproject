@@ -1,0 +1,56 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "Onkost Toevoegen";
+}
+@model GezondOpReis.ViewModels.OnkostCreateViewModel
+
+<h4>Gebruik onderstaand formulier om een nieuwe onkost toe te voegen</h4>
+<div class="container mt-5">
+    <form asp-action="Create" enctype="multipart/form-data" onsubmit="return validateForm()">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="GroepsreisId" />
+        <div class="form-group">
+            <label asp-for="Titel" class="control-label"></label>
+            <input asp-for="Titel" class="form-control" />
+            <span asp-validation-for="Titel" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Beschrijving" class="control-label"></label>
+            <textarea asp-for="Beschrijving" class="form-control" rows="3"></textarea>
+            <span asp-validation-for="Beschrijving" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Bedrag" class="control-label"></label>
+            <input asp-for="Bedrag" class="form-control" />
+            <span asp-validation-for="Bedrag" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Datum" class="control-label"></label>
+            <input asp-for="Datum" class="form-control" type="date" value="@DateTime.Now.Date" />
+            <span asp-validation-for="Datum" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label class="control-label">Foto</label>
+            <input class="form-control-file" type="file" name="fotoFile" />
+            <span asp-validation-for="Foto" class="text-danger"></span>
+        </div>
+        <div class="form-group mt-2">
+            <input type="submit" value="Onkost toevoegen" class="btn btn-primary" />
+            <a asp-action="Index" asp-route-id="@Model.GroepsreisId" class="btn btn-secondary">Terug naar overzicht</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+
+        <script>
+            function validateForm() {
+                return true; // Je kunt hier extra validatie toevoegen als nodig
+            }
+        </script>
+    }
+}
