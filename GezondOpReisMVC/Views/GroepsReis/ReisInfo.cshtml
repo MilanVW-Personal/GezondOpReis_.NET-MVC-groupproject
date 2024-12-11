@@ -41,7 +41,7 @@
                         <h4 class="card-title me-auto">Over deze reis</h4>
                         @if (User.IsInRole("Ouder"))
                         {
-                            
+
                         <button type="button" class="btn btn-primary ms-3" onclick="openInschrijvenModal(@Model.Id)">
                             <i class="bi bi-person-plus me-2"></i> Kind inschrijven
                         </button>
@@ -73,8 +73,7 @@
         </div>
         @if (User.IsInRole("Monitor"))
         {
-            
-        
+
         <div class="col">
             <div class="card shadow-sm border-0 mb-4">
                 <div class="card-body">
@@ -82,6 +81,17 @@
                     <div class="list-group list-group-flush">
                         @if (Model.Monitoren != null && Model.Monitoren.Any())
                         {
+                            var currentUserIsHoofdMonitor = Model.Monitoren.Any(m => m.PersoonId == UserManager.GetUserId(User) && m.isHoofdMonitor == true);
+                            
+                            @if (currentUserIsHoofdMonitor)
+                            {
+                                <div class="mb-3">
+                                    <a asp-action="DeelnemerDetails" asp-route-reisId="@Model.Id" class="btn btn-info w-100">
+                                        <i class="bi bi-list-ul me-2"></i>Bekijk Deelnemer Details
+                                    </a>
+                                </div>
+                            }
+
                             foreach (var monitor in Model.Monitoren)
                             {
                                 <div class="list-group-item border-0">
@@ -144,7 +154,7 @@
         </div>
         }
     </div>
-    @if (Model.Deelnemers != null && Model.Deelnemers.Any() && User.Identity.IsAuthenticated)
+    @if (Model.Deelnemers != null && Model.Deelnemers.Any(d => d.Kind?.CustomUser?.UserName == User.Identity.Name))
     {
         
         <div class="row mt-4">

@@ -342,5 +342,52 @@ namespace GezondOpReis.Controllers
                 return RedirectToAction(nameof(ReisInfo), new { id = reisId });
             }
         }
+
+        public async Task<IActionResult> DeelnemerDetails(int reisId)
+        {
+            var userId = _userManager.GetUserId(User);
+            if (userId == null)
+            {
+                return RedirectToAction("Login", "Gebruiker");
+            }
+
+            // Get the groepsreis and check if the user is the head monitor
+            var reis = await _context.GroepsReisRepository.GetGroepsReizenWithIdAsync(reisId);
+            if (reis == null)
+            {
+                return NotFound();
+            }
+
+            var isHoofdMonitor = reis.Monitoren?.Any(m => m.PersoonId == userId && m.isHoofdMonitor == true) ?? false;
+            if (!isHoofdMonitor)
+            {
+                return Forbid();
+            }
+
+            // Get all participants with their details
+            var deelnemers = reis.Deelnemers?
+                .Where(d => d.Kind != null)
+                .Select(d => new DeelnemerDetailsViewModel
+                {
+                    Voornaam = d.Kind.Voornaam ?? "Niet opgegeven",
+                    Naam = d.Kind.Naam ?? "Niet opgegeven",
+                    Leeftijd = CalculateAge(d.Kind.GeboorteDatum),
+                    OuderTelefoon = d.Kind.CustomUser?.TelefoonNummer ?? "Niet opgegeven",
+                    Medicatie = d.Kind.Medicatie ?? "Geen",
+                    Allergieen = d.Kind.Allergieen ?? "Geen",
+                    Opmerkingen = d.Opmerkingen ?? "Geen"
+                })
+                .ToList() ?? new List<DeelnemerDetailsViewModel>();
+
+            return View(deelnemers);
+        }
+
+        private int CalculateAge(DateTime birthDate)
+        {
+            var today = DateTime.Today;
+            var age = today.Year - birthDate.Year;
+            if (birthDate.Date > today.AddYears(-age)) age--;
+            return age;
+        }
     }
 }
