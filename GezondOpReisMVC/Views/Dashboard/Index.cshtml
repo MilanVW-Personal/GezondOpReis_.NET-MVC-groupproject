@@ -13,12 +13,14 @@
         <h2>Dashboard van @User.Identity.Name</h2>
     </div>
 
+    @*===== INGESCHREVEN GROEPSREIZEN UIT HET VERLEDEN ========*@
+
     <div class="container position-relative">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h2 class="mb-0">Vorige groepsreizen</h2>
         </div>
     </div>
-
+    
     <div class="row row-cols-1 row-cols-md-3 g-4">
         @foreach (var groepsreisInVerleden in Model.ReizenInVerleden)
         {
@@ -53,15 +55,34 @@
                     <div class="card-body">
                         <h5 class="card-title">@groepsreisInVerleden.Bestemming.Naam</h5>
                         <p class="card-text">@groepsreisInVerleden.Bestemming.Beschrijving</p>
+                        @if(User.IsInRole("Monitor"))
+                        {
+                            <div class="d-flex">
+                               @foreach(var monitor in groepsreisInVerleden.Monitoren)
+                               {
+                                    @foreach(var opleiding in monitor.Persoon.OpleidingPersonen)
+                                    {
+                                        <li class="list-group-item">
+                                            @monitor.Persoon.Naam @monitor.Persoon.Voornaam @monitor.isHoofdMonitor ? "(Hoofdmonitor)" : "" - @opleiding.Opleiding.Naam (@opleiding.Opleiding.Begindatum tot @opleiding.Opleiding.Einddatum)
+                                        </li>
+                                    }
+                                }
+                            </div>
+                        }
+                        @*Eventueel hier onderstaande knoppen enkel voor ouder zichtbaar maken*@
                         <a asp-action="Index" asp-controller="Kind" asp-route-id="@User.FindFirstValue(ClaimTypes.NameIdentifier)" class="btn btn-primary">Beheer gezinsleden</a>
                         <a asp-action="Index" asp-controller="Gebruiker" asp-route-id="@User.FindFirstValue(ClaimTypes.NameIdentifier)" class="btn btn-primary">Beheer account</a>
+                        @if (User.IsInRole("Monitor"))
+                        {
+                            <a asp-action="Index" asp-controller="Opleiding" class="btn btn-primary">Bekijk beschikbare opleidingen</a>
+                        }
                     </div>
                 </div>
             </div>
         }
     </div>
 
-    @*================================*@
+    @*===== INGESCHREVEN GROEPSREIZEN ========*@
 
     <div class="container position-relative">
         <div class="d-flex justify-content-between align-items-center mt-4 mb-4">
@@ -104,9 +125,100 @@
                     <div class="card-body">
                         <h5 class="card-title">@inschrijvingReis.Bestemming.Naam</h5>
                         <p class="card-text">@inschrijvingReis.Bestemming.Beschrijving</p>
+                        @*Eventueel hier onderstaande knoppen enkel voor ouder zichtbaar maken*@
+                        <a asp-action="Index" asp-controller="Kind" asp-route-id="@User.FindFirstValue(ClaimTypes.NameIdentifier)" class="btn btn-primary">Beheer gezinsleden</a>
+                        <a asp-action="Index" asp-controller="Gebruiker" asp-route-id="@User.FindFirstValue(ClaimTypes.NameIdentifier)" class="btn btn-primary">Beheer account</a>
                     </div>
                 </div>
             </div>
+        }
+    </div>
+
+    @*===== AANKOMENDE GROEPSREIZEN ========*@
+
+    <div class="container position-relative">
+        <div class="d-flex justify-content-between align-items-center mt-4 mb-4">
+            <h2 class="mb-0">Aankomende groepsreizen</h2>
+        </div>
+    </div>
+
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        @foreach(var aankomendeGroepsreis in Model.AankomendeReizen)
+        {
+            <div class="col">
+                <div class="card h-100">
+                    @if (aankomendeGroepsreis.Bestemming.Fotos.Count > 1)
+                    {
+                        <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+                            <div class="carousel-inner">
+                                @foreach (var foto in aankomendeGroepsreis.Bestemming.Fotos)
+                                {
+                                    var activeProp = aankomendeGroepsreis.Bestemming.Fotos.IndexOf(foto) == 0 ? "active" : ""; // bepaalt of item actief is of niet.
+                                    <div class="carousel-item @activeProp">
+                                        <img src="~/images/@foto.Naam" class="d-block w-100" alt="@foto.Naam" class="card-img-top">
+                                    </div>
+                                }
+                            </div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
+                        </div>
+                    }
+                    else
+                    {
+                        <img src="~/images/@aankomendeGroepsreis.Bestemming.Fotos.FirstOrDefault().Naam" class="d-block w-100" alt="@aankomendeGroepsreis.Bestemming.Fotos.FirstOrDefault().Naam" class="card-img-top">
+                    }
+                    <div class="card-body">
+                        <h5 class="card-title">@aankomendeGroepsreis.Bestemming.Naam</h5>
+                        <p class="card-text">@aankomendeGroepsreis.Bestemming.Beschrijving</p>
+
+                        <p class="card-text"><strong>Inschrijvingen: </strong>@aankomendeGroepsreis.Deelnemers.Count</p>
+                        <p class="card-text"><strong>Hoofdmonitor: </strong>@aankomendeGroepsreis.Monitoren.FirstOrDefault(m => m.isHoofdMonitor == true).Persoon.Naam</p>
+                        <p class="card-text"><strong>Monitoren: </strong>@aankomendeGroepsreis.Monitoren.Count</p>
+
+                        @if (User.IsInRole("Monitor"))
+                        {
+                            <div class="d-flex">
+                                @foreach (var monitor in aankomendeGroepsreis.Monitoren)
+                                {
+                                    @foreach (var opleiding in monitor.Persoon.OpleidingPersonen)
+                                    {
+                                        <li class="list-group-item">
+                                            @monitor.Persoon.Naam @monitor.Persoon.Voornaam @monitor.isHoofdMonitor ? "(Hoofdmonitor)" : "" - @opleiding.Opleiding.Naam (@opleiding.Opleiding.Begindatum tot @opleiding.Opleiding.Einddatum)
+                                        </li>
+                                    }
+                                }
+                            </div>
+                        }
+                        @*Eventueel hier onderstaande knoppen enkel voor ouder zichtbaar maken*@
+                        <a asp-action="Index" asp-controller="Kind" asp-route-id="@User.FindFirstValue(ClaimTypes.NameIdentifier)" class="btn btn-primary">Beheer gezinsleden</a>
+                        <a asp-action="Index" asp-controller="Gebruiker" asp-route-id="@User.FindFirstValue(ClaimTypes.NameIdentifier)" class="btn btn-primary">Beheer account</a>
+                        @if (User.IsInRole("Monitor"))
+                        {
+                            <a asp-action="Index" asp-controller="Opleiding" class="btn btn-primary">Bekijk beschikbare opleidingen</a>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <div class="text-center"> 
+        @if (User.IsInRole("Monitor")) @*Indien nodig verwijderen*@
+        {
+            <a asp-action="Index" asp-controller="Opleiding" class="btn btn-primary">Bekijk beschikbare opleidingen</a>
+        }
+        @if(User.IsInRole("Beheerder, Verantwoordelijke")) @*Eventueel nog verantwoordelijke weglaten of naam aanpassen*@
+        {
+            <a asp-action="Index" asp-controller="Opleiding" class="btn btn-primary">Opleidingen beheren</a>
+            <a asp-action="Index" asp-controller="Activiteit" class="btn btn-primary">Activiteiten beheren</a>
+            <a asp-action="Index" asp-controller="GroepsReis" class="btn btn-primary">Groepsreizen beheren</a>
+            <a asp-action="Index" asp-controller="Gebruiker" class="btn btn-primary">Gebruikers beheren</a>
         }
     </div>
 </div>
