@@ -19,26 +19,46 @@
         </div>
     </div>
 
-    <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
-        <div class="carousel-inner">
-        
-            @foreach(var groepsReis in Model.VorigeReizen)
-            {
-                // Woensdag hier logica van de datums invoeren... (=> Als de hudige datum groter is dan einddatum, komen de reizen hier te staan, maar als de hudige datum groter is dan de einddatum + 1 maand, dan worden deze uit de lijst verwijderd)
-                var activeProp = Model.VorigeReizen.IndexOf(groepsReis) == 0 ? "active" : "";
-                <div class="carousel-item @activeProp">
-                    <div class="card" style="width: auto;">
-                        @*<img src="..." class="card-img-top" alt="..."> *@
-                        <div class="card-body">
-                            <h5 class="card-title">Groepsreis: @groepsReis.Bestemming.Naam.ToLower()</h5>
-                            <p class="card-text">@groepsReis.Bestemming.Beschrijving</p>
-                            <a asp-action="Index" asp-controller="Kind" asp-route-id="@User.FindFirstValue(ClaimTypes.NameIdentifier)" class="btn btn-primary">Beheer gezinsleden</a>
-                            <a asp-action="Index" asp-controller="Gebruiker" asp-route-id="@User.FindFirstValue(ClaimTypes.NameIdentifier)" class="btn btn-primary">Beheer account</a>
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        @foreach (var groepsreisInVerleden in Model.ReizenInVerleden)
+        {
+            <div class="col">
+                <div class="card h-100">
+                    @if (groepsreisInVerleden.Bestemming.Fotos.Count > 1)
+                    {
+                        <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+                            <div class="carousel-inner">
+                                @foreach (var foto in groepsreisInVerleden.Bestemming.Fotos)
+                                {
+                                    var activeProp = groepsreisInVerleden.Bestemming.Fotos.IndexOf(foto) == 0 ? "active" : ""; // bepaalt of item actief is of niet.
+                                    <div class="carousel-item @activeProp">
+                                        <img src="~/images/@foto.Naam" class="d-block w-100" alt="@foto.Naam" class="card-img-top">
+                                    </div>
+                                }
+                            </div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
                         </div>
+                    }
+                    else
+                    {
+                        <img src="~/images/@groepsreisInVerleden.Bestemming.Fotos.FirstOrDefault().Naam" class="d-block w-100" alt="@groepsreisInVerleden.Bestemming.Fotos.FirstOrDefault().Naam" class="card-img-top">
+                    }
+                    <div class="card-body">
+                        <h5 class="card-title">@groepsreisInVerleden.Bestemming.Naam</h5>
+                        <p class="card-text">@groepsreisInVerleden.Bestemming.Beschrijving</p>
+                        <a asp-action="Index" asp-controller="Kind" asp-route-id="@User.FindFirstValue(ClaimTypes.NameIdentifier)" class="btn btn-primary">Beheer gezinsleden</a>
+                        <a asp-action="Index" asp-controller="Gebruiker" asp-route-id="@User.FindFirstValue(ClaimTypes.NameIdentifier)" class="btn btn-primary">Beheer account</a>
                     </div>
                 </div>
-            }
-        </div>
+            </div>
+        }
     </div>
 
     @*================================*@
