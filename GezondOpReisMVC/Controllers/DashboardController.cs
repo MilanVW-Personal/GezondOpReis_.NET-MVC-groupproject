@@ -31,7 +31,7 @@ namespace GezondOpReis.Controllers
             var ingeschrevenReizen = await _unitOfWork.GroepsReisRepository.GetIngeschrevenGroepsreizen(user.Id);
 
             var reizenInVerleden = vorigeReizen.Where(r => !(DateTime.Now > r.EindDatum.AddMonths(1))); // de reizen in het verleden zijn de vorige ingeschreven reizen, waarvan de huidige datum niet groter is dan de einddatum, een maand later.
-            var aankomendeReizen = ingeschrevenReizen.Where(r => (DateTime.Now < r.BeginDatum));
+            var aankomendeReizen = await _unitOfWork.GroepsReisRepository.GetAankomendeReizen(user.Id); // aankomende reizen ophalen (waar huidige datum kleiner is dan de begindatum)
 
 
             var vm = new DashboardViewModel

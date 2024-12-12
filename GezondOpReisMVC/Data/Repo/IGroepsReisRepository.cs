@@ -11,5 +11,6 @@ namespace GezondOpReis.Data.Repo
         Task<IEnumerable<Groepsreis>> GetIngeschrevenGroepsreizen(string persoonId);
         Task<IEnumerable<Groepsreis>> GetVorigeReizen(string persoonId);
 
+        Task<IEnumerable<Groepsreis>> GetAankomendeReizen(string persoonId);
     }
 }

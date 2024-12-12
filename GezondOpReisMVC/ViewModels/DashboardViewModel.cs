@@ -7,6 +7,6 @@ namespace GezondOpReis.ViewModels
         public List<Groepsreis> ReizenInVerleden { get; set; }
         public List<Groepsreis> IngeschrevenReizen { get; set; }
         public List<Kind> Kinderen { get; set; }
-        public List<Groepsreis>? AankomendeReizen { get; set; }
+        public List<Groepsreis> AankomendeReizen { get; set; }
     }
 }
