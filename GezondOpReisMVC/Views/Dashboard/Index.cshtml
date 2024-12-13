@@ -9,9 +9,25 @@
 @model DashboardViewModel
 
 <div>
-    <div class="text-center">
-        <h2>Dashboard van @User.Identity.Name</h2>
+    @{
+        var className = User.IsInRole("Ouder") ? "text-center" : "d-flex justify-content-between align-items mb-4";
+    }
+    <div class="@className">
+        <h2 class="mb-0">Dashboard van @User.Identity.Name</h2>
+        @if (User.IsInRole("Monitor"))
+        {
+            <a asp-action="Index" asp-controller="Opleiding" class="btn btn-primary">Bekijk beschikbare opleidingen</a>
+        }
+        @if (User.IsInRole("Beheerder"))
+        {
+            <a asp-action="Index" asp-controller="Opleiding" class="btn btn-primary">Opleidingen beheren</a>
+            <a asp-action="Index" asp-controller="Activiteit" class="btn btn-primary">Activiteiten beheren</a>
+            <a asp-action="Index" asp-controller="GroepsReis" class="btn btn-primary">Groepsreizen beheren</a>
+            <a asp-action="UserList" asp-controller="Gebruiker" class="btn btn-primary">Gebruikers beheren</a>
+        }
     </div>
+
+
 
     @*===== INGESCHREVEN GROEPSREIZEN UIT HET VERLEDEN ========*@
 
@@ -84,13 +100,12 @@
                                 }
                             </div>
                         }
-                        @*Eventueel hier onderstaande knoppen enkel voor ouder zichtbaar maken*@
-                        <a asp-action="Index" asp-controller="Kind" asp-route-id="@User.FindFirstValue(ClaimTypes.NameIdentifier)" class="btn btn-primary">Beheer gezinsleden</a>
-                        <a asp-action="Index" asp-controller="Gebruiker" asp-route-id="@User.FindFirstValue(ClaimTypes.NameIdentifier)" class="btn btn-primary">Beheer account</a>
-                        @if (User.IsInRole("Monitor"))
+                        @if(User.IsInRole("Ouder"))
                         {
-                            <a asp-action="Index" asp-controller="Opleiding" class="btn btn-primary">Bekijk beschikbare opleidingen</a>
+                            <a asp-action="Index" asp-controller="Kind" asp-route-id="@User.FindFirstValue(ClaimTypes.NameIdentifier)" class="btn btn-primary">Beheer gezinsleden</a>
+                            <a asp-action="Index" asp-controller="Gebruiker" asp-route-id="@User.FindFirstValue(ClaimTypes.NameIdentifier)" class="btn btn-primary">Beheer account</a>
                         }
+                      
                     </div>
                 </div>
             </div>
@@ -169,9 +184,11 @@
                                 }
                             </div>
                         }
-                        @*Eventueel hier onderstaande knoppen enkel voor ouder zichtbaar maken*@
-                        <a asp-action="Index" asp-controller="Kind" asp-route-id="@User.FindFirstValue(ClaimTypes.NameIdentifier)" class="btn btn-primary">Beheer gezinsleden</a>
-                        <a asp-action="Index" asp-controller="Gebruiker" asp-route-id="@User.FindFirstValue(ClaimTypes.NameIdentifier)" class="btn btn-primary">Beheer account</a>
+                        @if (User.IsInRole("Ouder"))
+                        {
+                            <a asp-action="Index" asp-controller="Kind" asp-route-id="@User.FindFirstValue(ClaimTypes.NameIdentifier)" class="btn btn-primary">Beheer gezinsleden</a>
+                            <a asp-action="Index" asp-controller="Gebruiker" asp-route-id="@User.FindFirstValue(ClaimTypes.NameIdentifier)" class="btn btn-primary">Beheer account</a>
+                        }
                     </div>
                 </div>
             </div>
@@ -250,26 +267,14 @@
                                 }
                             </div>
                         }
-                        @*Eventueel hier onderstaande knoppen enkel voor ouder zichtbaar maken*@
-                        <a asp-action="Index" asp-controller="Kind" asp-route-id="@User.FindFirstValue(ClaimTypes.NameIdentifier)" class="btn btn-primary">Beheer gezinsleden</a>
-                        <a asp-action="Index" asp-controller="Gebruiker" asp-route-id="@User.FindFirstValue(ClaimTypes.NameIdentifier)" class="btn btn-primary">Beheer account</a>
+                        @if (User.IsInRole("Ouder"))
+                        {
+                            <a asp-action="Index" asp-controller="Kind" asp-route-id="@User.FindFirstValue(ClaimTypes.NameIdentifier)" class="btn btn-primary">Beheer gezinsleden</a>
+                            <a asp-action="Index" asp-controller="Gebruiker" asp-route-id="@User.FindFirstValue(ClaimTypes.NameIdentifier)" class="btn btn-primary">Beheer account</a>
+                        }
                     </div>
                 </div>
             </div>
-        }
-    </div>
-
-    <div class="text-center m-5"> 
-        @if (User.IsInRole("Monitor")) @*Indien nodig verwijderen*@
-        {
-            <a asp-action="Index" asp-controller="Opleiding" class="btn btn-primary">Bekijk beschikbare opleidingen</a>
-        }
-        @if(User.IsInRole("Beheerder"))
-        {
-            <a asp-action="Index" asp-controller="Opleiding" class="btn btn-primary">Opleidingen beheren</a>
-            <a asp-action="Index" asp-controller="Activiteit" class="btn btn-primary">Activiteiten beheren</a>
-            <a asp-action="Index" asp-controller="GroepsReis" class="btn btn-primary">Groepsreizen beheren</a>
-            <a asp-action="UserList" asp-controller="Gebruiker" class="btn btn-primary">Gebruikers beheren</a>
         }
     </div>
 </div>
