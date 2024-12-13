@@ -8,6 +8,9 @@ namespace GezondOpReis.Data.Repo
 
         Task<Groepsreis> GetGroepsReizenWithIdAsync(int id);
         Task<Groepsreis> GetGroepReizenForDelete(int id);
+        Task<IEnumerable<Groepsreis>> GetIngeschrevenGroepsreizen(string persoonId);
+        Task<IEnumerable<Groepsreis>> GetVorigeReizen(string persoonId);
 
+        Task<IEnumerable<Groepsreis>> GetAankomendeReizen(string persoonId);
     }
 }

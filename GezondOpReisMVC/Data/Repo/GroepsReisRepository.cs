@@ -47,5 +47,53 @@ namespace GezondOpReis.Data.Repo
                 .SingleOrDefaultAsync(gr => gr.Id == id);
 
         }
+
+        public async Task<IEnumerable<Groepsreis>> GetIngeschrevenGroepsreizen(string persoonId)
+        {
+            return await _context.Groepsreizen
+                .Include(gr => gr.Bestemming)
+                    .ThenInclude(b => b.Fotos)
+                .Include(gr => gr.Monitoren)
+                    .ThenInclude(m => m.Persoon)
+                .Include(gr => gr.Deelnemers)
+                    .ThenInclude(d => d.Kind)
+                .Include(gr => gr.Programmas)
+                    .ThenInclude(p => p.Activiteit)
+                .Where(gr => gr.Deelnemers.Any(dl => dl.Kind.PersoonId == persoonId) 
+                        && DateTime.Now >= gr.BeginDatum || gr.Monitoren.Any(m => m.PersoonId == persoonId)) 
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<Groepsreis>> GetVorigeReizen(string persoonId)
+        {
+            return await _context.Groepsreizen
+                .Include(gr => gr.Bestemming)
+                    .ThenInclude(b => b.Fotos)
+                .Include(gr => gr.Monitoren)
+                    .ThenInclude(m => m.Persoon)
+                .Include(gr => gr.Deelnemers)
+                    .ThenInclude(d => d.Kind)
+                .Include(gr => gr.Programmas)
+                    .ThenInclude(p => p.Activiteit)
+                .Where(gr => gr.Deelnemers.Any(dl => dl.Kind.PersoonId == persoonId) 
+                       && DateTime.Now > gr.EindDatum || gr.Monitoren.Any(m => m.PersoonId == persoonId))
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<Groepsreis>> GetAankomendeReizen(string persoonId)
+        {
+            return await _context.Groepsreizen
+                .Include(gr => gr.Bestemming)
+                    .ThenInclude(b => b.Fotos)
+                .Include(gr => gr.Monitoren)
+                    .ThenInclude(m => m.Persoon)
+                .Include(gr => gr.Deelnemers)
+                    .ThenInclude(d => d.Kind)
+                .Include(gr => gr.Programmas)
+                    .ThenInclude(p => p.Activiteit)
+                .Where(gr => gr.Deelnemers.Any(dl => dl.Kind.PersoonId == persoonId)
+                       && DateTime.Now < gr.BeginDatum || gr.Monitoren.Any(m => m.PersoonId == persoonId))
+                .ToListAsync();
+        }
     }
 }
