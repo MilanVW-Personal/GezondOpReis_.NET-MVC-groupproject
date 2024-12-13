@@ -9,7 +9,7 @@ namespace GezondOpReis.Data.UnitOfWork
 
         private IBestemmingRepo bestemmingRepo;
         private IActiviteitenRepo activiteitenRepo;
-
+        private IMonitorRepository monitorRepository;
 
         private IGroepsReisRepository groepsReisRepository;
         private IFotoRepo fotoRepo;
@@ -94,6 +94,13 @@ namespace GezondOpReis.Data.UnitOfWork
             get
             {
                 return opleidingPersoonRepo ??= new OpleidingPersoonRepo(_context);
+            }
+        }
+        public IMonitorRepository MonitorRepository
+        {
+            get
+            {
+                return monitorRepository ??= new MonitorRepository(_context);
             }
         }
 

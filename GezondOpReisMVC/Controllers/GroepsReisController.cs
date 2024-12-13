@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using GezondOpReis.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Monitor = GezondOpReis.Models.Monitor;
 
 namespace GezondOpReis.Controllers
 {
@@ -241,6 +242,152 @@ namespace GezondOpReis.Controllers
                 ModelState.AddModelError("", "Er is een fout opgetreden bij het inschrijven. Probeer het opnieuw.");
                 return PartialView("_InschrijvenModal", model);
             }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UitschrijvenVanReis(int kindId, int reisId)
+        {
+            // Zoek de deelnemer op basis van kind en reis ID
+            var deelnemer = await _context.DeelnemerRepository.GetDeelnemerByKindAndReisAsync(kindId, reisId);
+
+            if (deelnemer == null)
+            {
+                return NotFound();
+            }
+
+            try
+            {
+                // Verwijder de deelnemer
+                _context.DeelnemerRepository.Delete(deelnemer);
+                await _context.SaveChangesAsync();
+
+                TempData["AlertMessage"] = "Kind succesvol uitgeschreven van de reis.";
+                return RedirectToAction(nameof(ReisInfo), new { id = reisId });
+            }
+            catch (Exception)
+            {
+                TempData["ErrorMessage"] = "Er is een fout opgetreden bij het uitschrijven. Probeer het opnieuw.";
+                return RedirectToAction(nameof(ReisInfo), new { id = reisId });
+            }
+        }
+
+        public async Task<IActionResult> MonitorInschrijvenOpReis(string persoonId, int groepsReisId, bool isHoofdMonitor)
+        {
+            // Check if the monitor is already registered
+            var existingDeelnemer = await _context.MonitorRepository
+                .GetDeelnemerByMonitorAndReisAsync(persoonId, groepsReisId);
+
+            if (existingDeelnemer != null)
+            {
+                ModelState.AddModelError("", "De monitor is al ingeschreven voor deze reis.");
+                return RedirectToAction(nameof(ReisInfo), new { id = groepsReisId });
+            }
+
+            // If trying to register as head monitor, check if one already exists
+            if (isHoofdMonitor)
+            {
+                var reis = await _context.GroepsReisRepository.GetGroepsReizenWithIdAsync(groepsReisId);
+                if (reis.Monitoren != null && reis.Monitoren.Any(m => m.isHoofdMonitor == true))
+                {
+                    TempData["ErrorMessage"] = "Er is al een hoofdmonitor voor deze reis.";
+                    return RedirectToAction(nameof(ReisInfo), new { id = groepsReisId });
+                }
+            }
+
+            // Create new monitor
+            var monitor = new Monitor
+            {
+                PersoonId = persoonId,
+                GroepsreisId = groepsReisId,
+                isHoofdMonitor = isHoofdMonitor
+            };
+
+            try
+            {
+                await _context.MonitorRepository.AddAsync(monitor);
+                await _context.SaveChangesAsync();
+                TempData["AlertMessage"] = isHoofdMonitor ? "Succesvol ingeschreven als hoofdmonitor!" : "Succesvol ingeschreven als monitor!";
+                return RedirectToAction(nameof(ReisInfo), new { id = groepsReisId });
+            }
+            catch (Exception)
+            {
+                ModelState.AddModelError("", "Er is een fout opgetreden bij het inschrijven. Probeer het opnieuw.");
+                return RedirectToAction(nameof(ReisInfo), new { id = groepsReisId });
+            }
+        }
+        public async Task<IActionResult> MonitorUitschrijvenVanReis(string monitorId, int reisId)
+        {
+            // Zoek de deelnemer op basis van kind en reis ID
+            var monitor = await _context.MonitorRepository.GetDeelnemerByMonitorAndReisAsync(monitorId, reisId);
+
+            if (monitor == null)
+            {
+                TempData["ErrorMessage"] = "Er is een fout opgetreden bij het uitschrijven. Probeer het opnieuw.";
+                return RedirectToAction(nameof(ReisInfo), new { id = reisId });
+            }
+
+            try
+            {
+                // Verwijder de deelnemer
+                _context.MonitorRepository.Delete(monitor);
+                await _context.SaveChangesAsync();
+
+                TempData["AlertMessage"] = "Monitor succesvol uitgeschreven van de reis.";
+                return RedirectToAction(nameof(ReisInfo), new { id = reisId });
+            }
+            catch (Exception)
+            {
+                TempData["ErrorMessage"] = "Er is een fout opgetreden bij het uitschrijven. Probeer het opnieuw.";
+                return RedirectToAction(nameof(ReisInfo), new { id = reisId });
+            }
+        }
+
+        public async Task<IActionResult> DeelnemerDetails(int reisId)
+        {
+            var userId = _userManager.GetUserId(User);
+            if (userId == null)
+            {
+                return RedirectToAction("Login", "Gebruiker");
+            }
+
+            // Get the groepsreis and check if the user is the head monitor
+            var reis = await _context.GroepsReisRepository.GetGroepsReizenWithIdAsync(reisId);
+            if (reis == null)
+            {
+                return NotFound();
+            }
+
+            var isHoofdMonitor = reis.Monitoren?.Any(m => m.PersoonId == userId && m.isHoofdMonitor == true) ?? false;
+            if (!isHoofdMonitor)
+            {
+                return Forbid();
+            }
+
+            // Get all participants with their details
+            var deelnemers = reis.Deelnemers?
+                .Where(d => d.Kind != null)
+                .Select(d => new DeelnemerDetailsViewModel
+                {
+                    Voornaam = d.Kind.Voornaam ?? "Niet opgegeven",
+                    Naam = d.Kind.Naam ?? "Niet opgegeven",
+                    Leeftijd = CalculateAge(d.Kind.GeboorteDatum),
+                    OuderTelefoon = d.Kind.CustomUser?.TelefoonNummer ?? "Niet opgegeven",
+                    Medicatie = d.Kind.Medicatie ?? "Geen",
+                    Allergieen = d.Kind.Allergieen ?? "Geen",
+                    Opmerkingen = d.Opmerkingen ?? "Geen"
+                })
+                .ToList() ?? new List<DeelnemerDetailsViewModel>();
+
+            return View(deelnemers);
+        }
+
+        private int CalculateAge(DateTime birthDate)
+        {
+            var today = DateTime.Today;
+            var age = today.Year - birthDate.Year;
+            if (birthDate.Date > today.AddYears(-age)) age--;
+            return age;
         }
     }
 }
