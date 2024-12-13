@@ -1,4 +1,4 @@
-﻿using GezondOpReis.Models;
+using GezondOpReis.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -83,6 +83,7 @@ namespace GezondOpReis.Controllers
                 Kind newkind = new()
                 {
                     PersoonId = user.Id,
+                    CustomUser = user,
                     Naam = vm.Naam,
                     Voornaam = vm.Voornaam,
                     GeboorteDatum = vm.GeboorteDatum,

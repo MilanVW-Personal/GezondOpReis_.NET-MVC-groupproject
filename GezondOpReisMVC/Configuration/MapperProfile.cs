@@ -39,7 +39,24 @@ namespace GezondOpReis.Configuration
             CreateMap<Kind, KindEditViewModel>();
             CreateMap<Kind, KindDeleteViewModel>();
 
+            
 
+            CreateMap<Deelnemer, DeelnemerDetailsViewModel>()
+                .ForMember(dest => dest.Voornaam, opt => opt.MapFrom(src => src.Kind.Voornaam))
+                .ForMember(dest => dest.Naam, opt => opt.MapFrom(src => src.Kind.Naam))
+                .ForMember(dest => dest.OuderTelefoon, opt => opt.MapFrom(src => src.Kind.CustomUser.TelefoonNummer))
+                .ForMember(dest => dest.Medicatie, opt => opt.MapFrom(src => src.Kind.Medicatie))
+                .ForMember(dest => dest.Allergieen, opt => opt.MapFrom(src => src.Kind.Allergieen))
+                .ForMember(dest => dest.Leeftijd, opt => opt.MapFrom(src => CalculateAge(src.Kind.GeboorteDatum)))
+                .ForMember(dest => dest.Opmerkingen, opt => opt.MapFrom(src => src.Opmerkingen ?? "Geen"));
+
+        }
+        private int CalculateAge(DateTime birthDate)
+        {
+            var today = DateTime.Today;
+            var age = today.Year - birthDate.Year;
+            if (birthDate.Date > today.AddYears(-age)) age--;
+            return age;
         }
     }
 }

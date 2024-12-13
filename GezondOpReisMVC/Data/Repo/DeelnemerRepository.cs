@@ -13,8 +13,17 @@ namespace GezondOpReis.Data.Repo
         public async Task<Deelnemer> GetDeelnemerByKindAndReisAsync(int kindId, int reisId)
         {
             return await _context.Set<Deelnemer>()
+                .Include(d => d.Kind)
+                    .ThenInclude(k => k.CustomUser)
                 .FirstOrDefaultAsync(d => d.KindId == kindId && d.GroepsreisId == reisId);
         }
 
+        public async Task<IEnumerable<Deelnemer>> GetAllDeelnemersAsync()
+        {
+            return await _context.Set<Deelnemer>()
+                .Include(d => d.Kind)
+                    .ThenInclude(k => k.CustomUser)
+                .ToListAsync();
+        }
     }
 }

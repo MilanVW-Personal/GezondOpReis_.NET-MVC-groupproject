@@ -101,7 +101,7 @@ namespace GezondOpReis.Controllers
 
             return View(model);
         }
-        [Authorize(Roles = "Beheerder")]
+        [Authorize(Roles = "Beheerder,Verantwoordelijke")]
         [HttpGet]
         public async Task<IActionResult> Details(int id)
         {

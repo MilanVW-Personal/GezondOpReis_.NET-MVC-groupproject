@@ -55,20 +55,32 @@
                     <div class="card-body">
                         <h5 class="card-title">@groepsreisInVerleden.Bestemming.Naam</h5>
                         <p class="card-text">@groepsreisInVerleden.Bestemming.Beschrijving</p>
-                        @if(User.IsInRole("Monitor"))
+                        @if (User.IsInRole("Monitor"))
                         {
                             <div class="d-flex">
-                               @foreach(var monitor in groepsreisInVerleden.Monitoren)
-                               {
-                                   <ul class="list-group">
-                                        @foreach (var opleiding in monitor.Persoon.OpleidingPersonen)
-                                        {
-                                            <li class="list-group-item">
-                                                @monitor.Persoon.Naam @monitor.Persoon.Voornaam @monitor.isHoofdMonitor ? "(Hoofdmonitor)" : "" - @opleiding.Opleiding.Naam (@opleiding.Opleiding.Begindatum tot @opleiding.Opleiding.Einddatum)
-                                            </li>
-                                        }
-                                   </ul>
-                                    
+                                @foreach (var monitor in groepsreisInVerleden.Monitoren)
+                                {
+                                    <ul class="list-group">
+                                        <li class="list-group-item">
+                                            @if (monitor?.isHoofdMonitor == true)
+                                            {
+                                                <p>@monitor.Persoon.Naam @monitor.Persoon.Voornaam (Hoofdmonitor)</p>
+                                            }
+                                            else
+                                            {
+                                                <p>@monitor.Persoon.Naam @monitor.Persoon.Voornaam</p>
+                                            }
+                                        </li>
+                                        @*   @if (monitor.Persoon.OpleidingPersonen.Count > 0)
+                            {
+                            @foreach (var opleiding in monitor.Persoon.OpleidingPersonen)
+                            {
+                            <li class="list-group-item">
+                            @monitor.Persoon.Naam @monitor.Persoon.Voornaam @monitor.isHoofdMonitor ? "(Hoofdmonitor)" : "" - @opleiding.Opleiding.Naam (@opleiding.Opleiding.Begindatum tot @opleiding.Opleiding.Einddatum)
+                            </li>
+                            }
+                            } *@
+                                    </ul>
                                 }
                             </div>
                         }
@@ -128,6 +140,35 @@
                     <div class="card-body">
                         <h5 class="card-title">@inschrijvingReis.Bestemming.Naam</h5>
                         <p class="card-text">@inschrijvingReis.Bestemming.Beschrijving</p>
+                        @if (User.IsInRole("Monitor"))
+                        {
+                            <div class="d-flex">
+                                @foreach (var monitor in inschrijvingReis.Monitoren)
+                                {
+                                    <ul class="list-group">
+                                        <li class="list-group-item">
+                                            @if (monitor?.isHoofdMonitor == true)
+                                            {
+                                                <p>@monitor.Persoon.Naam @monitor.Persoon.Voornaam (Hoofdmonitor)</p>
+                                            }
+                                            else
+                                            {
+                                                <p>@monitor.Persoon.Naam @monitor.Persoon.Voornaam</p>
+                                            }
+                                        </li>
+                                        @*   @if (monitor.Persoon.OpleidingPersonen.Count > 0)
+                            {
+                            @foreach (var opleiding in monitor.Persoon.OpleidingPersonen)
+                            {
+                            <li class="list-group-item">
+                            @monitor.Persoon.Naam @monitor.Persoon.Voornaam @monitor.isHoofdMonitor ? "(Hoofdmonitor)" : "" - @opleiding.Opleiding.Naam (@opleiding.Opleiding.Begindatum tot @opleiding.Opleiding.Einddatum)
+                            </li>
+                            }
+                            } *@
+                                    </ul>
+                                }
+                            </div>
+                        }
                         @*Eventueel hier onderstaande knoppen enkel voor ouder zichtbaar maken*@
                         <a asp-action="Index" asp-controller="Kind" asp-route-id="@User.FindFirstValue(ClaimTypes.NameIdentifier)" class="btn btn-primary">Beheer gezinsleden</a>
                         <a asp-action="Index" asp-controller="Gebruiker" asp-route-id="@User.FindFirstValue(ClaimTypes.NameIdentifier)" class="btn btn-primary">Beheer account</a>
@@ -180,6 +221,35 @@
                     <div class="card-body">
                         <h5 class="card-title">@aankomendeGroepsreis.Bestemming.Naam</h5>
                         <p class="card-text">@aankomendeGroepsreis.Bestemming.Beschrijving</p>
+                        @if (User.IsInRole("Monitor"))
+                        {
+                            <div class="d-flex">
+                                @foreach (var monitor in aankomendeGroepsreis.Monitoren)
+                                {
+                                    <ul class="list-group">
+                                        <li class="list-group-item">
+                                            @if (monitor?.isHoofdMonitor == true)
+                                            {
+                                                <p>@monitor.Persoon.Naam @monitor.Persoon.Voornaam (Hoofdmonitor)</p>
+                                            }
+                                            else
+                                            {
+                                                <p>@monitor.Persoon.Naam @monitor.Persoon.Voornaam</p>
+                                            }
+                                        </li>
+                                        @*   @if (monitor.Persoon.OpleidingPersonen.Count > 0)
+                            {
+                            @foreach (var opleiding in monitor.Persoon.OpleidingPersonen)
+                            {
+                            <li class="list-group-item">
+                            @monitor.Persoon.Naam @monitor.Persoon.Voornaam @monitor.isHoofdMonitor ? "(Hoofdmonitor)" : "" - @opleiding.Opleiding.Naam (@opleiding.Opleiding.Begindatum tot @opleiding.Opleiding.Einddatum)
+                            </li>
+                            }
+                            } *@
+                                    </ul>
+                                }
+                            </div>
+                        }
                         @*Eventueel hier onderstaande knoppen enkel voor ouder zichtbaar maken*@
                         <a asp-action="Index" asp-controller="Kind" asp-route-id="@User.FindFirstValue(ClaimTypes.NameIdentifier)" class="btn btn-primary">Beheer gezinsleden</a>
                         <a asp-action="Index" asp-controller="Gebruiker" asp-route-id="@User.FindFirstValue(ClaimTypes.NameIdentifier)" class="btn btn-primary">Beheer account</a>

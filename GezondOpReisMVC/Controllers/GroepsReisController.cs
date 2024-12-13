@@ -364,22 +364,11 @@ namespace GezondOpReis.Controllers
                 return Forbid();
             }
 
-            // Get all participants with their details
-            var deelnemers = reis.Deelnemers?
-                .Where(d => d.Kind != null)
-                .Select(d => new DeelnemerDetailsViewModel
-                {
-                    Voornaam = d.Kind.Voornaam ?? "Niet opgegeven",
-                    Naam = d.Kind.Naam ?? "Niet opgegeven",
-                    Leeftijd = CalculateAge(d.Kind.GeboorteDatum),
-                    OuderTelefoon = d.Kind.CustomUser?.TelefoonNummer ?? "Niet opgegeven",
-                    Medicatie = d.Kind.Medicatie ?? "Geen",
-                    Allergieen = d.Kind.Allergieen ?? "Geen",
-                    Opmerkingen = d.Opmerkingen ?? "Geen"
-                })
-                .ToList() ?? new List<DeelnemerDetailsViewModel>();
+            var deelnemers = await _context.DeelnemerRepository.GetAllDeelnemersAsync();
+            var reisDeelnemers = deelnemers.Where(d => d.GroepsreisId == reisId);
+            var model = _mapper.Map<List<DeelnemerDetailsViewModel>>(reisDeelnemers);
 
-            return View(deelnemers);
+            return View(model);
         }
 
         private int CalculateAge(DateTime birthDate)

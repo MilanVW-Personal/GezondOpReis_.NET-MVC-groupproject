@@ -15,6 +15,7 @@ namespace GezondOpReis.Data.Repo
                     .ThenInclude(m => m.Persoon)
                 .Include(gr => gr.Deelnemers)
                     .ThenInclude(d => d.Kind)
+                        .ThenInclude(k => k.CustomUser)
                 .Include(gr => gr.Programmas)
                     .ThenInclude(p => p.Activiteit)
                 .ToListAsync();
@@ -29,8 +30,7 @@ namespace GezondOpReis.Data.Repo
                     .ThenInclude(m => m.Persoon)
                 .Include(gr => gr.Deelnemers)
                     .ThenInclude(d => d.Kind)
-                .Include(gr => gr.Deelnemers)
-                    .ThenInclude(d => d.Kind.CustomUser)
+                        .ThenInclude(k => k.CustomUser)
                 .Include(gr => gr.Programmas)
                     .ThenInclude(p => p.Activiteit)
                 .SingleOrDefaultAsync(gr => gr.Id == id);
@@ -45,7 +45,6 @@ namespace GezondOpReis.Data.Repo
                 .Include(gr => gr.Monitoren)
                 .Include(gr => gr.Deelnemers)
                 .SingleOrDefaultAsync(gr => gr.Id == id);
-
         }
 
         public async Task<IEnumerable<Groepsreis>> GetIngeschrevenGroepsreizen(string persoonId)
@@ -59,8 +58,8 @@ namespace GezondOpReis.Data.Repo
                     .ThenInclude(d => d.Kind)
                 .Include(gr => gr.Programmas)
                     .ThenInclude(p => p.Activiteit)
-                .Where(gr => gr.Deelnemers.Any(dl => dl.Kind.PersoonId == persoonId) 
-                        && DateTime.Now >= gr.BeginDatum || gr.Monitoren.Any(m => m.PersoonId == persoonId)) 
+                 .Where(gr => (gr.Deelnemers.Any(dl => dl.Kind.PersoonId == persoonId) || gr.Monitoren.Any(m => m.PersoonId == persoonId))
+        && DateTime.Now >= gr.BeginDatum)
                 .ToListAsync();
         }
 
@@ -75,8 +74,8 @@ namespace GezondOpReis.Data.Repo
                     .ThenInclude(d => d.Kind)
                 .Include(gr => gr.Programmas)
                     .ThenInclude(p => p.Activiteit)
-                .Where(gr => gr.Deelnemers.Any(dl => dl.Kind.PersoonId == persoonId) 
-                       && DateTime.Now > gr.EindDatum || gr.Monitoren.Any(m => m.PersoonId == persoonId))
+                .Where(gr => (gr.Deelnemers.Any(dl => dl.Kind.PersoonId == persoonId) || gr.Monitoren.Any(m => m.PersoonId == persoonId))
+        && DateTime.Now > gr.EindDatum)
                 .ToListAsync();
         }
 
@@ -91,8 +90,8 @@ namespace GezondOpReis.Data.Repo
                     .ThenInclude(d => d.Kind)
                 .Include(gr => gr.Programmas)
                     .ThenInclude(p => p.Activiteit)
-                .Where(gr => gr.Deelnemers.Any(dl => dl.Kind.PersoonId == persoonId)
-                       && DateTime.Now < gr.BeginDatum || gr.Monitoren.Any(m => m.PersoonId == persoonId))
+                .Where(gr => (gr.Deelnemers.Any(dl => dl.Kind.PersoonId == persoonId) || gr.Monitoren.Any(m => m.PersoonId == persoonId))
+        && DateTime.Now < gr.BeginDatum)
                 .ToListAsync();
         }
     }
