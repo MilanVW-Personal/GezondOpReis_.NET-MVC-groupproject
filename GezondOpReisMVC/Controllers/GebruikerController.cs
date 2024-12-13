@@ -647,5 +647,201 @@ namespace GezondOpReis.Controllers
         }
 
 
+        [Authorize(Roles = "Beheerder,Verantwoordelijke")]
+        [HttpGet]
+        public async Task<IActionResult> MonitorList()
+        {
+            var users = await _userManager.Users.ToListAsync();
+  
+            users = users.Where(u => _userManager.IsInRoleAsync(u, "Monitor").Result).ToList();
+
+            var viewModel = new MonitorListViewModel
+            {
+                Users = users,
+            };
+
+            return View(viewModel);
+        }
+
+        [Authorize(Roles = "Beheerder,Verantwoordelijke")]
+        [HttpGet]
+        public async Task<IActionResult> MonitorEdit(string id)
+        {
+            if (string.IsNullOrEmpty(id))
+            {
+                return NotFound();
+            }
+
+            var user = await _userManager.FindByIdAsync(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+           
+
+            var viewModel = new MonitorEditViewModel
+            {
+                Id = user.Id,
+                Naam = user.Naam,
+                Voornaam = user.Voornaam,
+                Straat = user.Straat,
+                Huisnummer = user.Huisnummer,
+                Gemeente = user.Gemeente,
+                Postcode = user.Postcode,
+                GeboorteDatum = user.GeboorteDatum,
+                Huisdokter = user.Huisdokter,
+                ContactNummer = user.ContactNummer,
+                Email = user.Email,
+                TelefoonNummer = user.TelefoonNummer,
+                RekeningNummer = user.RekeningNummer,
+                IsActief = user.IsActief,
+                IsHoofdMonitor = user.IsHoofdMonitor ?? false // Set the IsHoofdMonitor property
+            };
+
+            return View(viewModel);
+        }
+
+        [Authorize(Roles = "Beheerder,Verantwoordelijke")]
+        [HttpPost]
+        public async Task<IActionResult> MonitorEdit(MonitorEditViewModel model)
+        {
+
+            var user = await _userManager.FindByIdAsync(model.Id);
+            if (user == null)
+            {
+                Console.WriteLine("User not found.");
+                return NotFound();
+            }
+
+            
+
+            user.Naam = model.Naam;
+            user.Voornaam = model.Voornaam;
+            user.Straat = model.Straat;
+            user.Huisnummer = model.Huisnummer;
+            user.Gemeente = model.Gemeente;
+            user.Postcode = model.Postcode;
+            user.GeboorteDatum = model.GeboorteDatum;
+            user.Huisdokter = model.Huisdokter;
+            user.ContactNummer = model.ContactNummer;
+            user.Email = model.Email;
+            user.TelefoonNummer = model.TelefoonNummer;
+            user.RekeningNummer = model.RekeningNummer;
+            user.IsActief = model.IsActief;
+            user.IsHoofdMonitor = model.IsHoofdMonitor;
+           
+
+            var updateResult = await _userManager.UpdateAsync(user);
+            if (!updateResult.Succeeded)
+            {
+                foreach (var error in updateResult.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
+                Console.WriteLine("User update failed.");
+                return View(model);
+            }
+
+            return RedirectToAction("MonitorList", "Gebruiker");
+        }
+
+        [Authorize(Roles = "Beheerder,Verantwoordelijke")]
+        [HttpGet]
+        public async Task<IActionResult> MonitorDetails(string id)
+        {
+            if (string.IsNullOrEmpty(id))
+            {
+                return NotFound();
+            }
+
+            var user = await _userManager.FindByIdAsync(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+
+            var viewModel = new MonitorDetailsViewsModel
+            {
+                Id = user.Id,
+                Naam = user.Naam,
+                Voornaam = user.Voornaam,
+                Straat = user.Straat,
+                Huisnummer = user.Huisnummer,
+                Gemeente = user.Gemeente,
+                Postcode = user.Postcode,
+                GeboorteDatum = user.GeboorteDatum,
+                Huisdokter = user.Huisdokter,
+                ContactNummer = user.ContactNummer,
+                Email = user.Email,
+                TelefoonNummer = user.TelefoonNummer,
+                RekeningNummer = user.RekeningNummer,
+                IsActief = user.IsActief,
+                IsHoofdMonitor = user.IsHoofdMonitor ?? false
+            };
+
+
+            var opleidingen = await _context.OpleidingRepo.GetAllAsync();
+            var opleidingenViewModel = new List<OpleidingViewModel>();
+
+            foreach (var opleiding in opleidingen)
+            {
+                var ingeschreven = await _context.OpleidingPersoonRepo.IsUserInschrijvingBestaatAsync(user.Id, opleiding.Id);
+                if (ingeschreven)
+                {
+                    opleidingenViewModel.Add(new OpleidingViewModel
+                    {
+                        Id = opleiding.Id,
+                        Naam = opleiding.Naam,
+                        Beschrijving = opleiding.Beschrijving,
+                        StartDatum = opleiding.Begindatum,
+                        EindDatum = opleiding.Einddatum,
+                        AantalPlaatsen = opleiding.AantalPlaatsen,
+                        IsIngeschreven = ingeschreven
+                    });
+                }
+            }
+
+            viewModel.Opleidingen = opleidingenViewModel;
+
+            var groepsreizen = await _context.GroepsReisRepository.GetAllAsync();
+            var groepsreizenViewModel = new List<GroepsReisInfoViewModel>();
+
+            foreach (var groepsreis in groepsreizen)
+            {
+                var groepsreisFiltered = await _context.GroepsReisRepository.GetGroepsReizenWithIdAsync(groepsreis.Id);
+                Console.WriteLine("REISJE MONTIOREN");
+
+                if(groepsreisFiltered != null)
+                {
+                    if (groepsreisFiltered.Monitoren != null)
+                    {
+                        foreach (var monitor in groepsreisFiltered.Monitoren)
+                        {
+                            if (monitor.Persoon.Id == user.Id)
+                            {
+                                groepsreizenViewModel.Add(new GroepsReisInfoViewModel
+                                {
+                                    Id = groepsreisFiltered.Id,
+                                    Naam = groepsreisFiltered.Bestemming.Naam,
+                                    BeginDatum = groepsreisFiltered.BeginDatum,
+                                    EindDatum = groepsreisFiltered.EindDatum,
+                                    Prijs = groepsreisFiltered.prijs,
+                                    
+                                });
+                            }
+                        }
+
+                    }
+                }
+
+            }
+
+            viewModel.Groepsreizen = groepsreizenViewModel;
+
+            return View(viewModel);
+        }
+
     }
 }
