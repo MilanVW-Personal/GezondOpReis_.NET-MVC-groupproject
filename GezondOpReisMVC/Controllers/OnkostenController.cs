@@ -177,7 +177,7 @@ namespace GezondOpReis.Controllers
 
             return View(model);
         }
-        [Authorize(Roles = "Beheerder")]
+        [Authorize(Roles = "Beheerder,Verantwoordelijke")]
         [HttpGet]
         public async Task<IActionResult> Delete(int id)
         {
@@ -204,7 +204,7 @@ namespace GezondOpReis.Controllers
             return View(viewModel);
         }
 
-        [Authorize(Roles = "Beheerder")]
+        [Authorize(Roles = "Beheerder,Verantwoordelijke")]
         [HttpPost, ActionName("DeleteConfirmed")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
