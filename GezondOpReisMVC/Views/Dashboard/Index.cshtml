@@ -73,30 +73,49 @@
                         @if (User.IsInRole("Monitor"))
                         {
                             <div class="d-flex">
-                                @foreach (var monitor in aankomendeGroepsreis.Monitoren)
-                                {
-                                    <ul class="list-group">
+                                <ul class="list-group">
+                                    @foreach (var monitor in aankomendeGroepsreis.Monitoren)
+                                    {
                                         <li class="list-group-item">
                                             @if (monitor?.isHoofdMonitor == true)
                                             {
                                                 <p>@monitor.Persoon.Naam @monitor.Persoon.Voornaam (Hoofdmonitor)</p>
+                                                <ul>
+                                                    <li>
+                                                        @if (Model.OpleidingenVanMonitoren != null && Model.OpleidingenVanMonitoren.Count > 0)
+                                                        {
+                                                            <div class="col-md-12">
+
+                                                                @foreach (var opleiding in Model.OpleidingenVanMonitoren)
+                                                                {
+                                                                    <p><strong>@opleiding.Naam</strong> - @opleiding.StartDatum.ToShortDateString() tot @opleiding.EindDatum.ToShortDateString()</p>
+                                                                }
+
+                                                            </div>
+                                                        }
+                                                    </li>
+                                                </ul>
                                             }
                                             else
                                             {
                                                 <p>@monitor.Persoon.Naam @monitor.Persoon.Voornaam</p>
+                                                <ul>
+                                                    <li>
+                                                        @if (Model.OpleidingenVanMonitoren != null && Model.OpleidingenVanMonitoren.Count > 0)
+                                                        {
+                                                            <div class="col-md-12">
+                                                                @foreach (var opleiding in Model.OpleidingenVanMonitoren)
+                                                                {
+                                                                    <p><strong>@opleiding.Naam</strong> - @opleiding.StartDatum.ToShortDateString() tot @opleiding.EindDatum.ToShortDateString()</p>
+                                                                }
+                                                            </div>
+                                                        }
+                                                    </li>
+                                                </ul>
                                             }
                                         </li>
-                                        @*   @if (monitor.Persoon.OpleidingPersonen.Count > 0)
-                            {
-                            @foreach (var opleiding in monitor.Persoon.OpleidingPersonen)
-                            {
-                            <li class="list-group-item">
-                            @monitor.Persoon.Naam @monitor.Persoon.Voornaam @monitor.isHoofdMonitor ? "(Hoofdmonitor)" : "" - @opleiding.Opleiding.Naam (@opleiding.Opleiding.Begindatum tot @opleiding.Opleiding.Einddatum)
-                            </li>
-                            }
-                            } *@
-                                    </ul>
-                                }
+                                    }
+                                </ul>
                             </div>
                         }
                         @if (User.IsInRole("Ouder"))
@@ -163,34 +182,49 @@
                         @if (User.IsInRole("Monitor"))
                         {
                             <div class="d-flex">
-                                @foreach (var monitor in inschrijvingReis.Monitoren)
-                                {
-                                    <ul class="list-group">
+                                <ul class="list-group">
+                                    @foreach (var monitor in inschrijvingReis.Monitoren)
+                                    {
                                         <li class="list-group-item">
                                             @if (monitor?.isHoofdMonitor == true)
                                             {
                                                 <p>@monitor.Persoon.Naam @monitor.Persoon.Voornaam (Hoofdmonitor)</p>
+                                                <ul>
+                                                    <li>
+                                                        @if (Model.OpleidingenVanMonitoren != null && Model.OpleidingenVanMonitoren.Count > 0)
+                                                        {
+                                                            <div class="col-md-12">
+
+                                                                @foreach (var opleiding in Model.OpleidingenVanMonitoren)
+                                                                {
+                                                                    <p><strong>@opleiding.Naam</strong> - @opleiding.StartDatum.ToShortDateString() tot @opleiding.EindDatum.ToShortDateString()</p>
+                                                                }
+
+                                                            </div>
+                                                        }
+                                                    </li>
+                                                </ul>
                                             }
                                             else
                                             {
                                                 <p>@monitor.Persoon.Naam @monitor.Persoon.Voornaam</p>
+                                                <ul>
+                                                    <li>
+                                                        @if (Model.OpleidingenVanMonitoren != null && Model.OpleidingenVanMonitoren.Count > 0)
+                                                        {
+                                                            <div class="col-md-12">
+                                                                @foreach (var opleiding in Model.OpleidingenVanMonitoren)
+                                                                {
+                                                                    <p><strong>@opleiding.Naam</strong> - @opleiding.StartDatum.ToShortDateString() tot @opleiding.EindDatum.ToShortDateString()</p>
+                                                                }
+                                                            </div>
+                                                        }
+                                                    </li>
+                                                </ul>
                                             }
                                         </li>
-                                       @*  @if (Model.Opleidingen != null && Model.Opleidingen.Count > 0)
-                                        {
-                                            <div class="col-md-12">
-                                                <ul class="list-unstyled">
-                                                    @foreach (var opleiding in Model.Opleidingen)
-                                                    {
-                                                        <li class="mb-3">
-                                                            <strong>@opleiding.Naam</strong> - @opleiding.StartDatum.ToShortDateString() tot @opleiding.EindDatum.ToShortDateString()
-                                                        </li>
-                                                    }
-                                                </ul>
-                                            </div>
-                                        } *@
-                                    </ul>
-                                }
+                                    }
+                                </ul>
                             </div>
                         }
                         @if (User.IsInRole("Ouder"))
@@ -249,30 +283,52 @@
                         @if (User.IsInRole("Monitor"))
                         {
                             <div class="d-flex">
-                                @foreach (var monitor in groepsreisInVerleden.Monitoren)
-                                {
-                                    <ul class="list-group">
+                                <ul class="list-group">
+                                    @foreach (var monitor in groepsreisInVerleden.Monitoren)
+                                    {
+
                                         <li class="list-group-item">
                                             @if (monitor?.isHoofdMonitor == true)
                                             {
                                                 <p>@monitor.Persoon.Naam @monitor.Persoon.Voornaam (Hoofdmonitor)</p>
+                                                <ul>
+                                                    <li>
+                                                        @if (Model.OpleidingenVanMonitoren != null && Model.OpleidingenVanMonitoren.Count > 0)
+                                                        {
+                                                            <div class="col-md-12">
+
+                                                                @foreach (var opleiding in Model.OpleidingenVanMonitoren)
+                                                                {
+                                                                    <p><strong>@opleiding.Naam</strong> - @opleiding.StartDatum.ToShortDateString() tot @opleiding.EindDatum.ToShortDateString()</p>
+                                                                }
+
+                                                            </div>
+                                                        }
+                                                    </li>
+                                                </ul>
                                             }
                                             else
-                                            {
+                                            {   
                                                 <p>@monitor.Persoon.Naam @monitor.Persoon.Voornaam</p>
+                                                <ul>
+                                                    <li>
+                                                        @if (Model.OpleidingenVanMonitoren != null && Model.OpleidingenVanMonitoren.Count > 0)
+                                                        {
+                                                            <div class="col-md-12">
+
+                                                                @foreach (var opleiding in Model.OpleidingenVanMonitoren)
+                                                                {
+                                                                    <p><strong>@opleiding.Naam</strong> - @opleiding.StartDatum.ToShortDateString() tot @opleiding.EindDatum.ToShortDateString()</p>
+                                                                }
+
+                                                            </div>
+                                                        }
+                                                    </li>
+                                                </ul>
                                             }
                                         </li>
-                                        @*   @if (monitor.Persoon.OpleidingPersonen.Count > 0)
-                            {
-                            @foreach (var opleiding in monitor.Persoon.OpleidingPersonen)
-                            {
-                            <li class="list-group-item">
-                            @monitor.Persoon.Naam @monitor.Persoon.Voornaam @monitor.isHoofdMonitor ? "(Hoofdmonitor)" : "" - @opleiding.Opleiding.Naam (@opleiding.Opleiding.Begindatum tot @opleiding.Opleiding.Einddatum)
-                            </li>
-                            }
-                            } *@
-                                    </ul>
-                                }
+                                    }
+                                </ul>
                             </div>
                         }
                         @if (User.IsInRole("Ouder"))
