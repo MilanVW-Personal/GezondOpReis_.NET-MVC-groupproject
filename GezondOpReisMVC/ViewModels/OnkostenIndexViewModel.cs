@@ -4,5 +4,6 @@
     {
         public List<OnkostViewModel> Onkosten { get; set; }
         public int GroepsreisId { get; set; }
+        public float TotaalKost {  get; set; }
     }
 }
