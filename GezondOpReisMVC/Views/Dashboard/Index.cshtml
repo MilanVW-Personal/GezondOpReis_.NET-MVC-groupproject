@@ -4,6 +4,9 @@
 @{
 
     ViewData["Title"] = "Dashboard";
+    Console.WriteLine(Model.ReizenInVerleden.Count);
+    Console.WriteLine(Model.IngeschrevenReizen.Count);
+    Console.WriteLine(Model.AankomendeReizen.Count);
 }
 
 @model DashboardViewModel
@@ -34,6 +37,13 @@
             <h2 class="mb-0">Aankomende groepsreizen</h2>
         </div>
     </div>
+
+    @if (Model.AankomendeReizen.Count == 0) // Als de lijst van voorgaande reizen 0 items heeft (wordt effectief uit lijst verwijderd), zal deze tekst tonen
+    {
+        <div class="m-4">
+            <p>Er zijn geen reizen opkomst waarvoor je bent ingeschreven!</p>
+        </div>
+    }
 
     <div class="row row-cols-1 row-cols-md-3 g-4">
         @foreach (var aankomendeGroepsreis in Model.AankomendeReizen)
@@ -137,7 +147,7 @@
         </div>
     </div>
 
-    @if(Model.IngeschrevenReizen.Count == 0)
+    @if(Model.IngeschrevenReizen.Count == 0) // Als de lijst van ingeschreven reizen 0 items heeft (wordt effectief uit lijst verwijderd), zal deze tekst tonen 
     {
         <div class="m-4">
             <p>Je bent niet ingeschreven op reizen die nu plaatsvinden!</p>
@@ -245,6 +255,13 @@
             <h2 class="mb-0">Vorige groepsreizen</h2>
         </div>
     </div>
+
+    @if (Model.ReizenInVerleden.Count == 0) // Als de lijst van voorgaande reizen 0 items heeft (wordt effectief uit lijst verwijderd), zal deze tekst tonen
+    {
+        <div class="m-4">
+            <p>Je bent niet (meer) ingeschreven op een reis die voorbije is!</p>
+        </div>
+    }
 
     <div class="row row-cols-1 row-cols-md-3 g-4">
         @foreach (var groepsreisInVerleden in Model.ReizenInVerleden)

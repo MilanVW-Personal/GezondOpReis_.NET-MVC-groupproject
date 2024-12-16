@@ -59,7 +59,7 @@ namespace GezondOpReis.Data.Repo
                 .Include(gr => gr.Programmas)
                     .ThenInclude(p => p.Activiteit)
                  .Where(gr => (gr.Deelnemers.Any(dl => dl.Kind.PersoonId == persoonId) || gr.Monitoren.Any(m => m.PersoonId == persoonId))
-        && DateTime.Now >= gr.BeginDatum)
+                    && (DateTime.Now >= gr.BeginDatum && DateTime.Now <= gr.EindDatum))
                 .ToListAsync();
         }
 

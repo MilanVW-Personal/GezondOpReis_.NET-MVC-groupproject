@@ -61,7 +61,7 @@ namespace GezondOpReis.Controllers
             var vm = new DashboardViewModel
             {
                 ReizenInVerleden = reizenInVerleden.ToList(),
-                IngeschrevenReizen = ingeschrevenReizen.Where(r => DateTime.Now <= r.EindDatum).ToList(),
+                IngeschrevenReizen = ingeschrevenReizen.ToList(),
                 Kinderen = kinderen.ToList(),
                 AankomendeReizen = aankomendeReizen.ToList(),
                 OpleidingenVanMonitoren = opleidingenVM
