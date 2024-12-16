@@ -20,6 +20,9 @@ namespace GezondOpReis.Controllers
         public async Task<ActionResult<IEnumerable<Kind>>> Index(string id)
         {
             var kinderenVanOuders = await _unitOfWork.KindRepository.GetAllKinderenFromOuders(id);
+            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+            var userName = user.Voornaam + " " + user.Naam;
+            TempData["UsernameKindPagina"] = userName;
 
             List<KindViewModel> kinderenMetOudersVM = new();
 
