@@ -139,8 +139,10 @@ else
                             <form asp-action="MonitorInschrijvenOpReis" method="post" class="d-flex flex-column gap-2">
                                 <input type="hidden" name="persoonId" value="@UserManager.GetUserId(User)" />
                                 <input type="hidden" name="groepsReisId" value="@Model.Id" />
-                                
-                                @if (!hasHoofdMonitor)
+
+
+
+                                    @if (!hasHoofdMonitor && UserManager.FindByNameAsync(User.Identity.Name).Result.IsHoofdMonitor == true)
                                 {
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" name="isHoofdMonitor" id="isHoofdMonitor" value="true">
