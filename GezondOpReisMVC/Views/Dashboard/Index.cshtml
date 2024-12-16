@@ -13,7 +13,7 @@
         var className = User.IsInRole("Ouder") ? "text-center" : "d-flex justify-content-between align-items mb-4";
     }
     <div class="@className">
-        <h2 class="mb-0">Dashboard van @User.Identity.Name</h2>
+        <h2 class="mb-0">Dashboard van @TempData["Username"]</h2>
         @if (User.IsInRole("Monitor"))
         {
             <a asp-action="Index" asp-controller="Opleiding" class="btn btn-primary">Bekijk beschikbare opleidingen</a>
@@ -27,174 +27,6 @@
         }
     </div>
 
-
-
-    @*===== INGESCHREVEN GROEPSREIZEN UIT HET VERLEDEN ========*@
-
-    <div class="container position-relative">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <h2 class="mb-0">Vorige groepsreizen</h2>
-        </div>
-    </div>
-    
-    <div class="row row-cols-1 row-cols-md-3 g-4">
-        @foreach (var groepsreisInVerleden in Model.ReizenInVerleden)
-        {
-            <div class="col">
-                <div class="card h-100">
-                    @if (groepsreisInVerleden.Bestemming.Fotos.Count > 1)
-                    {
-                        <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
-                            <div class="carousel-inner">
-                                @foreach (var foto in groepsreisInVerleden.Bestemming.Fotos)
-                                {
-                                    var activeProp = groepsreisInVerleden.Bestemming.Fotos.IndexOf(foto) == 0 ? "active" : ""; // bepaalt of item actief is of niet.
-                                    <div class="carousel-item @activeProp">
-                                        <img src="~/images/@foto.Naam" class="d-block w-100" alt="@foto.Naam" class="card-img-top">
-                                    </div>
-                                }
-                            </div>
-                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
-                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden">Previous</span>
-                            </button>
-                            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
-                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden">Next</span>
-                            </button>
-                        </div>
-                    }
-                    else
-                    {
-                        <img src="~/images/@groepsreisInVerleden.Bestemming.Fotos.FirstOrDefault().Naam" class="d-block w-100" alt="@groepsreisInVerleden.Bestemming.Fotos.FirstOrDefault().Naam" class="card-img-top">
-                    }
-                    <div class="card-body">
-                        <h5 class="card-title">@groepsreisInVerleden.Bestemming.Naam</h5>
-                        <p class="card-text">@groepsreisInVerleden.Bestemming.Beschrijving</p>
-                        @if (User.IsInRole("Monitor"))
-                        {
-                            <div class="d-flex">
-                                @foreach (var monitor in groepsreisInVerleden.Monitoren)
-                                {
-                                    <ul class="list-group">
-                                        <li class="list-group-item">
-                                            @if (monitor?.isHoofdMonitor == true)
-                                            {
-                                                <p>@monitor.Persoon.Naam @monitor.Persoon.Voornaam (Hoofdmonitor)</p>
-                                            }
-                                            else
-                                            {
-                                                <p>@monitor.Persoon.Naam @monitor.Persoon.Voornaam</p>
-                                            }
-                                        </li>
-                                        @*   @if (monitor.Persoon.OpleidingPersonen.Count > 0)
-                            {
-                            @foreach (var opleiding in monitor.Persoon.OpleidingPersonen)
-                            {
-                            <li class="list-group-item">
-                            @monitor.Persoon.Naam @monitor.Persoon.Voornaam @monitor.isHoofdMonitor ? "(Hoofdmonitor)" : "" - @opleiding.Opleiding.Naam (@opleiding.Opleiding.Begindatum tot @opleiding.Opleiding.Einddatum)
-                            </li>
-                            }
-                            } *@
-                                    </ul>
-                                }
-                            </div>
-                        }
-                        @if(User.IsInRole("Ouder"))
-                        {
-                            <a asp-action="Index" asp-controller="Kind" asp-route-id="@User.FindFirstValue(ClaimTypes.NameIdentifier)" class="btn btn-primary">Beheer gezinsleden</a>
-                            <a asp-action="Index" asp-controller="Gebruiker" asp-route-id="@User.FindFirstValue(ClaimTypes.NameIdentifier)" class="btn btn-primary">Beheer account</a>
-                        }
-                      
-                    </div>
-                </div>
-            </div>
-        }
-    </div>
-
-    @*===== INGESCHREVEN GROEPSREIZEN ========*@
-
-    <div class="container position-relative">
-        <div class="d-flex justify-content-between align-items-center mt-4 mb-4">
-            <h2 class="mb-0">Ingeschreven groepsreizen</h2>
-        </div>
-    </div>
-
-    <div class="row row-cols-1 row-cols-md-3 g-4">
-        @foreach (var inschrijvingReis in Model.IngeschrevenReizen)
-        {
-            var dNone = DateTime.Now > inschrijvingReis.EindDatum ? "d-none" : "";  // Als de huidige datum groter is dan de einddatum van de groepsreis, dan zal deze worden verborgen / uit de lijst verwijderd.
-            <div class="col @dNone">
-                <div class="card h-100">
-                    @if (inschrijvingReis.Bestemming.Fotos.Count > 1)
-                    {
-                        <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
-                            <div class="carousel-inner">
-                                @foreach (var foto in inschrijvingReis.Bestemming.Fotos)
-                                {
-                                    var activeProp = inschrijvingReis.Bestemming.Fotos.IndexOf(foto) == 0 ? "active" : ""; // bepaalt of item actief is of niet.
-                                    <div class="carousel-item @activeProp">
-                                        <img src="~/images/@foto.Naam" class="d-block w-100" alt="@foto.Naam" class="card-img-top">
-                                    </div>
-                                }
-                            </div>
-                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
-                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden">Previous</span>
-                            </button>
-                            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
-                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden">Next</span>
-                            </button>
-                        </div>
-                    }
-                    else
-                    {
-                        <img src="~/images/@inschrijvingReis.Bestemming.Fotos.FirstOrDefault().Naam" class="d-block w-100" alt="@inschrijvingReis.Bestemming.Fotos.FirstOrDefault().Naam" class="card-img-top">
-                    }
-                    <div class="card-body">
-                        <h5 class="card-title">@inschrijvingReis.Bestemming.Naam</h5>
-                        <p class="card-text">@inschrijvingReis.Bestemming.Beschrijving</p>
-                        @if (User.IsInRole("Monitor"))
-                        {
-                            <div class="d-flex">
-                                @foreach (var monitor in inschrijvingReis.Monitoren)
-                                {
-                                    <ul class="list-group">
-                                        <li class="list-group-item">
-                                            @if (monitor?.isHoofdMonitor == true)
-                                            {
-                                                <p>@monitor.Persoon.Naam @monitor.Persoon.Voornaam (Hoofdmonitor)</p>
-                                            }
-                                            else
-                                            {
-                                                <p>@monitor.Persoon.Naam @monitor.Persoon.Voornaam</p>
-                                            }
-                                        </li>
-                                        @*   @if (monitor.Persoon.OpleidingPersonen.Count > 0)
-                            {
-                            @foreach (var opleiding in monitor.Persoon.OpleidingPersonen)
-                            {
-                            <li class="list-group-item">
-                            @monitor.Persoon.Naam @monitor.Persoon.Voornaam @monitor.isHoofdMonitor ? "(Hoofdmonitor)" : "" - @opleiding.Opleiding.Naam (@opleiding.Opleiding.Begindatum tot @opleiding.Opleiding.Einddatum)
-                            </li>
-                            }
-                            } *@
-                                    </ul>
-                                }
-                            </div>
-                        }
-                        @if (User.IsInRole("Ouder"))
-                        {
-                            <a asp-action="Index" asp-controller="Kind" asp-route-id="@User.FindFirstValue(ClaimTypes.NameIdentifier)" class="btn btn-primary">Beheer gezinsleden</a>
-                            <a asp-action="Index" asp-controller="Gebruiker" asp-route-id="@User.FindFirstValue(ClaimTypes.NameIdentifier)" class="btn btn-primary">Beheer account</a>
-                        }
-                    </div>
-                </div>
-            </div>
-        }
-    </div>
-
     @*===== AANKOMENDE GROEPSREIZEN ========*@
 
     <div class="container position-relative">
@@ -204,7 +36,7 @@
     </div>
 
     <div class="row row-cols-1 row-cols-md-3 g-4">
-        @foreach(var aankomendeGroepsreis in Model.AankomendeReizen)
+        @foreach (var aankomendeGroepsreis in Model.AankomendeReizen)
         {
             var dNone = DateTime.Now > aankomendeGroepsreis.EindDatum ? "d-none" : "";  // Als de huidige datum groter is dan de einddatum van de groepsreis, dan zal deze worden verborgen / uit de lijst verwijderd.
             <div class="col @dNone">
@@ -272,6 +104,183 @@
                             <a asp-action="Index" asp-controller="Kind" asp-route-id="@User.FindFirstValue(ClaimTypes.NameIdentifier)" class="btn btn-primary">Beheer gezinsleden</a>
                             <a asp-action="Index" asp-controller="Gebruiker" asp-route-id="@User.FindFirstValue(ClaimTypes.NameIdentifier)" class="btn btn-primary">Beheer account</a>
                         }
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    @*===== INGESCHREVEN GROEPSREIZEN ========*@
+
+    <div class="container position-relative">
+        <div class="d-flex justify-content-between align-items-center mt-4 mb-4">
+            <h2 class="mb-0">Ingeschreven groepsreizen</h2>
+        </div>
+    </div>
+
+    @if(Model.IngeschrevenReizen.Count == 0)
+    {
+        <div class="m-4">
+            <p>Je bent niet ingeschreven op reizen die nu plaatsvinden!</p>
+        </div>
+    }
+
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        @foreach (var inschrijvingReis in Model.IngeschrevenReizen)
+        {
+            var dNone = DateTime.Now > inschrijvingReis.EindDatum ? "d-none" : "";  // Als de huidige datum groter is dan de einddatum van de groepsreis, dan zal deze worden verborgen / uit de lijst verwijderd.
+            <div class="col @dNone">
+                <div class="card h-100">
+                    @if (inschrijvingReis.Bestemming.Fotos.Count > 1)
+                    {
+                        <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+                            <div class="carousel-inner">
+                                @foreach (var foto in inschrijvingReis.Bestemming.Fotos)
+                                {
+                                    var activeProp = inschrijvingReis.Bestemming.Fotos.IndexOf(foto) == 0 ? "active" : ""; // bepaalt of item actief is of niet.
+                                    <div class="carousel-item @activeProp">
+                                        <img src="~/images/@foto.Naam" class="d-block w-100" alt="@foto.Naam" class="card-img-top">
+                                    </div>
+                                }
+                            </div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
+                        </div>
+                    }
+                    else
+                    {
+                        <img src="~/images/@inschrijvingReis.Bestemming.Fotos.FirstOrDefault().Naam" class="d-block w-100" alt="@inschrijvingReis.Bestemming.Fotos.FirstOrDefault().Naam" class="card-img-top">
+                    }
+                    <div class="card-body">
+                        <h5 class="card-title">@inschrijvingReis.Bestemming.Naam</h5>
+                        <p class="card-text">@inschrijvingReis.Bestemming.Beschrijving</p>
+                        @if (User.IsInRole("Monitor"))
+                        {
+                            <div class="d-flex">
+                                @foreach (var monitor in inschrijvingReis.Monitoren)
+                                {
+                                    <ul class="list-group">
+                                        <li class="list-group-item">
+                                            @if (monitor?.isHoofdMonitor == true)
+                                            {
+                                                <p>@monitor.Persoon.Naam @monitor.Persoon.Voornaam (Hoofdmonitor)</p>
+                                            }
+                                            else
+                                            {
+                                                <p>@monitor.Persoon.Naam @monitor.Persoon.Voornaam</p>
+                                            }
+                                        </li>
+                                       @*  @if (Model.Opleidingen != null && Model.Opleidingen.Count > 0)
+                                        {
+                                            <div class="col-md-12">
+                                                <ul class="list-unstyled">
+                                                    @foreach (var opleiding in Model.Opleidingen)
+                                                    {
+                                                        <li class="mb-3">
+                                                            <strong>@opleiding.Naam</strong> - @opleiding.StartDatum.ToShortDateString() tot @opleiding.EindDatum.ToShortDateString()
+                                                        </li>
+                                                    }
+                                                </ul>
+                                            </div>
+                                        } *@
+                                    </ul>
+                                }
+                            </div>
+                        }
+                        @if (User.IsInRole("Ouder"))
+                        {
+                            <a asp-action="Index" asp-controller="Kind" asp-route-id="@User.FindFirstValue(ClaimTypes.NameIdentifier)" class="btn btn-primary">Beheer gezinsleden</a>
+                            <a asp-action="Index" asp-controller="Gebruiker" asp-route-id="@User.FindFirstValue(ClaimTypes.NameIdentifier)" class="btn btn-primary">Beheer account</a>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    @*===== INGESCHREVEN GROEPSREIZEN UIT HET VERLEDEN ========*@
+
+    <div class="container position-relative">
+        <div class="d-flex justify-content-between align-items-center mb-4 mt-4">
+            <h2 class="mb-0">Vorige groepsreizen</h2>
+        </div>
+    </div>
+
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        @foreach (var groepsreisInVerleden in Model.ReizenInVerleden)
+        {
+            <div class="col">
+                <div class="card h-100">
+                    @if (groepsreisInVerleden.Bestemming.Fotos.Count > 1)
+                    {
+                        <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+                            <div class="carousel-inner">
+                                @foreach (var foto in groepsreisInVerleden.Bestemming.Fotos)
+                                {
+                                    var activeProp = groepsreisInVerleden.Bestemming.Fotos.IndexOf(foto) == 0 ? "active" : ""; // bepaalt of item actief is of niet.
+                                    <div class="carousel-item @activeProp">
+                                        <img src="~/images/@foto.Naam" class="d-block w-100" alt="@foto.Naam" class="card-img-top">
+                                    </div>
+                                }
+                            </div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
+                        </div>
+                    }
+                    else
+                    {
+                        <img src="~/images/@groepsreisInVerleden.Bestemming.Fotos.FirstOrDefault().Naam" class="d-block w-100" alt="@groepsreisInVerleden.Bestemming.Fotos.FirstOrDefault().Naam" class="card-img-top">
+                    }
+                    <div class="card-body">
+                        <h5 class="card-title">@groepsreisInVerleden.Bestemming.Naam</h5>
+                        <p class="card-text">@groepsreisInVerleden.Bestemming.Beschrijving</p>
+                        @if (User.IsInRole("Monitor"))
+                        {
+                            <div class="d-flex">
+                                @foreach (var monitor in groepsreisInVerleden.Monitoren)
+                                {
+                                    <ul class="list-group">
+                                        <li class="list-group-item">
+                                            @if (monitor?.isHoofdMonitor == true)
+                                            {
+                                                <p>@monitor.Persoon.Naam @monitor.Persoon.Voornaam (Hoofdmonitor)</p>
+                                            }
+                                            else
+                                            {
+                                                <p>@monitor.Persoon.Naam @monitor.Persoon.Voornaam</p>
+                                            }
+                                        </li>
+                                        @*   @if (monitor.Persoon.OpleidingPersonen.Count > 0)
+                            {
+                            @foreach (var opleiding in monitor.Persoon.OpleidingPersonen)
+                            {
+                            <li class="list-group-item">
+                            @monitor.Persoon.Naam @monitor.Persoon.Voornaam @monitor.isHoofdMonitor ? "(Hoofdmonitor)" : "" - @opleiding.Opleiding.Naam (@opleiding.Opleiding.Begindatum tot @opleiding.Opleiding.Einddatum)
+                            </li>
+                            }
+                            } *@
+                                    </ul>
+                                }
+                            </div>
+                        }
+                        @if (User.IsInRole("Ouder"))
+                        {
+                            <a asp-action="Index" asp-controller="Kind" asp-route-id="@User.FindFirstValue(ClaimTypes.NameIdentifier)" class="btn btn-primary">Beheer gezinsleden</a>
+                            <a asp-action="Index" asp-controller="Gebruiker" asp-route-id="@User.FindFirstValue(ClaimTypes.NameIdentifier)" class="btn btn-primary">Beheer account</a>
+                        }
+
                     </div>
                 </div>
             </div>

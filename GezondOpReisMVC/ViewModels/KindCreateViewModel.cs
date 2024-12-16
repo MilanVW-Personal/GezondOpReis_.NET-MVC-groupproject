@@ -1,4 +1,6 @@
-﻿namespace GezondOpReis.ViewModels
+﻿using GezondOpReis.Models;
+
+namespace GezondOpReis.ViewModels
 {
     public class KindCreateViewModel
     {
@@ -9,5 +11,6 @@
         public DateTime GeboorteDatum { get; set; }
         public string Allergieen { get; set; }
         public string Medicatie { get; set; }
+        public CustomUser? CustomUser { get; set; }
     }
 }

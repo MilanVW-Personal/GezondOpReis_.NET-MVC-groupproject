@@ -22,6 +22,8 @@ namespace GezondOpReis.Controllers
 
 
             var user = await _userManager.FindByNameAsync(User.Identity.Name);
+            var userName = user.Voornaam + " " + user.Naam; // naam van de gebruiker tonen op het dashboard ipv VoornaamNaam1234556...
+            TempData["Username"] = userName; // naam opslaan in tempdata
 
             if (user == null)
                 return NotFound();
@@ -34,12 +36,35 @@ namespace GezondOpReis.Controllers
             var aankomendeReizen = await _unitOfWork.GroepsReisRepository.GetAankomendeReizen(user.Id); // aankomende reizen ophalen (waar huidige datum kleiner is dan de begindatum)
 
 
+            var opleidingen = await _unitOfWork.OpleidingRepo.GetAllAsync();
+            var opleidingenVM = new List<OpleidingViewModel>();
+            
+            foreach (var opleiding in opleidingen)
+            {
+                var ingeschrevenOpOpleiding = await _unitOfWork.OpleidingPersoonRepo.IsUserInschrijvingBestaatAsync(user.Id, opleiding.Id);
+                if (ingeschrevenOpOpleiding)
+                {
+                    opleidingenVM.Add(new OpleidingViewModel
+                    {
+                        Id = opleiding.Id,
+                        Naam = opleiding.Naam,
+                        Beschrijving = opleiding.Beschrijving,
+                        StartDatum = opleiding.Begindatum,
+                        EindDatum = opleiding.Einddatum,
+                        AantalPlaatsen = opleiding.AantalPlaatsen,
+                        IsIngeschreven = ingeschrevenOpOpleiding
+                    });
+                }
+            }
+
+
             var vm = new DashboardViewModel
             {
                 ReizenInVerleden = reizenInVerleden.ToList(),
-                IngeschrevenReizen = ingeschrevenReizen.ToList(),
+                IngeschrevenReizen = ingeschrevenReizen.Where(r => DateTime.Now <= r.EindDatum).ToList(),
                 Kinderen = kinderen.ToList(),
                 AankomendeReizen = aankomendeReizen.ToList(),
+                OpleidingenVanMonitoren = opleidingenVM
             };
 
             return View(vm);
