@@ -374,6 +374,35 @@ namespace GezondOpReis.Controllers
             return View(model);
         }
 
+        public async Task<IActionResult> MonitorDetails(int reisId)
+        {
+            var userId = _userManager.GetUserId(User);
+            if (userId == null)
+            {
+                return RedirectToAction("Login", "Gebruiker");
+            }
+
+            // Get the groepsreis and check if the user is the head monitor
+            var reis = await _context.GroepsReisRepository.GetGroepsReizenWithIdAsync(reisId);
+            if (reis == null)
+            {
+                return NotFound();
+            }
+
+            var isHoofdMonitor = reis.Monitoren?.Any(m => m.PersoonId == userId && m.isHoofdMonitor == true) ?? false;
+            if (!isHoofdMonitor)
+            {
+                return Forbid();
+            }
+
+            var groepsreis = await _context.GroepsReisRepository.GetGroepsReizenWithIdAsync(reisId);
+ 
+            var model = _mapper.Map<List<MonitorDeelneemerDetailsViewModel>>(groepsreis);
+
+            return View(model);
+        }
+
+
         private int CalculateAge(DateTime birthDate)
         {
             var today = DateTime.Today;

@@ -1,22 +1,19 @@
-@model List<DeelnemerDetailsViewModel>
+@model List<MonitorDeelneemerDetailsViewModel>
 @{
-    ViewData["Title"] = "Deelnemer details";
+    ViewData["Title"] = "Monitor details";
 }
 
 <div class="container mt-4">
     <div class="card shadow-sm border-0">
         <div class="card-body">
             <div class="d-flex justify-content-between align-items-center mb-4">
-                <h2 class="mb-0">Deelnemer Details</h2>
-                <a asp-action="ReisInfo" asp-route-id="@ViewContext.RouteData.Values["reisId"]" class="btn btn-outline-secondary">
-                    <i class="bi bi-arrow-left me-2"></i>Terug naar reis
-                </a>
+                <h2 class="mb-0">Monitor details</h2>
             </div>
 
             @if (!Model.Any())
             {
                 <div class="alert alert-info">
-                    Er zijn nog geen deelnemers ingeschreven voor deze reis.
+                    Er zijn nog geen Monitoren ingeschreven voor deze reis.
                 </div>
             }
             else
@@ -28,10 +25,9 @@
                                 <th>Naam</th>
                                 <th>Voornaam</th>
                                 <th>Leeftijd</th>
-                                <th>Telefoon Ouder</th>
-                                <th>Medicatie</th>
-                                <th>Allergieën</th>
-                                <th>Opmerkingen</th>
+                                <th>Telefoon</th>
+                                <th>Email</th>
+
                             </tr>
                         </thead>
                         <tbody>
@@ -41,10 +37,8 @@
                                     <td>@deelnemer.Naam</td>
                                     <td>@deelnemer.Voornaam</td>
                                     <td>@deelnemer.Leeftijd</td>
-                                    <td>@deelnemer.OuderTelefoon</td>
-                                    <td>@deelnemer.Medicatie</td>
-                                    <td>@deelnemer.Allergieen</td>
-                                    <td>@deelnemer.Opmerkingen</td>
+                                    <td>@deelnemer.Telefoon</td>
+                                    <td>@deelnemer.Email</td>
                                 </tr>
                             }
                         </tbody>
