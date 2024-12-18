@@ -9,5 +9,8 @@ namespace GezondOpReis.ViewModels
         public List<Kind> Kinderen { get; set; }
         public List<Groepsreis> AankomendeReizen { get; set; }
         public List<OpleidingViewModel> OpleidingenVanMonitoren { get; set; }
+        public List<Groepsreis> AdminAankomendeReizen { get; set; }
+        //public List<Groepsreis> AdminIngeschrevenReizen { get; set; }
+        //public List<Groepsreis> AdminVorigeReizen { get; set; }
     }
 }

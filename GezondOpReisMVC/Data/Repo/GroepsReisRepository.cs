@@ -94,5 +94,21 @@ namespace GezondOpReis.Data.Repo
         && DateTime.Now < gr.BeginDatum)
                 .ToListAsync();
         }
+
+        public async Task<IEnumerable<Groepsreis>> GetAdminAankomendeReizen()
+        {
+            return await _context.Groepsreizen
+               .Include(gr => gr.Bestemming)
+                   .ThenInclude(b => b.Fotos)
+               .Include(gr => gr.Monitoren)
+                   .ThenInclude(m => m.Persoon)
+               .Include(gr => gr.Deelnemers)
+                   .ThenInclude(d => d.Kind)
+               .Include(gr => gr.Programmas)
+                   .ThenInclude(p => p.Activiteit)
+               .Where(gr => (gr.Deelnemers.Count > 0 && gr.Monitoren.Count > 0)
+                      && DateTime.Now < gr.BeginDatum)
+               .ToListAsync();
+        }
     }
 }

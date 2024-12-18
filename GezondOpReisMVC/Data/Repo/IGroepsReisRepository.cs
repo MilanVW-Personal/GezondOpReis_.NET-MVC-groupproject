@@ -2,7 +2,7 @@ using GezondOpReis.Models;
 
 namespace GezondOpReis.Data.Repo
 {
-    public interface IGroepsReisRepository: IGenericRepository<Groepsreis>
+    public interface IGroepsReisRepository : IGenericRepository<Groepsreis>
     {
         Task<IEnumerable<Groepsreis>> GetAllGroepsReizenAsync();
 
@@ -12,5 +12,9 @@ namespace GezondOpReis.Data.Repo
         Task<IEnumerable<Groepsreis>> GetVorigeReizen(string persoonId);
 
         Task<IEnumerable<Groepsreis>> GetAankomendeReizen(string persoonId);
+
+        Task<IEnumerable<Groepsreis>> GetAdminAankomendeReizen();
+        //Task<IEnumerable<Groepsreis>> GetAdminVorigeReizen();
+        //Task<IEnumerable<Groepsreis>> GetAdminIngeschrevenReizen();
     }
 }

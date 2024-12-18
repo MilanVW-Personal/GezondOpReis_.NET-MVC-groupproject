@@ -35,6 +35,8 @@ namespace GezondOpReis.Controllers
             var reizenInVerleden = vorigeReizen.Where(r => !(DateTime.Now > r.EindDatum.AddMonths(1))); // de reizen in het verleden zijn de vorige ingeschreven reizen, waarvan de huidige datum niet groter is dan de einddatum, een maand later.
             var aankomendeReizen = await _unitOfWork.GroepsReisRepository.GetAankomendeReizen(user.Id); // aankomende reizen ophalen (waar huidige datum kleiner is dan de begindatum)
 
+            var aankomendeReizenAdmin = await _unitOfWork.GroepsReisRepository.GetAdminAankomendeReizen();
+
             /* Opleidingen van de monitoren ophalen */
             var opleidingen = await _unitOfWork.OpleidingRepo.GetAllAsync();
             var opleidingenVM = new List<OpleidingViewModel>();
@@ -64,7 +66,8 @@ namespace GezondOpReis.Controllers
                 IngeschrevenReizen = ingeschrevenReizen.ToList(),
                 Kinderen = kinderen.ToList(),
                 AankomendeReizen = aankomendeReizen.ToList(),
-                OpleidingenVanMonitoren = opleidingenVM
+                OpleidingenVanMonitoren = opleidingenVM,
+                AdminAankomendeReizen = aankomendeReizenAdmin.ToList(),
             };
 
             return View(vm);
