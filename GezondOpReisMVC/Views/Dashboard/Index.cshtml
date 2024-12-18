@@ -263,7 +263,7 @@
 		@if (Model.ReizenInVerleden.Count == 0) // Als de lijst van voorgaande reizen 0 items heeft (wordt effectief uit lijst verwijderd), zal deze tekst tonen
 		{
 			<div class="m-4">
-				<p>Je bent niet (meer) ingeschreven op een reis die voorbije is!</p>
+				<p>Je bent niet (meer) ingeschreven op een reis die voorbij is!</p>
 			</div>
 		}
 
@@ -356,6 +356,7 @@
 							{
 								<a asp-action="Index" asp-controller="Kind" asp-route-id="@User.FindFirstValue(ClaimTypes.NameIdentifier)" class="btn btn-primary">Beheer gezinsleden</a>
 								<a asp-action="Index" asp-controller="Gebruiker" asp-route-id="@User.FindFirstValue(ClaimTypes.NameIdentifier)" class="btn btn-primary">Beheer account</a>
+								<a asp-action="Create" asp-controller="Review" asp-route-id="@groepsreisInVerleden.BestemmingId" class="btn btn-primary">Geef review</a>
 							}
 
 						</div>

@@ -39,7 +39,8 @@ namespace GezondOpReis.Configuration
             CreateMap<Kind, KindEditViewModel>();
             CreateMap<Kind, KindDeleteViewModel>();
 
-            
+            CreateMap<Review, ReviewViewModel>();
+            CreateMap<Review, ReviewEditViewModel>();  
 
             CreateMap<Deelnemer, DeelnemerDetailsViewModel>()
                 .ForMember(dest => dest.Voornaam, opt => opt.MapFrom(src => src.Kind.Voornaam))

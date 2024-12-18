@@ -21,12 +21,18 @@ namespace GezondOpReis.Controllers
                 return RedirectToAction("Login", "Gebruiker");
 
 
+         
+
+
             var user = await _userManager.FindByNameAsync(User.Identity.Name);
             var userName = user.Voornaam + " " + user.Naam; // naam van de gebruiker tonen op het dashboard ipv VoornaamNaam1234556...
             TempData["Username"] = userName; // naam opslaan in tempdata
 
             if (user == null)
                 return NotFound();
+
+            var reviews = _unitOfWork.ReviewRepo.GetAlleReviewsVanUser(user.Id);
+            Console.Write(reviews);
 
             var kinderen = await _unitOfWork.KindRepository.GetAllKinderenFromOuders(user.Id);
             var vorigeReizen = await _unitOfWork.GroepsReisRepository.GetVorigeReizen(user.Id); // Deze methode zal alle reizen, waarop je bent ingeschreven, ophalen waarvan de einddatum in het verleden ligt. 

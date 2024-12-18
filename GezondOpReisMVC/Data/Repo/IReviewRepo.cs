@@ -4,6 +4,7 @@ namespace GezondOpReis.Data.Repo
 {
     public interface IReviewRepo : IGenericRepository<Review>
     {
-        Task<IEnumerable<Review>> GetAllReviewsVoorBestemmingVanUser(string persoonId, int bestemmingId);
+        Task<IEnumerable<Review>> GetAllReviewsVoorBestemming(int bestemmingId);
+        Task<IEnumerable<Review>> GetAlleReviewsVanUser(string userId);
     }
 }

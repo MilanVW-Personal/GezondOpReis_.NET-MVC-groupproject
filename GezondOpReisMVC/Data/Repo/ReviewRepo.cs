@@ -9,11 +9,18 @@ namespace GezondOpReis.Data.Repo
             
         }
 
-        public async Task<IEnumerable<Review>> GetAllReviewsVoorBestemmingVanUser(string persoonId, int bestemmingId)
+        public async Task<IEnumerable<Review>> GetAllReviewsVoorBestemming( int bestemmingId)
         {
            return await _context.Reviews
-                .Where(rv => rv.PersoonId == persoonId && rv.BestemmingId == bestemmingId)
+                .Where(rv => rv.BestemmingId == bestemmingId)
                 .ToListAsync();
+        }
+
+        public async Task<IEnumerable<Review>> GetAlleReviewsVanUser(string userId)
+        {
+            return await _context.Reviews
+                 .Where(rv => rv.PersoonId == userId)
+                 .ToListAsync();
         }
     }
 }
