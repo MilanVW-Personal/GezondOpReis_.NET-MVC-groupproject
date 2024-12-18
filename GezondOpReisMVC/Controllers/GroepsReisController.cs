@@ -24,6 +24,16 @@ namespace GezondOpReis.Controllers
         public async Task<IActionResult> Index()
         {
             var reizen = await _context.GroepsReisRepository.GetAllGroepsReizenAsync();
+
+            if (!User.IsInRole("Beheerder"))
+            {
+
+            var today = DateTime.Today;
+            
+            // Filter out trips that have already ended
+            reizen = reizen.Where(r => r.EindDatum >= today).ToList();
+            }
+            
             GroepsReizenTonenViewModel model = new GroepsReizenTonenViewModel();
 
             model.GroepsReizen = _mapper.Map<List<GroepsReisDetailsViewModel>>(reizen);

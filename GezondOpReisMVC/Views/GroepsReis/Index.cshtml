@@ -49,14 +49,14 @@
                 <div class="card-body">
                     <h5 class="card-title" >@item.Naam</h5>
                     <p class="card-text text-muted">
-                        @item.Beschrijving
+                        @(item.Beschrijving.Length > 75 ? item.Beschrijving[..75] + "..." : item.Beschrijving)
                     </p>
                     <ul class="list-unstyled mb-4">
                         <li><strong>Periode:</strong> @item.BeginDatum.ToShortDateString() - @item.EindDatum.ToShortDateString()</li>
                         <li><strong>Leeftijdscategorie:</strong> @item.MinLeeftijd - @item.MaxLeeftijd</li>
                         <li><strong>Prijs:</strong> €@item.Prijs.ToString("F2")</li>
                     </ul>
-                    <div class="d-flex justify-content-between align-items-center">
+                    <div class="d-flex justify-content-between align-items-center ">
                         <div>
                             <a asp-action="ReisInfo" asp-route-id="@item.id" class="btn btn-primary">Meer Informatie</a>
                         </div>
@@ -131,10 +131,10 @@
 
                 // Check age range
                 let matchesAge = true;
-                if (minAge !== null && reisMinAge < minAge) {
+                if (minAge !== null && reisMinAge > minAge) {
                     matchesAge = false;
                 }
-                if (maxAge !== null && reisMaxAge > maxAge) {
+                if (maxAge !== null && reisMaxAge < maxAge) {
                     matchesAge = false;
                 }
 
