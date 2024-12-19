@@ -6,9 +6,10 @@
 
 @model ReviewCreateViewModel
 
-<h4>Gebruik onderstaand formulier om een nieuwe review toe te voegen</h4>
+<h4>Voeg nieuwe review toe</h4>
 <div>
-    <form asp-action="Create" enctype="multipart/form-data" onsubmit="return validateForm()">
+    <form asp-action="Create" enctype="multipart/form-data">
+        <input hidden name="bestemmingId" value="@ViewData["bestemming"]"/>
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="form-group">
             <label asp-for="Score" class="control-label"></label>
@@ -23,14 +24,20 @@
         </div> 
         <div class="form-group">
             <label asp-for="Tekst" class="control-label"></label>
-            <textarea asp-for="Tekst" class="form-control"/>
+            <textarea asp-for="Tekst" class="form-control"></textarea>
             <span asp-validation-for="Tekst" class="text-danger"></span>
         </div>
      
 
         <div class="form-group mt-2">
-            <input type="submit" value="Kind toevoegen" class="btn btn-primary" />
+            <input type="submit" value="Plaats review" class="btn btn-primary" />
             <a asp-action="Index" asp-controller="Dashboard" class="btn btn-primary">Terug naar dashboard</a>
         </div>
     </form>
 </div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

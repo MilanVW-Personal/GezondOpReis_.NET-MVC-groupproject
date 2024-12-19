@@ -4,9 +4,9 @@ namespace GezondOpReis.ViewModels
 {
     public class ReviewCreateViewModel
     {
-        public string? Tekst { get; set; }
-        public int Score { get; set; }
-        public Bestemming? Bestemming { get; set; }
-        public CustomUser? Persoon { get; set; }
-    }
+		public string PersoonId { get; set; }
+		public int BestemmingId { get; set; }
+		public string? Tekst { get; set; }
+		public int Score { get; set; }
+	}
 }

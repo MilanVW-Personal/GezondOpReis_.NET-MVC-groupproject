@@ -31,9 +31,7 @@ namespace GezondOpReis.Controllers
             if (user == null)
                 return NotFound();
 
-            var reviews = _unitOfWork.ReviewRepo.GetAlleReviewsVanUser(user.Id);
-            Console.Write(reviews);
-
+        
             var kinderen = await _unitOfWork.KindRepository.GetAllKinderenFromOuders(user.Id);
             var vorigeReizen = await _unitOfWork.GroepsReisRepository.GetVorigeReizen(user.Id); // Deze methode zal alle reizen, waarop je bent ingeschreven, ophalen waarvan de einddatum in het verleden ligt. 
             var ingeschrevenReizen = await _unitOfWork.GroepsReisRepository.GetIngeschrevenGroepsreizen(user.Id);

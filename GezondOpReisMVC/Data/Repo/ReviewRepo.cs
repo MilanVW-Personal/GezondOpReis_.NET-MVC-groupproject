@@ -22,5 +22,12 @@ namespace GezondOpReis.Data.Repo
                  .Where(rv => rv.PersoonId == userId)
                  .ToListAsync();
         }
+
+        public async Task<IEnumerable<Review>> GetAlleReviewsVanUserVoorBestemming(string userId, int bestemmingId)
+        {
+            return await _context.Reviews
+                 .Where(rv => (rv.PersoonId == userId && rv.BestemmingId == bestemmingId))
+                 .ToListAsync();
+        }
     }
 }

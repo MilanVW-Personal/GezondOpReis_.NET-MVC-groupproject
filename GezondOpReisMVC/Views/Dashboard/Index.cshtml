@@ -270,6 +270,7 @@
 		<div class="row row-cols-1 row-cols-md-3 g-4">
 			@foreach (var groepsreisInVerleden in Model.ReizenInVerleden)
 			{
+				Console.WriteLine(groepsreisInVerleden.BestemmingId);
 				<div class="col">
 					<div class="card h-100">
 						@if (groepsreisInVerleden.Bestemming.Fotos.Count > 1)
@@ -356,12 +357,13 @@
 							{
 								<a asp-action="Index" asp-controller="Kind" asp-route-id="@User.FindFirstValue(ClaimTypes.NameIdentifier)" class="btn btn-primary">Beheer gezinsleden</a>
 								<a asp-action="Index" asp-controller="Gebruiker" asp-route-id="@User.FindFirstValue(ClaimTypes.NameIdentifier)" class="btn btn-primary">Beheer account</a>
-								<a asp-action="Create" asp-controller="Review" asp-route-id="@groepsreisInVerleden.BestemmingId" class="btn btn-primary">Geef review</a>
+								<a asp-action="Create" asp-controller="Review" asp-route-bestemmingId="@groepsreisInVerleden.BestemmingId" class="btn btn-primary">Geef review</a>
 							}
 
 						</div>
 					</div>
 				</div>
+				
 			}
 		</div>
 

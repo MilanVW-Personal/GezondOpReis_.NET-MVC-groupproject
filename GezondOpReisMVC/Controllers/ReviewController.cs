@@ -15,27 +15,30 @@ namespace GezondOpReis.Controllers
             _userManager = userManager;
         }
 
-        public async Task<IActionResult> Create(ReviewCreateViewModel vm, int groepsreisId)
+        public IActionResult Create(int bestemmingId)
         {
-            if (ModelState.IsValid)
+            ViewData["bestemming"] = bestemmingId; // nodig om create te laten werken
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(ReviewCreateViewModel vm, int bestemmingId)
+        {
+            // zonder modelstate werkt deze te goei.
+            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+            var review = new Review
             {
-                var user = _userManager.FindByNameAsync(User.Identity.Name);
+                PersoonId = user.Id,
+                BestemmingId = bestemmingId,
+                Tekst = vm.Tekst,
+                Score = vm.Score,
+            };
 
-                var review = new Review
-                {
-                    PersoonId = user.Id.ToString(),
-                    BestemmingId = groepsreisId,
-                    Tekst = vm.Tekst,
-                    Score = vm.Score,
-                };
-
-
-                await _unitOfWork.ReviewRepo.AddAsync(review);
-                await _unitOfWork.SaveChangesAsync();
-                return RedirectToAction("Index", "Dashboard");
-            }
-
-            return View(vm);
+            await _unitOfWork.ReviewRepo.AddAsync(review);
+            await _unitOfWork.SaveChangesAsync();
+           
+            return RedirectToAction("Index", "Dashboard");
         }
     }
 }
