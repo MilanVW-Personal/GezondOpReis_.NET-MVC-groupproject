@@ -30,6 +30,7 @@ namespace GezondOpReis.Configuration
                 .ForMember(dest => dest.Fotos, opt => opt.MapFrom(src => src.Bestemming.Fotos.Select(f => f.Naam).ToList()))
                 .ForMember(dest => dest.Reviews, opt => opt.MapFrom(src => src.Bestemming.Reviews.Select(r => new ReviewViewModel
                 {
+                    Id = r.Id,
                     PersoonId = r.PersoonId,
                     BestemmingId = r.BestemmingId,
                     Tekst = r.Tekst,
@@ -48,7 +49,7 @@ namespace GezondOpReis.Configuration
             CreateMap<Kind, KindDeleteViewModel>();
 
             CreateMap<Review, ReviewViewModel>();
-            CreateMap<Review, ReviewEditViewModel>();  
+            CreateMap<Review, ReviewEditViewModel>();   
 
             CreateMap<Deelnemer, DeelnemerDetailsViewModel>()
                 .ForMember(dest => dest.Voornaam, opt => opt.MapFrom(src => src.Kind.Voornaam))

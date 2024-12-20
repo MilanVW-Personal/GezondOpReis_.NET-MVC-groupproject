@@ -1,4 +1,5 @@
 ﻿using GezondOpReis.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace GezondOpReis.Controllers
 {
@@ -96,6 +97,22 @@ namespace GezondOpReis.Controllers
             }
 
             return View(vm);
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteReview(int id)
+        {
+            var review = await _unitOfWork.ReviewRepo.GetByIdAsync(id);
+
+            if (review != null)
+            {
+                _unitOfWork.ReviewRepo.Delete(review);
+                await _unitOfWork.SaveChangesAsync();
+            }
+
+            return RedirectToAction("Index", "GroepsReis");
         }
     }
 }
