@@ -45,16 +45,16 @@ SET IDENTITY_INSERT Foto OFF;
 
 SET IDENTITY_INSERT Groepsreis ON;
 INSERT INTO Groepsreis (Id, BestemmingId, BeginDatum, EindDatum, prijs) VALUES
-(1, 1, '2023-07-01', '2023-07-07', 500.0),
-(2, 2, '2023-08-10', '2023-08-17', 750.0),
-(3, 3, '2023-07-15', '2023-07-22', 600.0),
-(4, 4, '2023-06-20', '2023-06-27', 550.0),
-(5, 5, '2023-07-05', '2023-07-12', 800.0),
-(6, 6, '2023-08-01', '2023-08-08', 650.0),
-(7, 7, '2023-07-25', '2023-08-01', 700.0),
-(8, 8, '2023-08-15', '2023-08-22', 750.0),
-(9, 9, '2023-07-10', '2023-07-17', 720.0),
-(10, 10, '2023-08-05', '2023-08-12', 770.0);
+(1, 1, '2025-07-01', '2025-07-07', 500.0),
+(2, 2, '2025-08-10', '2025-08-17', 750.0),
+(3, 3, '2025-07-15', '2025-07-22', 600.0),
+(4, 4, '2025-06-20', '2025-06-27', 550.0),
+(5, 5, '2025-07-05', '2025-07-12', 800.0),
+(6, 6, '2025-08-01', '2025-08-08', 650.0),
+(7, 7, '2025-07-25', '2025-08-01', 700.0),
+(8, 8, '2025-08-15', '2025-08-22', 750.0),
+(9, 9, '2025-07-10', '2025-07-17', 720.0),
+(10, 10, '2025-08-05', '2025-08-12', 770.0);
 SET IDENTITY_INSERT Groepsreis OFF;
 
 SET IDENTITY_INSERT Activiteit ON;
@@ -85,16 +85,16 @@ SET IDENTITY_INSERT Programma OFF;
 
 SET IDENTITY_INSERT Onkosten ON;
 INSERT INTO Onkosten (Id, GroepsreisId, Titel, Omschrijving, Bedrag, Datum, Foto) VALUES
-(1, 1, 'Boodschappen', 'Boodschappen voor het kamp', 200.0, '2023-07-01', NULL),
-(2, 2, 'Bus Huur', 'Huur van bus voor vervoer', 500.0, '2023-08-10', NULL),
-(3, 3, 'Materialen', 'Materialen voor workshops', 150.0, '2023-07-15', NULL),
-(4, 4, 'Kampeerspullen', 'Huur van tenten', 300.0, '2023-06-20', NULL),
-(5, 5, 'Zeilboten', 'Huur van zeilboten', 600.0, '2023-07-05', NULL),
-(6, 6, 'Musea Tickets', 'Toegang tot musea', 250.0, '2023-08-01', NULL),
-(7, 7, 'Sportuitrusting', 'Aankoop sportmateriaal', 400.0, '2023-07-25', NULL),
-(8, 8, 'Concertkaartjes', 'Bezoek aan concerten', 350.0, '2023-08-15', NULL),
-(9, 9, 'Technische Apparatuur', 'Huur apparatuur', 500.0, '2023-07-10', NULL),
-(10, 10, 'Fotocamera''s', 'Huur van camera''s', 450.0, '2023-08-05', NULL);
+(1, 1, 'Boodschappen', 'Boodschappen voor het kamp', 200.0, '2025-07-01', NULL),
+(2, 2, 'Bus Huur', 'Huur van bus voor vervoer', 500.0, '2025-08-10', NULL),
+(3, 3, 'Materialen', 'Materialen voor workshops', 150.0, '2025-07-15', NULL),
+(4, 4, 'Kampeerspullen', 'Huur van tenten', 300.0, '2025-06-20', NULL),
+(5, 5, 'Zeilboten', 'Huur van zeilboten', 600.0, '2025-07-05', NULL),
+(6, 6, 'Musea Tickets', 'Toegang tot musea', 250.0, '2025-08-01', NULL),
+(7, 7, 'Sportuitrusting', 'Aankoop sportmateriaal', 400.0, '2025-07-25', NULL),
+(8, 8, 'Concertkaartjes', 'Bezoek aan concerten', 350.0, '2025-08-15', NULL),
+(9, 9, 'Technische Apparatuur', 'Huur apparatuur', 500.0, '2025-07-10', NULL),
+(10, 10, 'Fotocamera''s', 'Huur van camera''s', 450.0, '2025-08-05', NULL);
 SET IDENTITY_INSERT Onkosten OFF;
 
 
