@@ -49,6 +49,18 @@ namespace GezondOpReis.Configuration
                 .ForMember(dest => dest.Allergieen, opt => opt.MapFrom(src => src.Kind.Allergieen))
                 .ForMember(dest => dest.Leeftijd, opt => opt.MapFrom(src => CalculateAge(src.Kind.GeboorteDatum)))
                 .ForMember(dest => dest.Opmerkingen, opt => opt.MapFrom(src => src.Opmerkingen ?? "Geen"));
+            
+
+            CreateMap<Groepsreis, List<MonitorDeelneemerDetailsViewModel>>()
+                .ConvertUsing((src, dest, context) => src.Monitoren
+                    .Select(m => new MonitorDeelneemerDetailsViewModel
+                    {
+                        Voornaam = m.Persoon.Voornaam,
+                        Naam = m.Persoon.Naam,
+                        Leeftijd = CalculateAge(m.Persoon.GeboorteDatum),
+                        Telefoon = m.Persoon.TelefoonNummer,
+                        Email = m.Persoon.Email
+                    }).ToList());
 
         }
         private int CalculateAge(DateTime birthDate)

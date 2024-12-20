@@ -28,6 +28,16 @@ namespace GezondOpReis.Controllers
         public async Task<IActionResult> Index()
         {
             var reizen = await _context.GroepsReisRepository.GetAllGroepsReizenAsync();
+
+            if (!User.IsInRole("Beheerder"))
+            {
+
+            var today = DateTime.Today;
+            
+            // Filter out trips that have already ended
+            reizen = reizen.Where(r => r.EindDatum >= today).ToList();
+            }
+            
             GroepsReizenTonenViewModel model = new GroepsReizenTonenViewModel();
 
             model.GroepsReizen = _mapper.Map<List<GroepsReisDetailsViewModel>>(reizen);
@@ -43,6 +53,9 @@ namespace GezondOpReis.Controllers
             {
                 return NotFound();
             }
+
+            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+
 
             GroepsReisInfoViewModel model = _mapper.Map<GroepsReisInfoViewModel>(reis);
             return View(model);
@@ -424,6 +437,35 @@ namespace GezondOpReis.Controllers
 
             return View(model);
         }
+
+        public async Task<IActionResult> MonitorDetails(int reisId)
+        {
+            var userId = _userManager.GetUserId(User);
+            if (userId == null)
+            {
+                return RedirectToAction("Login", "Gebruiker");
+            }
+
+            // Get the groepsreis and check if the user is the head monitor
+            var reis = await _context.GroepsReisRepository.GetGroepsReizenWithIdAsync(reisId);
+            if (reis == null)
+            {
+                return NotFound();
+            }
+
+            var isHoofdMonitor = reis.Monitoren?.Any(m => m.PersoonId == userId && m.isHoofdMonitor == true) ?? false;
+            if (!isHoofdMonitor)
+            {
+                return Forbid();
+            }
+
+            var groepsreis = await _context.GroepsReisRepository.GetGroepsReizenWithIdAsync(reisId);
+ 
+            var model = _mapper.Map<List<MonitorDeelneemerDetailsViewModel>>(groepsreis);
+
+            return View(model);
+        }
+
 
         private int CalculateAge(DateTime birthDate)
         {
