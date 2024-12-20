@@ -11,6 +11,8 @@ namespace GezondOpReis.Data.Repo
             return await _context.Groepsreizen
                 .Include(gr => gr.Bestemming)
                     .ThenInclude(b => b.Fotos)
+                 .Include(gr => gr.Bestemming)
+                    .ThenInclude(b => b.Reviews)
                 .Include(gr => gr.Monitoren)
                     .ThenInclude(m => m.Persoon)
                 .Include(gr => gr.Deelnemers)
@@ -26,6 +28,8 @@ namespace GezondOpReis.Data.Repo
             return await _context.Groepsreizen
                 .Include(gr => gr.Bestemming)
                     .ThenInclude(b => b.Fotos)
+                .Include(gr => gr.Bestemming)
+                    .ThenInclude(b => b.Reviews)
                 .Include(gr => gr.Monitoren)
                     .ThenInclude(m => m.Persoon)
                 .Include(gr => gr.Deelnemers)
@@ -52,6 +56,8 @@ namespace GezondOpReis.Data.Repo
             return await _context.Groepsreizen
                 .Include(gr => gr.Bestemming)
                     .ThenInclude(b => b.Fotos)
+                .Include(gr => gr.Bestemming)
+                    .ThenInclude(b => b.Reviews)
                 .Include(gr => gr.Monitoren)
                     .ThenInclude(m => m.Persoon)
                 .Include(gr => gr.Deelnemers)
@@ -68,6 +74,8 @@ namespace GezondOpReis.Data.Repo
             return await _context.Groepsreizen
                 .Include(gr => gr.Bestemming)
                     .ThenInclude(b => b.Fotos)
+                .Include(gr => gr.Bestemming)
+                    .ThenInclude(b => b.Reviews)
                 .Include(gr => gr.Monitoren)
                     .ThenInclude(m => m.Persoon)
                 .Include(gr => gr.Deelnemers)
@@ -84,6 +92,8 @@ namespace GezondOpReis.Data.Repo
             return await _context.Groepsreizen
                 .Include(gr => gr.Bestemming)
                     .ThenInclude(b => b.Fotos)
+                .Include(gr => gr.Bestemming)
+                    .ThenInclude(b => b.Reviews)
                 .Include(gr => gr.Monitoren)
                     .ThenInclude(m => m.Persoon)
                 .Include(gr => gr.Deelnemers)
@@ -100,6 +110,8 @@ namespace GezondOpReis.Data.Repo
             return await _context.Groepsreizen
                .Include(gr => gr.Bestemming)
                    .ThenInclude(b => b.Fotos)
+               .Include(gr => gr.Bestemming)
+                    .ThenInclude(b => b.Reviews)
                .Include(gr => gr.Monitoren)
                    .ThenInclude(m => m.Persoon)
                .Include(gr => gr.Deelnemers)

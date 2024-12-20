@@ -8,5 +8,6 @@ namespace GezondOpReis.ViewModels
         public int BestemmingId { get; set; }
         public string? Tekst { get; set; }
         public int Score { get; set; }
+        public CustomUser? Persoon { get; set; }
     }
 }

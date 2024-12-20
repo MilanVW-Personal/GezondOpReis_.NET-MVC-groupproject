@@ -219,7 +219,47 @@ else
                 </div>
             </div>
         }
+
     }
+
+
+        <div class="row mt-4">
+            <div class="col-md-12">
+                <div class="card shadow-sm border-0">
+                    <div class="card-body">
+                        <h4 class="card-title">Reviews voor deze reis</h4>
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Gebruiker</th>
+                                        <th>Commentaar</th>
+                                        <th>Aantal sterren</th>
+                                        <th>Acties</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                @if(Model.Reviews.Count == 0)
+                                {
+                                    <tr>
+                                        <td colspan="4" class="text-center m-2">Er zijn geen reviews voor deze reis!</td>
+                                    </tr>
+                                }
+                                @foreach (var review in Model.Reviews)
+                                {
+                                    <tr>
+                                        <td>@review.Persoon.UserName</td>
+                                        <td>@review.Tekst</td>
+                                        <td>@review.Score</td>
+                                    </tr>
+                                }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     
 
 </div>

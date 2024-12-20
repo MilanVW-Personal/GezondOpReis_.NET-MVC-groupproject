@@ -16,5 +16,6 @@ namespace GezondOpReis.ViewModels
         public List<ActiviteitViewModel> Activiteiten { get; set; }
         public List<Models.Monitor>? Monitoren { get; set; } 
         public List<Deelnemer>? Deelnemers { get; set; }
+        public List<ReviewViewModel>? Reviews { get; set; }
     }
 }
