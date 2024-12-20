@@ -114,13 +114,13 @@ VALUES
 
 -- Gebruiker 2
 ('user2', 'De Vries', 'Anna', 'Kerkstraat', '25', 'Rotterdam', '2000 BB', '1992-05-15', 
- 'Dr. Pietersen', '0611223344', 'anna.devries@example.com', NULL, '0611223344', 
+ 'Dr. Pietersen', '0611223344', 'anna.devries@example.com', 1, '0611223344', 
  'NL00BANK9876543210', 1, 'anna.devries', 'ANNA.DEVRIES', 'ANNA.DEVRIES@EXAMPLE.COM', 
  1, 0, NEWID(), 0, 0, 0, NULL, 'AQAAAAEAACcQAAAAEPA0ilNiENW5caMaSm+koWVeW4mK3JCyUBRwezLMHbBfT83eEsMdkac5Zb9NU8I3Ug=='),
 
 -- Gebruiker 3
 ('user3', 'Bakker', 'Klaas', 'Dorpstraat', '12A', 'Utrecht', '3000 CC', '1985-10-20', 
- 'Dr. Van Dijk', '0615566778', 'klaas.bakker@example.com', 1, '0615566778', 
+ 'Dr. Van Dijk', '0615566778', 'klaas.bakker@example.com', NULL, '0615566778', 
  'NL00BANK1234567890', 1, 'klaas.bakker', 'KLAAS.BAKKER', 'KLAAS.BAKKER@EXAMPLE.COM', 
  1, 0, NEWID(), 0, 0, 0, NULL, 'AQAAAAEAACcQAAAAEPA0ilNiENW5caMaSm+koWVeW4mK3JCyUBRwezLMHbBfT83eEsMdkac5Zb9NU8I3Ug=='),
 
