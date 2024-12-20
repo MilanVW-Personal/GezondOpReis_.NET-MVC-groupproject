@@ -110,37 +110,37 @@ VALUES
 ('user1', 'Jansen', 'Jan', 'Hoofdstraat', '1', 'Amsterdam', '1000 AA', '1980-01-01', 
  'Dr. Smit', '0612345678', 'jan.jansen@example.com', NULL, '0612345678', 
  'NL00BANK0123456789', 1, 'jan.jansen', 'JAN.JANSEN', 'JAN.JANSEN@EXAMPLE.COM', 
- 1, 0, NEWID(), 0, 0, 0, NULL, 'AQAAAAEAACcQAAAAECdG3BXjF+0kzvC8Bti8c6zD/HRVbEN6NXs0fZ9nWVkch0wraCb99S0Bi1EJ6v6XYQ=='),
+ 1, 0, NEWID(), 0, 0, 0, NULL, 'AQAAAAEAACcQAAAAEPA0ilNiENW5caMaSm+koWVeW4mK3JCyUBRwezLMHbBfT83eEsMdkac5Zb9NU8I3Ug=='),
 
 -- Gebruiker 2
 ('user2', 'De Vries', 'Anna', 'Kerkstraat', '25', 'Rotterdam', '2000 BB', '1992-05-15', 
  'Dr. Pietersen', '0611223344', 'anna.devries@example.com', NULL, '0611223344', 
  'NL00BANK9876543210', 1, 'anna.devries', 'ANNA.DEVRIES', 'ANNA.DEVRIES@EXAMPLE.COM', 
- 1, 0, NEWID(), 0, 0, 0, NULL, 'AQAAAAEAACcQAAAAECdG3BXjF+0kzvC8Bti8c6zD/HRVbEN6NXs0fZ9nWVkch0wraCb99S0Bi1EJ6v6XYQ=='),
+ 1, 0, NEWID(), 0, 0, 0, NULL, 'AQAAAAEAACcQAAAAEPA0ilNiENW5caMaSm+koWVeW4mK3JCyUBRwezLMHbBfT83eEsMdkac5Zb9NU8I3Ug=='),
 
 -- Gebruiker 3
 ('user3', 'Bakker', 'Klaas', 'Dorpstraat', '12A', 'Utrecht', '3000 CC', '1985-10-20', 
  'Dr. Van Dijk', '0615566778', 'klaas.bakker@example.com', 1, '0615566778', 
  'NL00BANK1234567890', 1, 'klaas.bakker', 'KLAAS.BAKKER', 'KLAAS.BAKKER@EXAMPLE.COM', 
- 1, 0, NEWID(), 0, 0, 0, NULL, 'AQAAAAEAACcQAAAAECdG3BXjF+0kzvC8Bti8c6zD/HRVbEN6NXs0fZ9nWVkch0wraCb99S0Bi1EJ6v6XYQ=='),
+ 1, 0, NEWID(), 0, 0, 0, NULL, 'AQAAAAEAACcQAAAAEPA0ilNiENW5caMaSm+koWVeW4mK3JCyUBRwezLMHbBfT83eEsMdkac5Zb9NU8I3Ug=='),
 
 -- Gebruiker 4
 ('user4', 'Meijer', 'Sophie', 'Lindelaan', '7', 'Den Haag', '4000 DD', '1995-03-12', 
  'Dr. Janssen', '0622334455', 'sophie.meijer@example.com', NULL, '0622334455', 
  'NL00BANK5647382910', 1, 'sophie.meijer', 'SOPHIE.MEIJER', 'SOPHIE.MEIJER@EXAMPLE.COM', 
- 1, 0, NEWID(), 0, 0, 0, NULL, 'AQAAAAEAACcQAAAAECdG3BXjF+0kzvC8Bti8c6zD/HRVbEN6NXs0fZ9nWVkch0wraCb99S0Bi1EJ6v6XYQ=='),
+ 1, 0, NEWID(), 0, 0, 0, NULL, 'AQAAAAEAACcQAAAAEPA0ilNiENW5caMaSm+koWVeW4mK3JCyUBRwezLMHbBfT83eEsMdkac5Zb9NU8I3Ug=='),
 
 -- Gebruiker 5
 ('user5', 'Van Dam', 'Pieter', 'Breestraat', '32B', 'Leiden', '5000 EE', '1978-12-05', 
  'Dr. De Haan', '0644556677', 'pieter.vandam@example.com', NULL, '0644556677', 
  'NL00BANK0987654321', 1, 'pieter.vandam', 'PIETER.VANDAM', 'PIETER.VANDAM@EXAMPLE.COM', 
- 1, 0, NEWID(), 0, 0, 0, NULL, 'AQAAAAEAACcQAAAAECdG3BXjF+0kzvC8Bti8c6zD/HRVbEN6NXs0fZ9nWVkch0wraCb99S0Bi1EJ6v6XYQ=='),
+ 1, 0, NEWID(), 0, 0, 0, NULL, 'AQAAAAEAACcQAAAAEPA0ilNiENW5caMaSm+koWVeW4mK3JCyUBRwezLMHbBfT83eEsMdkac5Zb9NU8I3Ug=='),
 
 -- Gebruiker 6
 ('user6', 'Visser', 'Laura', 'Parklaan', '44', 'Groningen', '6000 FF', '1990-07-23', 
  'Dr. Smits', '0633445566', 'laura.visser@example.com', NULL, '0633445566', 
  'NL00BANK1122334455', 1, 'laura.visser', 'LAURA.VISSER', 'LAURA.VISSER@EXAMPLE.COM', 
- 1, 0, NEWID(), 0, 0, 0, NULL, 'AQAAAAEAACcQAAAAECdG3BXjF+0kzvC8Bti8c6zD/HRVbEN6NXs0fZ9nWVkch0wraCb99S0Bi1EJ6v6XYQ==');
+ 1, 0, NEWID(), 0, 0, 0, NULL, 'AQAAAAEAACcQAAAAEPA0ilNiENW5caMaSm+koWVeW4mK3JCyUBRwezLMHbBfT83eEsMdkac5Zb9NU8I3Ug==');
 
 
 INSERT INTO AspNetRoles (Id, Name, NormalizedName) VALUES
@@ -182,7 +182,6 @@ SET IDENTITY_INSERT Kind OFF;
 SET IDENTITY_INSERT Deelnemer ON;
 INSERT INTO Deelnemer (Id, KindId, GroepsreisId, Opmerkingen) VALUES
 (1, 1, 1, 'Vegetarisch'),
-(2, 2, 1, NULL),
 (3, 3, 2, 'Allergisch voor pinda''s'),
 (4, 4, 4, 'Glutenvrij dieet');
 SET IDENTITY_INSERT Deelnemer OFF;
