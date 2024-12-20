@@ -45,16 +45,21 @@ namespace GezondOpReis.Services
                     }
 
                     // Rollen seeden
-                    string[] roles = { "Beheerder", "Gebruiker", "Monitor", "Ouder", "Verantwoordelijke" };
+                    //string[] roles = { "Beheerder", "Gebruiker", "Monitor", "Ouder", "Verantwoordelijke" };
 
-                    foreach (var role in roles)
+                    //foreach (var role in roles)
+                    //{
+                    //    if (!await roleManager.RoleExistsAsync(role))
+                    //    {
+                    //        await roleManager.CreateAsync(new IdentityRole(role));
+                    //    }
+                    //}
+                    string role = "Beheerder";
+                    if (!await roleManager.RoleExistsAsync(role))
                     {
-                        if (!await roleManager.RoleExistsAsync(role))
-                        {
-                            await roleManager.CreateAsync(new IdentityRole(role));
-                        }
+                        await roleManager.CreateAsync(new IdentityRole(role));
                     }
-                    
+
                     // Add the user to the "Beheerder" role
                     var addToRoleResult = await userManager.AddToRoleAsync(defaultUser, "Beheerder");
                     if (!addToRoleResult.Succeeded)

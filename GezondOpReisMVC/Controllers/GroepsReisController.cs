@@ -6,6 +6,10 @@ using GezondOpReis.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Monitor = GezondOpReis.Models.Monitor;
 using Microsoft.EntityFrameworkCore;
+using GezondOpReis.Data.Repo;
+using MailKit.Net.Smtp;
+using MailKit;
+using MimeKit;
 
 namespace GezondOpReis.Controllers
 {
@@ -14,7 +18,7 @@ namespace GezondOpReis.Controllers
         private readonly IUnitOfWork _context;
         private readonly IMapper _mapper;
         private readonly UserManager<CustomUser> _userManager;
-
+        
         public GroepsReisController(IUnitOfWork context, IMapper mapper, UserManager<CustomUser> userManager)
         {
             _context = context;
@@ -25,6 +29,16 @@ namespace GezondOpReis.Controllers
         public async Task<IActionResult> Index()
         {
             var reizen = await _context.GroepsReisRepository.GetAllGroepsReizenAsync();
+
+            if (!User.IsInRole("Beheerder"))
+            {
+
+            var today = DateTime.Today;
+            
+            // Filter out trips that have already ended
+            reizen = reizen.Where(r => r.EindDatum >= today).ToList();
+            }
+            
             GroepsReizenTonenViewModel model = new GroepsReizenTonenViewModel();
 
             model.GroepsReizen = _mapper.Map<List<GroepsReisDetailsViewModel>>(reizen);
@@ -40,6 +54,9 @@ namespace GezondOpReis.Controllers
             {
                 return NotFound();
             }
+
+            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+
 
             GroepsReisInfoViewModel model = _mapper.Map<GroepsReisInfoViewModel>(reis);
             return View(model);
@@ -232,6 +249,56 @@ namespace GezondOpReis.Controllers
                 Opmerkingen = model.Opmerkingen
             };
 
+            
+            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+            var groepsreis = _context.GroepsReisRepository.GetByIdAsync(model.GroepsReisId);
+
+            string message =
+                $@"<html>
+                <body>
+                    <p><strong>Onderwerp:</strong> Inschrijving voor groepsreis bevestigd</p>
+                    <p>Beste,</p>
+                    <p>Uw kind is succesvol ingeschreven voor de geplande groepsreis.</p>
+                    <p><strong>Details van de reis:</strong></p>
+                    <ul>
+                        <li><strong>Begindatum:</strong> {groepsreis.Result.BeginDatum.ToShortDateString()}</li>
+                        <li><strong>Einddatum:</strong> {groepsreis.Result.EindDatum.ToShortDateString()}</li>
+                    </ul>
+                    <p>Als u nog vragen heeft of wijzigingen wilt aanbrengen, aarzel dan niet om contact met ons op te nemen.</p>
+                    <p>Met vriendelijke groet,</p>
+                    <p>Gezond op reis</p>
+                </body>
+                </html>";
+
+
+
+
+
+            var email = new MimeMessage();
+
+            email.From.Add(new MailboxAddress("Gezond op reis", "gezondopreis@gmail.com"));
+            email.To.Add(new MailboxAddress("Receiver Name", user.Email));
+
+            email.Subject = "Bevestiging inschrijven reis";
+            email.Body = new TextPart(MimeKit.Text.TextFormat.Html)
+            {
+                Text = message
+            };
+
+            using (var smtp = new SmtpClient())
+            {
+                smtp.Connect("smtp.gmail.com", 587, false);
+
+                smtp.Authenticate("gezondopreis@gmail.com", "mtiz ltmb vfju nqig");
+
+                smtp.Send(email);
+                smtp.Disconnect(true);
+            }
+
+
+
+
+
             try
             {
                 await _context.DeelnemerRepository.AddAsync(deelnemer);
@@ -371,6 +438,35 @@ namespace GezondOpReis.Controllers
 
             return View(model);
         }
+
+        public async Task<IActionResult> MonitorDetails(int reisId)
+        {
+            var userId = _userManager.GetUserId(User);
+            if (userId == null)
+            {
+                return RedirectToAction("Login", "Gebruiker");
+            }
+
+            // Get the groepsreis and check if the user is the head monitor
+            var reis = await _context.GroepsReisRepository.GetGroepsReizenWithIdAsync(reisId);
+            if (reis == null)
+            {
+                return NotFound();
+            }
+
+            var isHoofdMonitor = reis.Monitoren?.Any(m => m.PersoonId == userId && m.isHoofdMonitor == true) ?? false;
+            if (!isHoofdMonitor)
+            {
+                return Forbid();
+            }
+
+            var groepsreis = await _context.GroepsReisRepository.GetGroepsReizenWithIdAsync(reisId);
+ 
+            var model = _mapper.Map<List<MonitorDeelneemerDetailsViewModel>>(groepsreis);
+
+            return View(model);
+        }
+
 
         private int CalculateAge(DateTime birthDate)
         {

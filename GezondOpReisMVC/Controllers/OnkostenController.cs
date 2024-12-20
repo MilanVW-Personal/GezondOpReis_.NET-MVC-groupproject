@@ -21,6 +21,7 @@ namespace GezondOpReis.Controllers
         {
             var onkosten = await _context.OnkostenRepository.GetAllAsync();
             List<OnkostViewModel> viewmodel = new List<OnkostViewModel>();
+            float totaalkost = 0;
             if (onkosten != null)
             {
                 foreach (var onkost in onkosten)
@@ -35,13 +36,15 @@ namespace GezondOpReis.Controllers
                             Bedrag = onkost.Bedrag,
                             Datum = onkost.Datum,
                         };
+                        totaalkost += onkost.Bedrag;
                         viewmodel.Add(vm);
                     }
                 }
                 OnkostenIndexViewModel viewModel = new OnkostenIndexViewModel
                 {
                     Onkosten = viewmodel,
-                    GroepsreisId = id
+                    GroepsreisId = id,
+                    TotaalKost = totaalkost
                 };
                 return View(viewModel);
             }
@@ -177,7 +180,7 @@ namespace GezondOpReis.Controllers
 
             return View(model);
         }
-        [Authorize(Roles = "Beheerder")]
+        [Authorize(Roles = "Beheerder,Verantwoordelijke")]
         [HttpGet]
         public async Task<IActionResult> Delete(int id)
         {
@@ -204,7 +207,7 @@ namespace GezondOpReis.Controllers
             return View(viewModel);
         }
 
-        [Authorize(Roles = "Beheerder")]
+        [Authorize(Roles = "Beheerder,Verantwoordelijke")]
         [HttpPost, ActionName("DeleteConfirmed")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
