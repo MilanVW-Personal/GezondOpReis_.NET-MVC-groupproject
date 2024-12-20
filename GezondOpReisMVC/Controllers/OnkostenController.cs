@@ -21,6 +21,7 @@ namespace GezondOpReis.Controllers
         {
             var onkosten = await _context.OnkostenRepository.GetAllAsync();
             List<OnkostViewModel> viewmodel = new List<OnkostViewModel>();
+            float totaalkost = 0;
             if (onkosten != null)
             {
                 foreach (var onkost in onkosten)
@@ -35,13 +36,15 @@ namespace GezondOpReis.Controllers
                             Bedrag = onkost.Bedrag,
                             Datum = onkost.Datum,
                         };
+                        totaalkost += onkost.Bedrag;
                         viewmodel.Add(vm);
                     }
                 }
                 OnkostenIndexViewModel viewModel = new OnkostenIndexViewModel
                 {
                     Onkosten = viewmodel,
-                    GroepsreisId = id
+                    GroepsreisId = id,
+                    TotaalKost = totaalkost
                 };
                 return View(viewModel);
             }

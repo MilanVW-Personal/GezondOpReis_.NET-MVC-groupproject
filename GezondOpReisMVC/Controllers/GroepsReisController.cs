@@ -5,6 +5,10 @@ using System.Security.Claims;
 using GezondOpReis.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Monitor = GezondOpReis.Models.Monitor;
+using GezondOpReis.Data.Repo;
+using MailKit.Net.Smtp;
+using MailKit;
+using MimeKit;
 
 namespace GezondOpReis.Controllers
 {
@@ -13,7 +17,7 @@ namespace GezondOpReis.Controllers
         private readonly IUnitOfWork _context;
         private readonly IMapper _mapper;
         private readonly UserManager<CustomUser> _userManager;
-
+        
         public GroepsReisController(IUnitOfWork context, IMapper mapper, UserManager<CustomUser> userManager)
         {
             _context = context;
@@ -230,6 +234,56 @@ namespace GezondOpReis.Controllers
                 GroepsreisId = model.GroepsReisId,
                 Opmerkingen = model.Opmerkingen
             };
+
+            
+            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+            var groepsreis = _context.GroepsReisRepository.GetByIdAsync(model.GroepsReisId);
+
+            string message =
+                $@"<html>
+                <body>
+                    <p><strong>Onderwerp:</strong> Inschrijving voor groepsreis bevestigd</p>
+                    <p>Beste,</p>
+                    <p>Uw kind is succesvol ingeschreven voor de geplande groepsreis.</p>
+                    <p><strong>Details van de reis:</strong></p>
+                    <ul>
+                        <li><strong>Begindatum:</strong> {groepsreis.Result.BeginDatum.ToShortDateString()}</li>
+                        <li><strong>Einddatum:</strong> {groepsreis.Result.EindDatum.ToShortDateString()}</li>
+                    </ul>
+                    <p>Als u nog vragen heeft of wijzigingen wilt aanbrengen, aarzel dan niet om contact met ons op te nemen.</p>
+                    <p>Met vriendelijke groet,</p>
+                    <p>Gezond op reis</p>
+                </body>
+                </html>";
+
+
+
+
+
+            var email = new MimeMessage();
+
+            email.From.Add(new MailboxAddress("Gezond op reis", "gezondopreis@gmail.com"));
+            email.To.Add(new MailboxAddress("Receiver Name", user.Email));
+
+            email.Subject = "Bevestiging inschrijven reis";
+            email.Body = new TextPart(MimeKit.Text.TextFormat.Html)
+            {
+                Text = message
+            };
+
+            using (var smtp = new SmtpClient())
+            {
+                smtp.Connect("smtp.gmail.com", 587, false);
+
+                smtp.Authenticate("gezondopreis@gmail.com", "mtiz ltmb vfju nqig");
+
+                smtp.Send(email);
+                smtp.Disconnect(true);
+            }
+
+
+
+
 
             try
             {

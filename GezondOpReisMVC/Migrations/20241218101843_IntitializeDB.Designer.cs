@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GezondOpReis.Migrations
 {
     [DbContext(typeof(GezondOpReisContext))]
-    [Migration("20241204091417_opleidingAanpassing")]
-    partial class opleidingAanpassing
+    [Migration("20241218101843_IntitializeDB")]
+    partial class IntitializeDB
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
