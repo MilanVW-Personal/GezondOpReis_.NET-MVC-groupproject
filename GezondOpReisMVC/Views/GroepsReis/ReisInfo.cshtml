@@ -225,7 +225,62 @@ else
                 </div>
             </div>
         }
+
     }
+
+
+        <div class="row mt-4">
+            <div class="col-md-12">
+                <div class="card shadow-sm border-0">
+                    <div class="card-body">
+                        <h4 class="card-title">Reviews voor deze reis</h4>
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Gebruiker</th>
+                                        <th>Commentaar</th>
+                                        <th>Aantal sterren</th>
+                                    @if (User.IsInRole("Beheerder"))  // Verantwoordelijke moet hierbij
+                                        {
+                                            <th>Acties</th>
+                                        }
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                @if(Model.Reviews.Count == 0)
+                                {
+                                    <tr>
+                                        <td colspan="4" class="text-center m-2">Er zijn geen reviews voor deze reis!</td>
+                                    </tr>
+                                }
+                                @foreach (var review in Model.Reviews)
+                                {
+                                    <tr>
+                                        <td>@review.Persoon.UserName</td>
+                                        <td>@review.Tekst</td>
+                                        <td>@review.Score</td>
+                                        @if (User.IsInRole("Beheerder")) // Verantwoordelijke moet hierbij
+                                        {
+                                            <td>
+                                                <form asp-action="DeleteReview" asp-controller="Review" asp-route-id="@review.Id" method="post">
+                                                    <button type="submit" class="btn btn-danger">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                                            <path fill="currentColor" d="M7 21q-.825 0-1.412-.587T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413T17 21zm2-4h2V8H9zm4 0h2V8h-2z" />
+                                                        </svg>
+                                                    </button>
+                                                </form>
+                                            </td>
+                                        }
+                                    </tr>
+                                }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     
 
 </div>

@@ -11,6 +11,8 @@ namespace GezondOpReis.Data.Repo
             return await _context.Groepsreizen
                 .Include(gr => gr.Bestemming)
                     .ThenInclude(b => b.Fotos)
+                 .Include(gr => gr.Bestemming)
+                    .ThenInclude(b => b.Reviews)
                 .Include(gr => gr.Monitoren)
                     .ThenInclude(m => m.Persoon)
                 .Include(gr => gr.Deelnemers)
@@ -26,6 +28,8 @@ namespace GezondOpReis.Data.Repo
             return await _context.Groepsreizen
                 .Include(gr => gr.Bestemming)
                     .ThenInclude(b => b.Fotos)
+                .Include(gr => gr.Bestemming)
+                    .ThenInclude(b => b.Reviews)
                 .Include(gr => gr.Monitoren)
                     .ThenInclude(m => m.Persoon)
                 .Include(gr => gr.Deelnemers)
@@ -52,6 +56,8 @@ namespace GezondOpReis.Data.Repo
             return await _context.Groepsreizen
                 .Include(gr => gr.Bestemming)
                     .ThenInclude(b => b.Fotos)
+                .Include(gr => gr.Bestemming)
+                    .ThenInclude(b => b.Reviews)
                 .Include(gr => gr.Monitoren)
                     .ThenInclude(m => m.Persoon)
                 .Include(gr => gr.Deelnemers)
@@ -59,7 +65,7 @@ namespace GezondOpReis.Data.Repo
                 .Include(gr => gr.Programmas)
                     .ThenInclude(p => p.Activiteit)
                  .Where(gr => (gr.Deelnemers.Any(dl => dl.Kind.PersoonId == persoonId) || gr.Monitoren.Any(m => m.PersoonId == persoonId))
-        && DateTime.Now >= gr.BeginDatum)
+                    && (DateTime.Now >= gr.BeginDatum && DateTime.Now <= gr.EindDatum))
                 .ToListAsync();
         }
 
@@ -68,6 +74,8 @@ namespace GezondOpReis.Data.Repo
             return await _context.Groepsreizen
                 .Include(gr => gr.Bestemming)
                     .ThenInclude(b => b.Fotos)
+                .Include(gr => gr.Bestemming)
+                    .ThenInclude(b => b.Reviews)
                 .Include(gr => gr.Monitoren)
                     .ThenInclude(m => m.Persoon)
                 .Include(gr => gr.Deelnemers)
@@ -84,6 +92,8 @@ namespace GezondOpReis.Data.Repo
             return await _context.Groepsreizen
                 .Include(gr => gr.Bestemming)
                     .ThenInclude(b => b.Fotos)
+                .Include(gr => gr.Bestemming)
+                    .ThenInclude(b => b.Reviews)
                 .Include(gr => gr.Monitoren)
                     .ThenInclude(m => m.Persoon)
                 .Include(gr => gr.Deelnemers)
@@ -93,6 +103,24 @@ namespace GezondOpReis.Data.Repo
                 .Where(gr => (gr.Deelnemers.Any(dl => dl.Kind.PersoonId == persoonId) || gr.Monitoren.Any(m => m.PersoonId == persoonId))
         && DateTime.Now < gr.BeginDatum)
                 .ToListAsync();
+        }
+
+        public async Task<IEnumerable<Groepsreis>> GetAdminAankomendeReizen()
+        {
+            return await _context.Groepsreizen
+               .Include(gr => gr.Bestemming)
+                   .ThenInclude(b => b.Fotos)
+               .Include(gr => gr.Bestemming)
+                    .ThenInclude(b => b.Reviews)
+               .Include(gr => gr.Monitoren)
+                   .ThenInclude(m => m.Persoon)
+               .Include(gr => gr.Deelnemers)
+                   .ThenInclude(d => d.Kind)
+               .Include(gr => gr.Programmas)
+                   .ThenInclude(p => p.Activiteit)
+               .Where(gr => (gr.Deelnemers.Count > 0 && gr.Monitoren.Count > 0)
+                      && DateTime.Now < gr.BeginDatum)
+               .ToListAsync();
         }
     }
 }

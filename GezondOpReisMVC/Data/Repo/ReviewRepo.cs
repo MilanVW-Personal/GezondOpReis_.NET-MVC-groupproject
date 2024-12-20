@@ -8,5 +8,24 @@ namespace GezondOpReis.Data.Repo
         {
             
         }
+
+        public async Task<IEnumerable<Review>> GetAllReviewsVoorBestemming( int bestemmingId)
+        {
+           return await _context.Reviews
+                .Where(rv => rv.BestemmingId == bestemmingId)
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<Review>> GetAlleReviewsVanUser(string userId)
+        {
+            return await _context.Reviews
+                 .Where(rv => rv.PersoonId == userId)
+                 .ToListAsync();
+        }
+
+        public async Task<Review> GetAlleReviewsVanUserVoorBestemming(string userId, int bestemmingId)
+        {
+            return await _context.Reviews.SingleOrDefaultAsync(x => (x.BestemmingId == bestemmingId && x.PersoonId == userId));
+        }
     }
 }

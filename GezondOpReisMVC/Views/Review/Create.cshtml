@@ -1,0 +1,43 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+@model ReviewCreateViewModel
+
+<h4>Voeg nieuwe review toe</h4>
+<div>
+    <form asp-action="Create" enctype="multipart/form-data">
+        <input hidden name="bestemmingId" value="@ViewData["bestemming"]"/>
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="Score" class="control-label"></label>
+            <select asp-for="Score" class="form-control">
+                <option value="1">1 ster</option>
+                <option value="2">2 sterren</option>
+                <option value="3">3 sterren</option>
+                <option value="4">4 sterren</option>
+                <option value="5">5 sterren</option>
+            </select>
+            <span asp-validation-for="Score" class="text-danger"></span>
+        </div> 
+        <div class="form-group">
+            <label asp-for="Tekst" class="control-label"></label>
+            <textarea asp-for="Tekst" class="form-control"></textarea>
+            <span asp-validation-for="Tekst" class="text-danger"></span>
+        </div>
+     
+
+        <div class="form-group mt-2">
+            <input type="submit" value="Plaats review" class="btn btn-primary" />
+            <a asp-action="Index" asp-controller="Dashboard" class="btn btn-primary">Terug naar dashboard</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

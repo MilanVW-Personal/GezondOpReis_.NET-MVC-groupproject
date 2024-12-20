@@ -5,6 +5,7 @@ using System.Security.Claims;
 using GezondOpReis.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Monitor = GezondOpReis.Models.Monitor;
+using Microsoft.EntityFrameworkCore;
 using GezondOpReis.Data.Repo;
 using MailKit.Net.Smtp;
 using MailKit;
