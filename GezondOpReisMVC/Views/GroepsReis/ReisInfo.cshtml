@@ -241,7 +241,7 @@ else
                                         <th>Gebruiker</th>
                                         <th>Commentaar</th>
                                         <th>Aantal sterren</th>
-                                    @if (User.IsInRole("Beheerder"))  // Verantwoordelijke moet hierbij
+                                    @if (User.IsInRole("Beheerder") || User.IsInRole("Verantwoordelijke"))  // Verantwoordelijke moet hierbij
                                         {
                                             <th>Acties</th>
                                         }
