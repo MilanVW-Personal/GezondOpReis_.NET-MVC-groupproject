@@ -21,7 +21,7 @@
 		{
 			<a asp-action="Index" asp-controller="Opleiding" class="btn btn-primary">Bekijk beschikbare opleidingen</a>
 		}
-		@if (User.IsInRole("Beheerder"))
+		@if (User.IsInRole("Beheerder") || User.IsInRole("Verantwoordelijke"))
 		{
 			<a asp-action="Index" asp-controller="Opleiding" class="btn btn-primary">Opleidingen beheren</a>
 			<a asp-action="Index" asp-controller="Activiteit" class="btn btn-primary">Activiteiten beheren</a>
@@ -372,7 +372,7 @@
 
 	@*========== DASHBOARD VAN DE ADMIN (enkel aankomende reizen met extra gegevens) ================*@
 
-	@if (User.IsInRole("Beheerder")) // Verantwoordelijke moet hierbij
+	@if (User.IsInRole("Beheerder") || User.IsInRole("Verantwoordelijke")) // Verantwoordelijke moet hierbij
 	{
 			<div class="container position-relative">
 				<div class="d-flex justify-content-between align-items-center mt-4 mb-4">

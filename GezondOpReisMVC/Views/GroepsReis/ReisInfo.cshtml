@@ -260,7 +260,7 @@ else
                                         <td>@review.Persoon.UserName</td>
                                         <td>@review.Tekst</td>
                                         <td>@review.Score</td>
-                                        @if (User.IsInRole("Beheerder")) // Verantwoordelijke moet hierbij
+                                        @if (User.IsInRole("Beheerder") || User.IsInRole("Verantwoordelijke")) // Verantwoordelijke moet hierbij
                                         {
                                             <td>
                                                 <form asp-action="DeleteReview" asp-controller="Review" asp-route-id="@review.Id" method="post">
