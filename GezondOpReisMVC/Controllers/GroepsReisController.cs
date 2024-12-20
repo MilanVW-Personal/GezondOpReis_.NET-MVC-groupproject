@@ -55,7 +55,7 @@ namespace GezondOpReis.Controllers
                 return NotFound();
             }
 
-            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+            
 
 
             GroepsReisInfoViewModel model = _mapper.Map<GroepsReisInfoViewModel>(reis);
