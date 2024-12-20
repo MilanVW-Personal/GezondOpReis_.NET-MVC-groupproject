@@ -54,7 +54,7 @@ INSERT INTO Groepsreis (Id, BestemmingId, BeginDatum, EindDatum, prijs) VALUES
 (7, 7, '2025-07-25', '2025-08-01', 700.0),
 (8, 8, '2025-08-15', '2025-08-22', 750.0),
 (9, 9, '2023-07-10', '2023-07-17', 720.0),
-(10, 10, '2023-08-05', '2023-08-12', 770.0);
+(10, 10, '2024-12-05', '2024-12-12', 770.0);
 SET IDENTITY_INSERT Groepsreis OFF;
 
 SET IDENTITY_INSERT Activiteit ON;
@@ -183,7 +183,8 @@ SET IDENTITY_INSERT Deelnemer ON;
 INSERT INTO Deelnemer (Id, KindId, GroepsreisId, Opmerkingen) VALUES
 (1, 1, 1, 'Vegetarisch'),
 (3, 3, 2, 'Allergisch voor pinda''s'),
-(4, 4, 4, 'Glutenvrij dieet');
+(4, 4, 4, 'Glutenvrij dieet'),
+(5, 4, 10, 'Glutenvrij dieet');
 SET IDENTITY_INSERT Deelnemer OFF;
 
 SET IDENTITY_INSERT Review ON;
