@@ -23,11 +23,9 @@ namespace GezondOpReis.Data.Repo
                  .ToListAsync();
         }
 
-        public async Task<IEnumerable<Review>> GetAlleReviewsVanUserVoorBestemming(string userId, int bestemmingId)
+        public async Task<Review> GetAlleReviewsVanUserVoorBestemming(string userId, int bestemmingId)
         {
-            return await _context.Reviews
-                 .Where(rv => (rv.PersoonId == userId && rv.BestemmingId == bestemmingId))
-                 .ToListAsync();
+            return await _context.Reviews.SingleOrDefaultAsync(x => (x.BestemmingId == bestemmingId && x.PersoonId == userId));
         }
     }
 }
