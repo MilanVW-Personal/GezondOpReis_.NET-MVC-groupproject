@@ -68,4 +68,4 @@ Nadat het project was ingediend hebben we tenslotte nog een evaluatie moeten inv
 
 
 ## Functionaliteiten
-Ik gaf al eerder zijn dat dit project heel uitgebreid is. Om die reden ga ik enkel in het bestand `functionaliteiten.md` mijn gemaakte features uitleggen.
+Ik gaf al eerder zijn dat dit project heel uitgebreid is. Om die reden ga ik enkel in het bestand [`functionaliteiten.md`](functionaliteiten.md) mijn gemaakte features uitleggen.
