@@ -103,7 +103,7 @@ Alle code voor de onderstaande functionaliteiten kan je terugvinden in de bestan
 - `MapperProfile.cs`
 
 #### Controllers
-- `Controllers/ActiviteitenController.cs`
+- `ActiviteitenController.cs`
 
 #### Repository (Data/Repo)
 - `ActiviteitenRepo.cs`
@@ -252,7 +252,7 @@ Alle code voor de onderstaande functionaliteiten kan je terugvinden in de bestan
 - `IReviewRepo.cs`
 
 #### Models
-- `Models/Review.cs`
+- `Review.cs`
 
 #### ViewModels
 - `ReviewViewModel.cs`
@@ -322,12 +322,12 @@ Alle code voor de onderstaande functionaliteiten kan je terugvinden in de bestan
 - `CustomUser.cs`
 
 #### ViewModels
-- `ViewModels/DeelnemerDetailsViewModel.cs`
-- `ViewModels/KindViewModel.cs`
-- `ViewModels/KindEditViewModel.cs` 
-- `ViewModels/KindCreateViewModel.cs`
-- `ViewModels/KindDeleteViewModel.cs`
-- `ViewModels/GroepsreisInfoViewModel.cs`
+- `DeelnemerDetailsViewModel.cs`
+- `KindViewModel.cs`
+- `KindEditViewModel.cs` 
+- `KindCreateViewModel.cs`
+- `KindDeleteViewModel.cs`
+- `GroepsreisInfoViewModel.cs`
 
 #### Views
 - `Kind`
