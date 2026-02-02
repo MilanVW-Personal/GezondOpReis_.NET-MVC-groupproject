@@ -7,16 +7,19 @@ Met deze README wil ik een duidelijker beeld schetsen over hoe dit project juist
 Dit project is een webapplicatie, die via het .NET framework is gemaakt, volgens ASP.NET, Entity Framework en het MVC principe. 
 Voor dit project hebben we elk per week aan één of soms zelfs meerdere branches gewerkt.
 We werkten met een feature-branch workflow, waarbij elke branch een specifieke (kern-)functionaliteit bevatte die voor de goede werking van de webapplicatie zorgt. 
+
 Simpel gezegd is het een platform waar je reizen kunt boeken. Je kan op verschillende manieren deelnemen aan deze reizen. 
 Bij elk van deze reizen horen ook activiteiten, die zelf dan uit een programma bestaan.
 Je kunt als gewone reiziger meegaan, maar ook als ouder, monitor, (hoofd-)verantwoordelijke. 
 Deelnemers hebben dan ook de mogelijkheid om bepaalde opleidingen te volgen.
+
 Elk van deze rollen heeft een bepaalde verantwoordelijkheid. Een gebruiker van deze website kan zich bij het inschrijven als monitor opgeven. 
 Als je je kind wil inschrijven voor een reis, dan kan je als ouder dit doen. 
 Onkosten die tijdens de reis worden gemaakt, worden door de (hoofd-)verantwoordelijke op het systeem geüpload.
 Bij elke gebruiker wordt er ook een medische fiche opgeslagen, die door de gebruiker zelf kan worden ingevuld of aangepast. 
 De bedoeling hiervan is dat de verantwoordelijken de nodige medicijnen of remedies mee kunnen nemen op de reis. 
 Tenslotte kan je per reis ook een review achterlaten, die dan bij die reis zullen worden getoond.
+
 Elke pagina wordt opgebouwd aan de hand van Razor pages en bijhorende controllers. 
 Alle data werd beheerd in een SQL Server database en ontsloten via Entity Framework Core.
 
@@ -69,3 +72,7 @@ Nadat het project was ingediend hebben we tenslotte nog een evaluatie moeten inv
 
 ## Functionaliteiten
 Ik gaf al eerder zijn dat dit project heel uitgebreid is. Om die reden ga ik enkel in het bestand [`functionaliteiten.md`](functionaliteiten.md) mijn gemaakte features uitleggen.
+
+## English version
+English-speaking visitors of this repository will be able to view the English version of this README via the file [`README_EN`](README_EN.md). 
+That file also contains a link to the English version of the detailed `functionaliteiten.md` documentation.
