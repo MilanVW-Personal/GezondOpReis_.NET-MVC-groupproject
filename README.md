@@ -1,78 +1,139 @@
-# Groepsproject .NET MVC - GezondOpReis
-## Korte uitleg
-Deze repository bevat alle code voor het groepsproject 'GezondOpReis' dat we voor het vak 'MVC Project' hebben moeten ontwikkelen. 
-Met deze README wil ik een duidelijker beeld schetsen over hoe dit project juist in elkaar zit en aan welke features ik zelf heb gewerkt.
+﻿# Groepsproject .NET MVC - GezondOpReis
+.NET • ASP.NET Core • Entity Framework • MVC • SQL Server • Razor Pages
 
-## Wat is dit project?
-Dit project is een webapplicatie, die via het .NET framework is gemaakt, volgens ASP.NET, Entity Framework en het MVC principe. 
-Voor dit project hebben we elk per week aan ��n of soms zelfs meerdere branches gewerkt.
-We werkten met een feature-branch workflow, waarbij elke branch een specifieke (kern-)functionaliteit bevatte die voor de goede werking van de webapplicatie zorgt. 
+## 📌 Over dit project
+Deze repository bevat de source code van het groepsproject **GezondOpReis**, ontwikkeld voor het vak *MVC Project*.
 
-Simpel gezegd is het een platform waar je reizen kunt boeken. Je kan op verschillende manieren deelnemen aan deze reizen. 
-Bij elk van deze reizen horen ook activiteiten, die zelf dan uit een programma bestaan.
-Je kunt als gewone reiziger meegaan, maar ook als ouder, monitor, (hoofd-)verantwoordelijke. 
-Deelnemers hebben dan ook de mogelijkheid om bepaalde opleidingen te volgen.
+GezondOpReis is een webapplicatie waarmee gebruikers reizen kunnen boeken, beheren en opvolgen binnen verschillende rollen zoals reiziger, ouder, monitor en verantwoordelijke.
 
-Elk van deze rollen heeft een bepaalde verantwoordelijkheid. Een gebruiker van deze website kan zich bij het inschrijven als monitor opgeven. 
-Als je je kind wil inschrijven voor een reis, dan kan je als ouder dit doen. 
-Onkosten die tijdens de reis worden gemaakt, worden door de (hoofd-)verantwoordelijke op het systeem ge�pload.
-Bij elke gebruiker wordt er ook een medische fiche opgeslagen, die door de gebruiker zelf kan worden ingevuld of aangepast. 
-De bedoeling hiervan is dat de verantwoordelijken de nodige medicijnen of remedies mee kunnen nemen op de reis. 
-Tenslotte kan je per reis ook een review achterlaten, die dan bij die reis zullen worden getoond.
+In deze README licht ik de architectuur, gebruikte technologieën, ontwikkelingsaanpak en mijn bijdrage aan het project toe.
 
-Elke pagina wordt opgebouwd aan de hand van Razor pages en bijhorende controllers. 
-Alle data werd beheerd in een SQL Server database en ontsloten via Entity Framework Core.
+---
 
-## Waarom hebben we dit project gemaakt?
-Zoals eerder gezegd, was dit een verplichte groepsopdracht die we moesten ontwikkelen om onze kennis van het MVC principe en Entity Framework te testen.
+## 🎯 Doel van het project
+Het doel van dit project was om onze kennis van:
+- het MVC-principe
+- ASP.NET Core
+- Entity Framework Core
+- relationele databanken
+- en Agile/Scrum teamwork
 
-## Wanneer zijn we aan dit project begonnen?
-We zijn dit project gestart op 13 november 2024 en hebben er aan gewerkt tot 20 december 2024, een paar dagen voor de uiterlijke deadline.
-Deze was, als ik het me goed herinner, 22 december 2024, maar dit kan ook 20 december zelf geweest zijn.
+in de praktijk toe te passen binnen een grotere groepsapplicatie.
 
-## Hoe zijn we te werk gegaan?
-We hebben aan dit project gewerkt volgens de Agile/Scrum methodiek.
-We hadden het vak 3 keer per week, op maandag, woensdag en vrijdag. 
+---
 
-### Maandag
-Op maandagen hebben we altijd eerst samengezeten om te bespreken wat er die week moest gebeuren en wie dit ging doen. 
-Deze taken hebben we overzichtelijk verdeeld via GitHub Issues verdeeld, door de functionaliteiten telkens aan een van onze namen te hangen.
-Al deze informatie werd altijd opgeschreven in een SPRINT-planning, waar elk groepslid elke keer afwisselend SCRUM-master was en de notities maakte. 
-Deze moest aan het einde van elke week ook ge�pload worden op ons leerplatform.
+## 🧠 Wat is GezondOpReis?
+GezondOpReis is een platform waarop gebruikers reizen kunnen boeken en beheren.
 
-### Woensdag
-Op woensdagen werd er eerst altijd overlopen wat ieder van ons al had gedaan en wat er nog moest gebeuren in de week. 
-Daarnaast werd er daar ook genoteerd wat er goed/vlot ging en wat er minder goed/vlot ging. Nadien konden we verder werken aan de features die we maandag gestart waren.
+Binnen het platform bestaan verschillende gebruikersrollen:
+- reiziger
+- ouder
+- monitor
+- verantwoordelijke
+- hoofdverantwoordelijke
 
-### Vrijdag
-Dan, op vrijdagen, moesten we ons werk van de afgelopen week allemaal samenvoegen / mergen met de `main` branch. 
-Nadien konden we als groep ons werk voorstellen aan onze docent via een Teams-call, die telkens ook het werk beoordeelde.
-De feedback die onze docent gaf, werd ook door de SCRUM-master genoteerd in de SPRINT-planning, waarna deze kon worden ge�pload op het leerplatform.
+Elke rol beschikt over specifieke functionaliteiten en verantwoordelijkheden.
 
-Deze methodiek hebben we blijven toepassen tot op het einde van het project, waar, na het krijgen van de feedback, we moesten ingeven wat we tof vonden aan het project, wat er goed ging, wat er nog beter kon...
-Nadat het project was ingediend hebben we tenslotte nog een evaluatie moeten invullen waarbij we telkens onszelf of elkaar beoordeelden, telkens door een punt op 5 te geven.
+### Voorbeelden van functionaliteiten
+- Reizen en activiteiten bekijken
+- Kinderen inschrijven voor reizen
+- Opleidingen volgen
+- Reviews achterlaten per reis
+- Medische fiches beheren
+- Onkosten uploaden tijdens reizen
+- Activiteiten en programma's beheren
 
-## Gebruikte technologie�n
+De applicatie werd opgebouwd volgens het MVC-principe met ASP.NET Core en Entity Framework Core.
+
+Alle data werd beheerd in een SQL Server database.
+
+---
+
+## 🚧 Architectuur
+De applicatie is opgebouwd volgens het MVC-patroon:
+
+- **Models**: beheren de data en database-relaties
+- **Views**: opgebouwd met Razor Pages
+- **Controllers**: behandelen logica en gebruikersacties
+
+Entity Framework Core werd gebruikt als ORM-laag voor communicatie met de SQL Server database.
+
+Daarnaast werd gewerkt met een feature-branch workflow, waarbij elke feature afzonderlijk werd ontwikkeld en later gemerged naar de main branch.
+
+---
+
+## 🔄️ Werkwijze
+Tijdens het project werkten we volgens de Agile/Scrum methodologie.
+
+We hadden meerdere overlegmomenten per week waarbij:
+- nieuwe functionaliteiten werden besproken
+- taken verdeeld werden via GitHub Issues
+- sprintplanningen werden opgesteld
+- feedbackmomenten plaatsvonden met de docent
+
+Elke week werden features ontwikkeld binnen aparte branches en vervolgens gemerged naar de main branch.
+
+Daarnaast presenteerden we regelmatig onze voortgang via Teams-meetings.
+
+---
+
+## 👨🏻‍💻 Mijn bijdrage
+Dit project werd ontwikkeld in groep. Omdat de applicatie erg uitgebreid is, heb ik mijn persoonlijke bijdragen en gemaakte functionaliteiten apart gedocumenteerd in
+[`functionaliteiten.md`](functionaliteiten.md)
+
+---
+
+## 🕒 Ontwikkelingsperiode
+Dit project werd ontwikkeld tussen:
+- **13 november 2024**
+- **20 december 2024**
+
+---
+
+## 🛠️ Technologieën
 #### Backend
 - .NET
 - ASP.NET Core
 - Entity Framework
 - C#
 - MVC
-- SQL
+- SQL Server
 
 #### Frontend
-- Razor pages
+- Razor Pages
+- HTML
+- CSS
+- JavaScript
 
-#### Tools en methodologie�n
-- Agile/Scrum
+#### Tools en methodologieën
 - GitHub Issues
-- Git (feature-branch workflow)
+- Git & GitHub
+- Feature-branch workflow
+- Agile/Scrum
 
+---
 
-## Functionaliteiten
-Ik gaf al eerder zijn dat dit project heel uitgebreid is. Om die reden ga ik enkel in het bestand [`functionaliteiten.md`](functionaliteiten.md) mijn gemaakte features uitleggen.
+## ⚙ Installatie & setup
 
-## English version
-English-speaking visitors of this repository will be able to view the English version of this README via the file [`README_EN`](README_EN.md). 
-That file also contains a link to the English version of the detailed `functionaliteiten.md` documentation.
+```bash
+# Clone the repository
+git clone <repository-url>
+
+cd GezondOpReis
+
+# Restore dependencies and run the project
+dotnet restore
+dotnet build
+dotnet run
+```
+
+### Vereisten
+- .NET SDK
+- SQL Server
+- Visual Studio / Rider / VS Code
+
+--- 
+
+## 🌐 English version
+English-speaking visitors can read the translated version of this README via [`README_EN`](README_EN.md). 
+The English version also contains a link to the translated `functionaliteiten.md` documentation.
