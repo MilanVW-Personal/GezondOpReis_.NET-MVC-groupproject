@@ -117,9 +117,9 @@ Dit project werd ontwikkeld tussen:
 
 ```bash
 # Clone the repository
-git clone <repository-url>
+git clone https://github.com/MilanVW-Personal/GezondOpReis_.NET-MVC-groupproject.git
 
-cd GezondOpReis
+cd GezondOpReis_.NET-MVC-groupproject/GezondOpReisMVC
 
 # Restore dependencies and run the project
 dotnet restore
