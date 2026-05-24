@@ -1,96 +1,97 @@
-﻿# Groepsproject .NET MVC - GezondOpReis
+﻿# Group Project .NET MVC - GezondOpReis
 .NET • ASP.NET Core • Entity Framework • MVC • SQL Server • Razor Pages
 
-## 📌 Over dit project
-Deze repository bevat de source code van het groepsproject **GezondOpReis**, ontwikkeld voor het vak *MVC Project*.
+## 📌 About the project
+This repository contains the source code of the group project **GezondOpReis**, developed for the *MVC Project* course.
 
-GezondOpReis is een webapplicatie waarmee gebruikers reizen kunnen boeken, beheren en opvolgen binnen verschillende rollen zoals reiziger, ouder, monitor en verantwoordelijke.
+GezondOpReis is a web application that allows users to book, manage, and track trips within various roles such as traveler, parent, monitor, and supervisor.
 
-In deze README licht ik de architectuur, gebruikte technologieën, ontwikkelingsaanpak en mijn bijdrage aan het project toe.
+In this README, I explain the architecture, technologies used, development approach, and my contribution to the project.
 
 ---
 
-## 🎯 Doel van het project
-Het doel van dit project was om onze kennis van:
-- het MVC-principe
+## 🎯 Goal of the project
+The goal of this project was to put our knowledge of:
+
+- the MVC principle
 - ASP.NET Core
 - Entity Framework Core
-- relationele databanken
-- en Agile/Scrum teamwork
+- relational databases
+- and Agile/Scrum teamwork
 
-in de praktijk toe te passen binnen een grotere groepsapplicatie.
+into practice within a larger group application.
 
 ---
 
-## 🧠 Wat is GezondOpReis?
-GezondOpReis is een platform waarop gebruikers reizen kunnen boeken en beheren.
+## 🧠 What is 'GezondOpReis'?
+GezondOpReis is a platform where users can book and manage trips.
 
-Binnen het platform bestaan verschillende gebruikersrollen:
-- reiziger
-- ouder
+Within the platform, there are various user roles:
+- traveler
+- parent
 - monitor
-- verantwoordelijke
-- hoofdverantwoordelijke
+- supervisor
+- head supervisor
 
-Elke rol beschikt over specifieke functionaliteiten en verantwoordelijkheden.
+Each role has specific functionalities and responsibilities.
 
-### Voorbeelden van functionaliteiten
-- Reizen en activiteiten bekijken
-- Kinderen inschrijven voor reizen
-- Opleidingen volgen
-- Reviews achterlaten per reis
-- Medische fiches beheren
-- Onkosten uploaden tijdens reizen
-- Activiteiten en programma's beheren
+### Examples of functionalities
+- View trips and activities
+- Register children for trips
+- Follow training courses
+- Leave reviews per trip
+- Manage medical information
+- Upload expenses during trips
+- Manage activities and programs
 
-De applicatie werd opgebouwd volgens het MVC-principe met ASP.NET Core en Entity Framework Core.
+The application was built according to the MVC principle using ASP.NET Core and Entity Framework Core.
 
-Alle data werd beheerd in een SQL Server database.
-
----
-
-## 🚧 Architectuur
-De applicatie is opgebouwd volgens het MVC-patroon:
-
-- **Models**: beheren de data en database-relaties
-- **Views**: opgebouwd met Razor Pages
-- **Controllers**: behandelen logica en gebruikersacties
-
-Entity Framework Core werd gebruikt als ORM-laag voor communicatie met de SQL Server database.
-
-Daarnaast werd gewerkt met een feature-branch workflow, waarbij elke feature afzonderlijk werd ontwikkeld en later gemerged naar de main branch.
+All data was managed in a SQL Server database.
 
 ---
 
-## 🔄️ Werkwijze
-Tijdens het project werkten we volgens de Agile/Scrum methodologie.
+## 🚧 Architecture
+The application is built according to the MVC pattern:
 
-We hadden meerdere overlegmomenten per week waarbij:
-- nieuwe functionaliteiten werden besproken
-- taken verdeeld werden via GitHub Issues
-- sprintplanningen werden opgesteld
-- feedbackmomenten plaatsvonden met de docent
+- **Models**: manage the data and database relationships
+- **Views**: built using Razor Pages
+- **Controllers**: handle logic and user actions
 
-Elke week werden features ontwikkeld binnen aparte branches en vervolgens gemerged naar de main branch.
+Entity Framework Core was used as the ORM layer for communication with the SQL Server database.
 
-Daarnaast presenteerden we regelmatig onze voortgang via Teams-meetings.
+Additionally, a feature-branch workflow was used, where each feature was developed separately and later merged into the main branch.
 
 ---
 
-## 👨🏻‍💻 Mijn bijdrage
-Dit project werd ontwikkeld in groep. Omdat de applicatie erg uitgebreid is, heb ik mijn persoonlijke bijdragen en gemaakte functionaliteiten apart gedocumenteerd in
-[`functionaliteiten.md`](functionaliteiten.md)
+## 🔄️ Workflow
+During the project, we worked according to the Agile/Scrum methodology.
+
+We held several meetings per week during which:
+- new functionalities were discussed
+- tasks were distributed via GitHub Issues
+- sprint plans were created
+- feedback sessions took place with the lecturer
+
+Every week, features were developed within separate branches and later merged into the main branch.
+
+In addition, we regularly presented our progress via Teams meetings.
 
 ---
 
-## 🕒 Ontwikkelingsperiode
-Dit project werd ontwikkeld tussen:
-- **13 november 2024**
-- **20 december 2024**
+## 👨🏻‍💻 My contribution
+This project was developed in a group. Because the application is quite extensive, I documented my personal contributions and implemented features separately in
+[`functionalities.md`](functionalities.md)
 
 ---
 
-## 🛠️ Technologieën
+## 🕒 Development timeframe
+This project was developed between:
+- **13 November 2024**
+- **20 December 2024**
+
+---
+
+## 🛠️ Technologies
 #### Backend
 - .NET
 - ASP.NET Core
@@ -105,7 +106,7 @@ Dit project werd ontwikkeld tussen:
 - CSS
 - JavaScript
 
-#### Tools en methodologieën
+#### Tools and methodologies
 - GitHub Issues
 - Git & GitHub
 - Feature-branch workflow
@@ -113,7 +114,7 @@ Dit project werd ontwikkeld tussen:
 
 ---
 
-## ⚙ Installatie & setup
+## ⚙ Installation & setup
 
 ```bash
 # Clone the repository
@@ -127,13 +128,13 @@ dotnet build
 dotnet run
 ```
 
-### Vereisten
+### Requirements
 - .NET SDK
 - SQL Server
 - Visual Studio / Rider / VS Code
 
---- 
+---
 
-## 🌐 English version
-English-speaking visitors can read the translated version of this README via [`README_EN`](README_EN.md). 
-The English version also contains a link to the translated `functionaliteiten.md` documentation.
+## 🌐 Languages
+- English (current)
+- Dutch: [`README_NL.md`](README_NL.md)
